@@ -1,0 +1,195 @@
+:root {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
+ * Sections below the Story share the page frame and one title style (the
+ * Story's). Each section's entrance lives in its own stylesheet (reveal.ts).
+ */
+.section {
+  --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  /* Anchor jumps land below the fixed navbar (its logo: 88px, 128px from 900px). */
+  scroll-margin-top: 88px;
+  position: relative;
+  z-index: 1;
+  padding: clamp(var(--space-16), 10vw, var(--space-32)) var(--frame-edge);
+  background: var(--benefit-ground);
+}
+
+.section__title {
+  margin: 0;
+  font-size: var(--text-title);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.section__lede {
+  margin: var(--space-4) 0 0;
+  max-width: 36rem;
+  text-wrap: pretty;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Section header: title left, lede right on wide screens, baseline-aligned. */
+.section__head {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+}
+
+.section__head .section__lede {
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .section__head {
+    grid-template-columns: 1fr minmax(0, 28rem);
+    align-items: end;
+    column-gap: var(--space-16);
+  }
+}
+
+/*
+ * Primary button: the hero's Commandez pill (§4). Gradient chip, white
+ * uppercase label, hover darkens it and nudges the arrow, press scales down.
+ */
+.btn-chip {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: 0 var(--space-6) 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  font: 700 var(--text-base) / 1 var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--chip-hover);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.btn-chip svg {
+  flex: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-chip:hover::before,
+.btn-chip:focus-visible::before {
+  opacity: 1;
+}
+
+.btn-chip:hover svg,
+.btn-chip:focus-visible svg {
+  transform: translateX(4px);
+}
+
+.btn-chip:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
+}
+
+.btn-chip:focus-visible {
+  outline-color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-chip,
+  .btn-chip svg {
+    transition: none;
+  }
+
+  .btn-chip:hover svg,
+  .btn-chip:focus-visible svg {
+    transform: none;
+  }
+}
+
+/* Vegetable line texture (§6's tile, used as a mask), for the sections below. */
+.veg-texture {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--benefit-line);
+  opacity: 0.6;
+  mask-image: url('/images/veg-pattern.svg'), var(--texture-fade, linear-gradient(black, black)); /* taste-skill-ignore: mask, not a fill */
+  mask-size: 640px 640px, 100% 100%;
+  mask-repeat: repeat, no-repeat;
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+@media (max-width: 599px) {
+  .veg-texture {
+    mask-size: 440px 440px, 100% 100%;
+  }
+}
+
+@media (min-width: 900px) {
+  .section {
+    scroll-margin-top: 128px;
+  }
+}

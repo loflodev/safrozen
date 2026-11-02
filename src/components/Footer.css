@@ -1,0 +1,194 @@
+/*
+ * Footer: the page's one dark section (ink ground). Entrance (reveal.ts): the
+ * columns fade up one after another, then the big wordmark's letters spring
+ * up out of their line.
+ */
+.footer {
+  --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  scroll-margin-top: 88px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  /* The wordmark is sized to the frame width (cqw). */
+  container-type: inline-size;
+  padding: clamp(var(--space-16), 8vw, var(--space-24)) var(--frame-edge) var(--space-8);
+  background: var(--footer-ground);
+  color: var(--footer-text);
+}
+
+@media (min-width: 900px) {
+  .footer {
+    scroll-margin-top: 128px;
+  }
+}
+
+.footer :focus-visible {
+  outline-color: var(--footer-text);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-12) var(--space-16);
+}
+
+.footer__col {
+  transition:
+    opacity var(--dur-slow) var(--ease-out) calc(var(--i) * 100ms),
+    transform var(--dur-slow) var(--ease-out) calc(var(--i) * 100ms);
+}
+
+.footer__logo {
+  width: 88px;
+  height: 88px;
+}
+
+.footer__text {
+  max-width: 18rem;
+  margin: var(--space-4) 0 0;
+  line-height: 1.5;
+  color: var(--footer-muted);
+}
+
+.footer__heading {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.footer__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-style: normal;
+}
+
+.footer__contact > * {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--footer-muted);
+  line-height: 1.5;
+}
+
+.footer__contact svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.footer__link {
+  color: var(--footer-muted);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.footer__list .footer__link {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+}
+
+.footer__contact .footer__link {
+  align-items: flex-start;
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: var(--footer-accent);
+}
+
+/* The navbar's social chip, as round chips with its pill hover. */
+.footer__socials {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__social {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .footer__social:hover {
+    transform: scale(1.05);
+  }
+}
+
+.footer__social:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
+}
+
+/* Decorative: the real name is in the logo's alt and the copyright line.
+   Sized so "Legim Express" spans the frame on one line at every width. */
+.footer__wordmark {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  margin: var(--space-16) 0 var(--space-6);
+  font-family: var(--font-wordmark);
+  font-size: 12.6cqw;
+  line-height: 1.15;
+  white-space: nowrap;
+  color: var(--footer-text);
+  opacity: 0.12;
+}
+
+.footer__wordmark span {
+  display: inline-block;
+  transition: transform 800ms var(--ease-spring) calc(400ms + var(--i) * 40ms);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--footer-muted);
+}
+
+.footer__bottom p {
+  margin: 0;
+}
+
+.footer__legal {
+  display: flex;
+  gap: var(--space-6);
+}
+
+/* Before the entrance (JS only). */
+.footer[data-reveal]:not([data-in]) .footer__col {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.footer[data-reveal]:not([data-in]) .footer__wordmark span {
+  transform: translateY(100%);
+}
+
+/* Fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .footer[data-reveal]:not([data-in]) .footer__col,
+  .footer[data-reveal]:not([data-in]) .footer__wordmark span {
+    transform: none;
+  }
+
+  .footer__social:hover {
+    transform: none;
+  }
+}

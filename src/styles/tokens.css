@@ -1,0 +1,115 @@
+/*
+ * Legim Express design tokens. Components reference these only; no raw hex
+ * outside this file. Contrast ratios (WCAG 2.x) are recorded in CLAUDE.md.
+ */
+:root {
+  /* Brand */
+  --orange-500: #ea652d; /* brand primary: fills and accents, never text on light */
+  --orange-600: #c64914; /* brand orange darkened for text on light grounds */
+  --terracotta-100: #f6e4dc; /* tint: hover pills, quiet surfaces */
+  --terracotta-500: #dd7f61; /* brand secondary: fills, text only on ink */
+  --terracotta-600: #c04e29; /* brand terracotta darkened for text on light grounds */
+  --ink: #201e1e; /* brand near-black: text, icons */
+  --ink-soft: #4a4545; /* secondary text */
+
+  /* Neutrals */
+  --ground: #fbf7f4;
+  --white: #ffffff;
+
+  /* Roles */
+  --color-text: var(--ink);
+  --color-text-muted: var(--ink-soft);
+  --color-bg: var(--ground);
+  --color-accent: var(--orange-500);
+  --color-accent-text: var(--orange-600);
+  --color-on-accent: var(--ink);
+  --color-hover: var(--terracotta-100);
+  --color-focus: var(--orange-600);
+
+  /*
+   * Navbar chips. The reference gradient is
+   * linear-gradient(355.77deg, #95370F -32.87%, #EA652D 74.8%, #FD9269 137.86%); taste-skill-ignore
+   * white labels on it reach only 3.3:1, so its two light stops are darkened
+   * (#EA652D -> #C64914, #FD9269 -> #FC682F) until white text passes 4.5:1.
+   * Angle, stop positions and the dark stop are unchanged.
+   */
+  --orange-800: #95370f;
+  --orange-300: #fc682f;
+  --gradient-chip: linear-gradient(355.77deg, var(--orange-800) -32.87%, var(--orange-600) 74.8%, var(--orange-300) 137.86%); /* taste-skill-ignore */
+  /* Tall panels would reach the light stop; they use the dark half only. */
+  --gradient-panel: linear-gradient(355.77deg, var(--orange-800), var(--orange-600)); /* taste-skill-ignore */
+  --chip-hover: rgb(149 55 15 / 0.55); /* --orange-800, darkens so contrast only rises */
+  --color-on-chip: var(--white);
+
+  /* Logo lift: the one resting depth effect on the page, requested for the logo. taste-skill-ignore */
+  --logo-shadow-near: rgb(32 30 30 / 0.14);
+  --logo-shadow-far: rgb(32 30 30 / 0.2);
+
+  /*
+   * Benefits section ground, beside bb6's picture,
+   * which the cards share. The cards' lift is the second resting depth effect,
+   * requested by the brand. taste-skill-ignore
+   */
+  --benefit-ground: #ffffff;
+  /* Vegetable line texture on that white (shown at 0.6 opacity); the cards
+     are opaque, so no text ever crosses a line. */
+  --benefit-line: #e8c4b3;
+  --card-shadow-near: rgb(32 30 30 / 0.08);
+  --card-shadow-far: rgb(32 30 30 / 0.14);
+  /* bb6 collage lift: follows the cut-outs (pot, plates, box), so they sit
+     raised off the white. Brand request. */
+  --art-shadow-near: rgb(32 30 30 / 0.12);
+  --art-shadow-far: rgb(32 30 30 / 0.18);
+  /* Counter on the ring's disc: white by brand request (2.05:1 on #F6A41C). */
+  --color-on-disc: var(--white);
+
+  /* Footer: the one dark section (ink ground). */
+  --footer-ground: var(--ink);
+  --footer-text: var(--ground); /* 15.57:1 on ink */
+  --footer-muted: #b8b0ab; /* warm grey, 7.77:1 on ink */
+  --footer-accent: var(--terracotta-500); /* link hover, 5.75:1 on ink */
+
+  /* Type */
+  --font-body: 'Manrope Variable', system-ui, sans-serif;
+  --font-wordmark: 'Aclonica', 'Manrope Variable', sans-serif;
+  --text-xs: 0.8125rem; /* navbar labels only */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem); /* card titles, prices, quotes */
+  --text-wordmark: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+  --text-wordmark-sm: clamp(1.125rem, 1rem + 0.4vw, 1.375rem); /* Benefits story kicker */
+  --text-title: clamp(2.25rem, 1.4rem + 2.2vw, 3.5rem); /* section titles below the hero */
+  --text-display: clamp(2.75rem, 1.2rem + 5.4vw, 6rem);
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  /* Page frame: content edges line up with the navbar (logo left, cart right). */
+  --frame-max: 1280px;
+
+  /* Shape */
+  --radius-pill: 9999px;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2.5rem; /* large pictures (Benefits family photo) */
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 100ms; /* press feedback lands at once; the release eases back on --dur-fast */
+  --dur-fast: 200ms;
+  --dur-base: 350ms;
+  --dur-slow: 700ms;
+  /* Section entrances below the Story (reveal.ts): a slight overshoot. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-reveal: 900ms;
+}

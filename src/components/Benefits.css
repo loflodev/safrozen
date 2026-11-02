@@ -1,0 +1,316 @@
+/*
+ * Benefits on bb6 (measured on its 1440x900 size). A cut-out
+ * collage on the left on a transparent ground (no backdrop, no hard edge), so
+ * it sits straight on the white; right of x 876 it is empty. The cards sit on
+ * the white on the right. Every placement below is in picture coordinates, so
+ * swapping the picture means re-measuring these:
+ *   --disc-x/y  centre of the ring's orange disc (146px wide)
+ *   --cut-x     where the collage ends (share of the picture's width)
+ *   --crop-w    width of the stacked crop (picture x 0..--crop-w)
+ */
+.benefits {
+  --disc-x: 390.5;
+  --disc-y: 311;
+  --ring-d: 240; /* the printed ring's outer diameter: the hover area */
+  --cut-x: 0.608;
+  --crop-w: 876;
+  --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  --nav-bottom: 88px;
+  position: relative;
+  /* Pulled up over the hero's exit step (one stage height), above its pinned
+     stage. The wheel opens it from a centre line out to both edges (--leave,
+     set on <main>); without JS it is simply open. */
+  z-index: 1;
+  margin-top: -100svh;
+  clip-path: inset(0 calc(50% * (1 - var(--leave, 1))));
+  background: var(--benefit-ground);
+  padding-bottom: var(--space-16);
+}
+
+/* Stacked: a plain block. Wide landscape: one full screen (see the media query). */
+.benefits__stage {
+  position: relative;
+}
+
+/* Stacked (phones, tablets, short landscape): the collage on top, cropped to
+   picture x 0..--crop-w, left-aligned so the pot runs off the edge. The
+   crop's right edge is empty picture, so it needs no feather. */
+.benefits__art {
+  position: relative;
+  width: min(100%, 72svh * var(--crop-w) / 900);
+  aspect-ratio: var(--crop-w) / 900;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.benefits__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% * 1440 / var(--crop-w));
+  aspect-ratio: 16 / 10;
+  container-type: inline-size;
+  /* The source's first columns are semi-transparent: nudged 3px past the
+     clipped left edge so they never show as a pale line along the pot.
+     The counter moves with the canvas, so it stays on the disc. */
+  translate: -3px 0;
+}
+
+.benefits__img {
+  width: 100%;
+  height: 100%;
+  /* The picture is a transparent cut-out, so the lift follows each piece
+     of the collage and raises it off the white (brand request). */
+  filter: /* taste-skill-ignore */
+    drop-shadow(0 4px 6px var(--art-shadow-near)) /* taste-skill-ignore */
+    drop-shadow(0 16px 24px var(--art-shadow-far)); /* taste-skill-ignore */
+}
+
+/*
+ * Vegetable line texture (the hero's veg-pattern.svg, used as a mask) over the
+ * whole section, behind the picture and the cards: it shows between the
+ * collage's cut-outs, which their lift raises off it. The cards are
+ * opaque, so no text crosses a line.
+ */
+.benefits__texture {
+  position: absolute;
+  inset: 0;
+  background-color: var(--benefit-line);
+  /* Kept quiet: a texture, not an illustration. */
+  opacity: 0.6;
+  mask-image: url('/images/veg-pattern.svg');
+  mask-size: 640px 640px;
+  pointer-events: none;
+}
+
+/* Above the texture (DOM order). */
+.benefits__copy {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+@media (max-width: 599px) {
+  .benefits__texture {
+    mask-size: 440px 440px;
+  }
+}
+
+/* Hover area over the printed ring (mouse only): replays the count. */
+.benefits__ring {
+  position: absolute;
+  left: calc(100% * var(--disc-x) / 1440);
+  top: calc(100% * var(--disc-y) / 900);
+  width: calc(100% * var(--ring-d) / 1440);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+/* "±20 MIN": the sign stacked plus over minus, the number, MIN under it. */
+.benefits__counter {
+  position: absolute;
+  pointer-events: none; /* hover goes to the ring underneath */
+  left: calc(100% * var(--disc-x) / 1440);
+  top: calc(100% * var(--disc-y) / 900);
+  translate: -50% -50%;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas:
+    'sign num'
+    '. unit';
+  align-items: center;
+  color: var(--color-on-disc);
+  /* Scaled to the disc: bb4's 3.95% for a 130px disc, times 146/130. */
+  font-size: 4.44cqw;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.benefits__sign {
+  grid-area: sign;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 0.04em;
+  font-size: 0.42em;
+  font-weight: 600;
+  line-height: 0.72;
+}
+
+.benefits__num {
+  grid-area: num;
+  min-width: 2ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.benefits__unit {
+  grid-area: unit;
+  justify-self: center;
+  font-size: 0.26em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.benefits__copy {
+  padding: var(--space-12) var(--frame-edge) 0;
+}
+
+/* Right-aligned, on the white right of the collage. */
+.benefits__list {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 40rem;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * Card entrance: --t (0 or 1, set from JS) fades each in and lifts it 40px,
+ * easing there on its own (transition below), one after another; at rest
+ * (no JS) --t is 1.
+ */
+.benefit-card {
+  opacity: var(--t, 1);
+  transform: translateY(calc((1 - var(--t, 1)) * 40px));
+}
+
+/* Cards: the ground's own white, square corners, lifted by a soft shadow.
+   taste-skill-ignore */
+.benefit-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-6);
+  background: var(--benefit-ground);
+  /* Right edge (the outer edge) in the icons' chip gradient; only the
+     right side has a width. */
+  border-right: 4px solid transparent;
+  border-image: var(--gradient-chip) 1; /* taste-skill-ignore */
+  box-shadow: /* taste-skill-ignore */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
+  cursor: pointer;
+  /* The entrance (`transform`, --card-dur, staggered by --card-delay: both set
+     from Benefits.tsx, timed to the counter) and the hover lift
+     (`translate`) are separate properties, so they never fight. */
+  transition:
+    opacity var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
+    transform var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
+    translate var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .benefit-card:hover {
+    translate: 0 -6px;
+    box-shadow: /* taste-skill-ignore */
+      0 4px 10px var(--card-shadow-near),
+      0 20px 40px var(--card-shadow-far);
+  }
+}
+
+.benefit-card:active {
+  translate: 0 -2px;
+  transition-duration: var(--dur-press);
+}
+
+.benefit-card__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip); /* taste-skill-ignore: same chip as the navbar socials and cart */
+  color: var(--color-on-chip);
+  transition: scale var(--dur-base) var(--ease-out);
+}
+
+/* Like the navbar's round chips. */
+@media (hover: hover) {
+  .benefit-card:hover .benefit-card__icon {
+    scale: 1.08;
+  }
+}
+
+.benefit-card__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/*
+ * Wide landscape: the picture fills the section's height, anchored left, and
+ * the copy sits on the frame's right edge inside the white right of the cut
+ * (--cut-x of the picture's width), 32px clear of it.
+ */
+@media (min-width: 1200px) and (min-aspect-ratio: 3/2) {
+  /* One screen; the Story is drawn over it (Story.css). */
+  .benefits {
+    --nav-bottom: 128px;
+    --h: max(100svh, 640px);
+    height: var(--h);
+    padding: 0;
+  }
+
+  .benefits__stage {
+    display: flex;
+    align-items: center;
+    height: var(--h);
+    padding: calc(var(--nav-bottom) + var(--space-8)) 0 var(--space-12);
+    overflow: hidden;
+  }
+
+  .benefits__art {
+    --pic-w: max(100cqw, 160cqh);
+    position: absolute;
+    inset: 0;
+    width: auto;
+    aspect-ratio: auto;
+    margin: 0;
+    container-type: size;
+    mask-image: none;
+  }
+
+  .benefits__canvas {
+    top: 50%;
+    left: 0;
+    width: var(--pic-w);
+    translate: -3px -50%;
+  }
+
+  .benefits__copy {
+    width: min(30rem, 100% - var(--cut-x) * max(100%, 1.6 * var(--h)) - var(--frame-edge) - 32px);
+    margin-left: auto;
+    margin-right: var(--frame-edge);
+    padding: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The cards are simply there. */
+  .benefit-card {
+    transform: none;
+  }
+
+  /* Hover keeps the deeper shadow, without the travel. */
+  .benefit-card,
+  .benefit-card__icon {
+    transition: none;
+  }
+
+  .benefit-card:hover,
+  .benefit-card:active {
+    translate: none;
+  }
+
+  .benefit-card:hover .benefit-card__icon {
+    scale: none;
+  }
+}

@@ -1,0 +1,241 @@
+/*
+ * Featured: two best sellers as split rows (field panel | copy, then mirrored),
+ * on the cream ground. Each row has its own entrance (reveal.ts): the panel
+ * opens as a circle growing from the box, the box swings in with a slight
+ * overshoot, then the copy rises line by line.
+ */
+.featured {
+  background: var(--ground);
+}
+
+.featured__list {
+  display: grid;
+  gap: var(--space-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.featured__row {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.featured__panel {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  /* The hero field's own vertical blend (PRODUCTS[].field). */
+  background: linear-gradient( /* taste-skill-ignore */
+    to bottom,
+    var(--field-0),
+    var(--field-1) 25%,
+    var(--field-2) 50%,
+    var(--field-3) 75%,
+    var(--field-4)
+  );
+  clip-path: circle(150% at 50% 50%);
+  transition: clip-path var(--dur-reveal) var(--ease-out);
+}
+
+.featured__texture {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--field-line);
+  opacity: 0.6;
+  mask-image: url('/images/veg-pattern.svg');
+  mask-size: 640px 640px;
+}
+
+/* The 2:1 box canvas cropped to a 4:3 window around the box (24.7–75.2% wide). */
+.featured__pic {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: var(--space-8);
+  transition:
+    opacity var(--dur-slow) var(--ease-out) 250ms,
+    transform var(--dur-reveal) var(--ease-spring) 250ms;
+}
+
+.featured__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .featured__row:hover .featured__pic img {
+    transform: translateY(-8px) rotate(-3deg);
+  }
+}
+
+.featured__copy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.featured__line {
+  margin: 0;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(500ms + var(--j) * 80ms);
+}
+
+.featured__name {
+  max-width: 14ch;
+  font-size: var(--text-title);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.featured__text {
+  max-width: 28rem;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  text-wrap: pretty;
+}
+
+/* Spec list: three label/value pairs on a white strip (a tone step off the cream). */
+.featured__specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  width: min(100%, 28rem);
+  margin-top: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.featured__specs dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.featured__specs dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.featured__buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-8);
+  margin-top: var(--space-4);
+}
+
+/* On the cream ground: 4.52:1, fine at any size. */
+.featured__price {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-accent-text);
+}
+
+/* Before the entrance (JS only). */
+.featured__row[data-reveal]:not([data-in]) .featured__panel {
+  clip-path: circle(0% at 50% 50%);
+}
+
+.featured__row[data-reveal]:not([data-in]) .featured__pic {
+  opacity: 0;
+  transform: translateX(-40px) rotate(-10deg) scale(0.85);
+}
+
+.featured__row:nth-child(even)[data-reveal]:not([data-in]) .featured__pic {
+  transform: translateX(40px) rotate(10deg) scale(0.85);
+}
+
+.featured__row[data-reveal]:not([data-in]) .featured__line {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.featured__title,
+.featured__lede {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.featured__lede {
+  transition-delay: 120ms;
+}
+
+.featured[data-reveal]:not([data-in]) :is(.featured__title, .featured__lede) {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+@media (min-width: 900px) {
+  .featured__list {
+    gap: var(--space-24);
+  }
+
+  .featured__row {
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-16);
+  }
+
+  .featured__panel {
+    min-height: min(560px, 70svh);
+  }
+
+  /* Mirrored: copy left, panel right. */
+  .featured__row:nth-child(even) {
+    grid-template-columns: 5fr 7fr;
+  }
+
+  .featured__row:nth-child(even) .featured__panel {
+    order: 2;
+  }
+}
+
+@media (max-width: 599px) {
+  .featured__pic {
+    padding: var(--space-4);
+  }
+
+  .featured__texture {
+    mask-size: 440px 440px;
+  }
+
+  .featured__specs {
+    padding-inline: var(--space-4);
+  }
+}
+
+/* Fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .featured__panel {
+    transition: none;
+  }
+
+  .featured__row[data-reveal]:not([data-in]) .featured__panel {
+    clip-path: circle(150% at 50% 50%);
+  }
+
+  .featured__row:nth-child(n)[data-reveal]:not([data-in]) .featured__pic,
+  .featured__row[data-reveal]:not([data-in]) .featured__line,
+  .featured[data-reveal]:not([data-in]) :is(.featured__title, .featured__lede) {
+    transform: none;
+  }
+
+  .featured__row:hover .featured__pic img {
+    transform: none;
+  }
+}
