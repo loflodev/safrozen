@@ -62,36 +62,6 @@
   color: var(--color-text-muted);
 }
 
-.shop__grid {
-  display: grid;
-  gap: var(--space-8) var(--space-6);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 600px) {
-  .shop__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1100px) {
-  .shop__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.shop__grid > li {
-  display: grid;
-}
-
-/* Cards rise in one after another on load. */
-.shop__grid > li {
-  animation: page-rise var(--dur-reveal) var(--ease-spring) both;
-  animation-delay: calc(150ms + var(--i) * 80ms);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .filter-pill {
     transition: none;

@@ -73,7 +73,7 @@ export default function Shop() {
       </p>
 
       {items.length ? (
-        <ul className="shop__grid">
+        <ul className="product-grid">
           {items.map((item, i) => (
             <li key={item.id} style={{ '--i': i } as React.CSSProperties}>
               <ProductCard item={item} />

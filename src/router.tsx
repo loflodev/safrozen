@@ -14,6 +14,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Home },
       { path: 'boutique', lazy: page(() => import('./pages/Shop')) },
+      { path: 'produit/:slug', lazy: page(() => import('./pages/Product')) },
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },
