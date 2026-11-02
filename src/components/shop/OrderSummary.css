@@ -1,0 +1,109 @@
+.summary {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.summary .panel__title {
+  margin: 0;
+}
+
+.summary__lines {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary__lines li,
+.summary__totals > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  line-height: 1.5;
+}
+
+.summary__lines li > :last-child,
+.summary__totals dd {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.summary__qty {
+  color: var(--color-text-muted);
+}
+
+.summary__totals {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--ground);
+}
+
+.summary__totals dt {
+  color: var(--color-text-muted);
+}
+
+.summary__totals dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.summary__discount dd {
+  color: var(--color-success);
+}
+
+.summary__remove {
+  margin-left: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent-text);
+  font: 700 var(--text-sm) / 1.5 var(--font-body);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.summary__total {
+  padding-top: var(--space-2);
+}
+
+.summary__total dt {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.summary__total .price {
+  font-size: var(--text-xl);
+}
+
+.summary__action {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.summary__action .btn-chip,
+.summary__action .btn-ghost {
+  width: 100%;
+}
+
+.coupon {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.coupon__row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.coupon__row .field__control {
+  min-width: 0;
+}
+
+.coupon__row .btn-ghost {
+  flex: none;
+}
