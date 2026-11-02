@@ -23,6 +23,8 @@ export const router = createBrowserRouter([
         lazy: page(() => import('./pages/account/AccountLayout')),
         children: [
           { index: true, lazy: page(() => import('./pages/account/Dashboard')) },
+          { path: 'commandes', lazy: page(() => import('./pages/account/Orders')), handle: { title: 'Commandes' } },
+          { path: 'commandes/:id', lazy: page(() => import('./pages/account/OrderView')), handle: { title: 'Commande' } },
           { path: 'deconnexion', lazy: page(() => import('./pages/account/Logout')) },
         ],
       },
