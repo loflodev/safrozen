@@ -13,7 +13,8 @@
     "@fontsource-variable/manrope": "5.2.8",
     "@fontsource/aclonica": "^5.3.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-router": "^7.18.5"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

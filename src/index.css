@@ -193,3 +193,23 @@ img {
     scroll-margin-top: 128px;
   }
 }
+
+/*
+ * Inner pages (shop, account, content): the page frame as side padding, a top
+ * that clears the fixed navbar (its logo: 88px, 128px from 900px), cream ground.
+ */
+.page {
+  --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  --nav-bottom: 88px;
+  position: relative;
+  min-height: 70svh;
+  padding: calc(var(--nav-bottom) + var(--space-12)) var(--frame-edge)
+    clamp(var(--space-16), 10vw, var(--space-32));
+  background: var(--color-bg);
+}
+
+@media (min-width: 900px) {
+  .page {
+    --nav-bottom: 128px;
+  }
+}
