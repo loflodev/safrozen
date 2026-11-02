@@ -1,0 +1,50 @@
+/* Inner page header (§16): crumbs, then the landing's section head. */
+.page-header__head {
+  animation: page-rise var(--dur-reveal) var(--ease-spring) both;
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.crumbs li + li::before {
+  content: '/';
+  margin-right: var(--space-2);
+}
+
+.crumbs a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+.crumbs a:hover {
+  color: var(--color-accent-text);
+}
+
+.crumbs [aria-current] {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Every inner page's content rises in once on load (§16). */
+@keyframes page-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes page-rise {
+    from {
+      opacity: 0;
+    }
+  }
+}
