@@ -1,0 +1,55 @@
+/* Logged-out account forms: two panels side by side from 900px. */
+.auth {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.auth__panel {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: stretch;
+}
+
+.auth__panel .panel__title {
+  margin: 0;
+}
+
+.auth__panel .btn-chip,
+.auth__panel .btn-ghost {
+  margin-top: var(--space-2);
+}
+
+/* The register panel sits on the quiet terracotta tint (a tone step). */
+.auth__panel--register {
+  background: var(--color-hover);
+}
+
+.auth__panel--register .field__control {
+  background: var(--panel-ground);
+}
+
+.auth__lede {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.auth__lost {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.auth--single {
+  max-width: 32rem;
+}
+
+@media (min-width: 900px) {
+  .auth:not(.auth--single) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
