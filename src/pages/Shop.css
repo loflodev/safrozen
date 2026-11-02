@@ -1,0 +1,99 @@
+.shop__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.shop__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Filter pills: white at rest, ink when pressed (white text 16.6:1). */
+.filter-pill {
+  min-height: 44px;
+  padding: 0 var(--space-6);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--panel-ground);
+  color: var(--ink);
+  font: 700 var(--text-base) / 1 var(--font-body);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.filter-pill:hover {
+  background: var(--color-hover);
+}
+
+.filter-pill[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.filter-pill:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
+}
+
+.shop__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shop__sort .field__label {
+  white-space: nowrap;
+}
+
+.shop__sort .field__control {
+  width: auto;
+}
+
+.shop__count {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.shop__grid {
+  display: grid;
+  gap: var(--space-8) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .shop__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .shop__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.shop__grid > li {
+  display: grid;
+}
+
+/* Cards rise in one after another on load. */
+.shop__grid > li {
+  animation: page-rise var(--dur-reveal) var(--ease-spring) both;
+  animation-delay: calc(150ms + var(--i) * 80ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-pill {
+    transition: none;
+  }
+}
