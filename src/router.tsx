@@ -18,7 +18,14 @@ export const router = createBrowserRouter([
       { path: 'panier', lazy: page(() => import('./pages/Cart')) },
       { path: 'commande', lazy: page(() => import('./pages/Checkout')) },
       { path: 'commande/recue/:id', lazy: page(() => import('./pages/Confirmation')) },
-      { path: 'mon-compte', lazy: page(() => import('./pages/account/AccountLayout')) },
+      {
+        path: 'mon-compte',
+        lazy: page(() => import('./pages/account/AccountLayout')),
+        children: [
+          { index: true, lazy: page(() => import('./pages/account/Dashboard')) },
+          { path: 'deconnexion', lazy: page(() => import('./pages/account/Logout')) },
+        ],
+      },
       { path: 'mon-compte/mot-de-passe-perdu', lazy: page(() => import('./pages/account/LostPassword')) },
       { path: 'mon-compte/reinitialiser', lazy: page(() => import('./pages/account/ResetPassword')) },
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
