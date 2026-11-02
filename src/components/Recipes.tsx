@@ -1,38 +1,10 @@
 import { useRef } from 'react'
 import { ArrowRightIcon, ClockIcon } from './icons'
 import { useReveal } from './reveal'
+import { RECIPES } from '../shop/recipes'
 import './Recipes.css'
 
-// TODO: mock posts, newest first, until the blog exists.
-const POSTS = [
-  {
-    image: 'benefit-stew-pot',
-    alt: 'Une cocotte de légumes mijotés, carottes et persil.',
-    date: '2026-10-28',
-    dateLabel: '28 octobre 2026',
-    title: 'Mijoté de lalo aux crevettes en 20 minutes',
-    excerpt: 'Une boîte de Legim Express au Lalo, une poignée de crevettes et un filet de citron vert : le souper est servi.',
-    read: '4 min de lecture',
-  },
-  {
-    image: 'benefit-bean-bowl',
-    alt: 'Un bol de pois rouges en sauce.',
-    date: '2026-10-21',
-    dateLabel: '21 octobre 2026',
-    title: "Bol végétarien à l'aubergine et aux pois",
-    excerpt: "Une base neutre, des pois rouges et un peu d'épices : notre recette favorite pour les soirs pressés.",
-    read: '5 min de lecture',
-  },
-  {
-    image: 'benefit-rice',
-    alt: 'Une assiette de riz blanc.',
-    date: '2026-10-14',
-    dateLabel: '14 octobre 2026',
-    title: 'Chayotte, riz blanc et avocat',
-    excerpt: "Le classique du dimanche, sans les trois heures de cuisson. Nos astuces pour l'assaisonner à votre goût.",
-    read: '3 min de lecture',
-  },
-]
+const POSTS = RECIPES
 
 export default function Recipes() {
   const sectionRef = useRef<HTMLElement>(null)
