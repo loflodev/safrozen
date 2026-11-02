@@ -63,7 +63,7 @@ export default function OrderSummary({
           </div>
         )}
         <div>
-          <dt>Livraison{deliveryLabel ? ` · ${deliveryLabel}` : ''}</dt>
+          <dt>{deliveryLabel ?? 'Livraison'}</dt>
           <dd>{deliveryLabel ? (totals.delivery ? formatPrice(totals.delivery) : 'Offerte') : 'Calculée à la commande'}</dd>
         </div>
         <div className="summary__total">

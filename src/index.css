@@ -329,6 +329,11 @@ textarea.field__control {
   resize: vertical;
 }
 
+input.field__control,
+select.field__control {
+  height: var(--control-h);
+}
+
 select.field__control {
   appearance: none;
   padding-right: var(--space-12);
@@ -435,4 +440,9 @@ select.field__control {
   .btn-ghost {
     transition: none;
   }
+}
+
+.address-block {
+  font-style: normal;
+  line-height: 1.6;
 }

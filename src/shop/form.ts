@@ -31,16 +31,17 @@ export function useForm<V extends Record<string, string>>(initial: V, rules: Par
     },
   })
 
-  // Validates everything; returns the errors in field order (for the summary).
-  const validate = () => {
+  // Validates every ruled field (or only `names`); returns the errors in
+  // field order, for the summary.
+  const validate = (names?: (keyof V & string)[]) => {
     const next: Partial<Record<keyof V, string>> = {}
-    for (const name of Object.keys(rules) as (keyof V)[]) {
+    for (const name of names ?? (Object.keys(rules) as (keyof V)[])) {
       const e = check(name, values)
       if (e) next[name] = e
     }
-    setErrors(next)
+    setErrors(names ? (er) => ({ ...er, ...Object.fromEntries(names.map((n) => [n, next[n]])) }) : next)
     setSubmitCount((n) => n + 1)
-    return (Object.keys(next) as (keyof V & string)[]).map((id) => ({ id, message: next[id]! }))
+    return (Object.keys(next) as (keyof V & string)[]).filter((id) => next[id]).map((id) => ({ id, message: next[id]! }))
   }
 
   const set = (patch: Partial<V>) => setValues((v) => ({ ...v, ...patch }))
