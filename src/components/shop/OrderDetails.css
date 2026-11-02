@@ -1,0 +1,70 @@
+.order {
+  display: grid;
+  gap: var(--space-8);
+}
+
+/* Key facts on one white strip (like the product spec strip). */
+.order__facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+}
+
+.order__facts dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.order__facts dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+@media (min-width: 700px) {
+  .order__facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.order__grid {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.order__addresses {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.order__addresses .panel__title {
+  margin-bottom: var(--space-3);
+}
+
+.order__text,
+.order__method,
+.order__note {
+  margin: var(--space-3) 0 0;
+  line-height: 1.5;
+}
+
+.order__method,
+.order__note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 900px) {
+  .order__grid {
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-12);
+  }
+
+  .order__addresses {
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -17,6 +17,7 @@ export const router = createBrowserRouter([
       { path: 'produit/:slug', lazy: page(() => import('./pages/Product')) },
       { path: 'panier', lazy: page(() => import('./pages/Cart')) },
       { path: 'commande', lazy: page(() => import('./pages/Checkout')) },
+      { path: 'commande/recue/:id', lazy: page(() => import('./pages/Confirmation')) },
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },

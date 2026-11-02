@@ -1,0 +1,48 @@
+.confirmation__notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-8);
+  font-weight: 700;
+}
+
+.confirmation__check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--color-success);
+  color: var(--white); /* 6.43:1 */
+}
+
+.confirmation__check svg {
+  width: 18px;
+  height: 18px;
+}
+
+.confirmation__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-12);
+}
+
+.confirmation__account {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: 40rem;
+  margin-top: var(--space-12);
+  background: var(--color-hover);
+}
+
+.confirmation__account .panel__title,
+.confirmation__account p {
+  margin: 0;
+}
+
+.confirmation__account p {
+  line-height: 1.5;
+}

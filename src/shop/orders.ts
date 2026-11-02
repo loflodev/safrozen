@@ -1,4 +1,5 @@
 import type { CartTotals } from './cart'
+import { localDay } from './format'
 import { load, save } from './storage'
 
 // Orders, shaped like WooCommerce's. TODO: mock history until the store exists;
@@ -95,7 +96,7 @@ export function allOrders(): Order[] {
 export function placeOrder(order: Omit<Order, 'id' | 'date' | 'status'>): Order {
   const placed = load<Order[]>(KEY, [])
   const id = String(1042 + placed.length)
-  const full: Order = { ...order, id, date: new Date().toISOString().slice(0, 10), status: 'received' }
+  const full: Order = { ...order, id, date: localDay(), status: 'received' }
   save(KEY, [full, ...placed])
   return full
 }

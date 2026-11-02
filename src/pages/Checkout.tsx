@@ -14,7 +14,7 @@ import { addressNames, addressRules, addressValues, toAddress } from '../shop/ad
 import { useCart } from '../shop/cart'
 import { DELIVERY, PAYMENT } from '../shop/catalog'
 import { email, phone, useForm, type Validator } from '../shop/form'
-import { formatPrice } from '../shop/format'
+import { formatPrice, localDay } from '../shop/format'
 import { placeOrder } from '../shop/orders'
 import './Cart.css'
 import './Checkout.css'
@@ -105,7 +105,7 @@ export default function Checkout() {
         delivery: v.delivery,
         payment: v.payment,
         note: v.note.trim() || undefined,
-        eta: new Date(Date.now() + (v.delivery === 'express' ? 1 : 3) * 864e5).toISOString().slice(0, 10),
+        eta: localDay(v.delivery === 'express' ? 1 : 3),
       })
       setPlaced(true)
       cart.clear()

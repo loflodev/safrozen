@@ -24,7 +24,7 @@
   top: var(--dot);
   left: calc(var(--dot) / 2 - 2px);
   width: 4px;
-  height: var(--space-6);
+  height: calc(100% - var(--dot) + var(--space-6)); /* down to the next dot */
   border-radius: var(--radius-pill);
   background: var(--color-hover);
 }
@@ -77,8 +77,13 @@
 
   .timeline__step {
     grid-template-columns: 1fr;
+    align-content: start;
     align-items: start;
     row-gap: var(--space-3);
+  }
+
+  .timeline__step:not(:last-child)::after {
+    height: 4px;
   }
 
   .timeline__step:not(:last-child)::after {
