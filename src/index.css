@@ -213,3 +213,226 @@ img {
     --nav-bottom: 128px;
   }
 }
+
+/* Secondary button: an ink outline pill the size of .btn-chip. */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: var(--control-h);
+  padding: 0 var(--space-6);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  font: 700 var(--text-base) / 1 var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  background: var(--color-hover);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
+}
+
+.btn-chip[aria-disabled='true'],
+.btn-chip:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* Text link inside copy: ink, underline in the accent text colour. */
+.link {
+  color: var(--color-accent-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+/* White panel on the cream page: the shop's card surface. */
+.panel {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+}
+
+.panel__title {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+@media (min-width: 900px) {
+  .panel {
+    padding: var(--space-8);
+  }
+}
+
+/* Price: accent text colour, 800 (4.52:1 on cream, 4.81:1 on white). */
+.price {
+  color: var(--color-accent-text);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Form fields (§17): label above, 52px control, help or error below. */
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.field__optional {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.field__control {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--space-6);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--panel-ground);
+  color: var(--ink);
+  font: 500 var(--text-base) / 1.5 var(--font-body);
+}
+
+textarea.field__control {
+  min-height: 8rem;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  resize: vertical;
+}
+
+select.field__control {
+  appearance: none;
+  padding-right: var(--space-12);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23201e1e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); /* taste-skill-ignore: chevron glyph */
+  background-repeat: no-repeat;
+  background-position: right var(--space-6) center;
+  cursor: pointer;
+}
+
+.field__control:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.field__control[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
+.field__help {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.field__error {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-error);
+}
+
+/* Checkbox and radio rows: a 24px box inside a 44px target. */
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding-block: var(--space-2);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.check input {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  accent-color: var(--orange-600);
+  cursor: pointer;
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .form-grid--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-grid .field--full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Status notices (alerts, confirmations): tinted panel, ink text. */
+.notice {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-hover);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.notice--error {
+  background: var(--color-error-bg);
+}
+
+.notice--success {
+  background: var(--color-success-bg);
+}
+
+.notice__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.notice ul {
+  margin: 0;
+  padding-left: var(--space-6);
+}
+
+.notice a {
+  color: inherit;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-ghost {
+    transition: none;
+  }
+}

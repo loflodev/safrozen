@@ -69,6 +69,17 @@
   --footer-muted: #b8b0ab; /* warm grey, 7.77:1 on ink */
   --footer-accent: var(--terracotta-500); /* link hover, 5.75:1 on ink */
 
+  /*
+   * Shop and account pages (CLAUDE.md §16–§17). Status colours are the only
+   * hues outside the brand family; they mark errors and success, never decorate.
+   */
+  --color-line: var(--ink-soft); /* field borders, 6.54:1 on the worst ground (UI ≥ 3:1) */
+  --color-error: #b42318; /* 6.57 white / 6.17 cream / 5.34 terracotta-100 */
+  --color-error-bg: #fdecea; /* error panel tint; ink 14.51, error 5.75 */
+  --color-success: #2f6b2f; /* 6.43 white / 6.04 cream / 5.22 terracotta-100 */
+  --color-success-bg: #e7f2e4; /* success panel tint; ink 14.39, success 5.58 */
+  --panel-ground: var(--benefit-ground); /* white panels on the cream page */
+
   /* Type */
   --font-body: 'Manrope Variable', system-ui, sans-serif;
   --font-wordmark: 'Aclonica', 'Manrope Variable', sans-serif;
@@ -112,4 +123,8 @@
   /* Section entrances below the Story (reveal.ts): a slight overshoot. */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --dur-reveal: 900ms;
+
+  /* Shop layout */
+  --control-h: 52px; /* inputs and buttons */
+  --sidebar-w: 24rem; /* order summary / account nav column */
 }
