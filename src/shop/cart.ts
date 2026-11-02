@@ -25,6 +25,9 @@ export type Cart = CartState & {
   clear: () => void
   drawerOpen: boolean
   setDrawerOpen: (open: boolean) => void
+  // Last "added to cart" message, for the toast; `key` changes on every add.
+  notice: { text: string; key: number } | null
+  dismissNotice: () => void
 }
 
 export const MAX_QTY = 20

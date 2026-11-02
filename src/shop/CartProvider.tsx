@@ -8,6 +8,7 @@ const KEY = 'legim:cart'
 export default function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, () => load<CartState>(KEY, { lines: [], coupon: null }))
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [notice, setNotice] = useState<Cart['notice']>(null)
 
   useEffect(() => save(KEY, state), [state])
 
@@ -19,7 +20,11 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         return product ? [{ ...l, product }] : []
       }),
       totals: (deliveryId) => computeTotals(state, deliveryId),
-      add: (id, quantity = 1) => dispatch({ type: 'add', id, quantity }),
+      add: (id, quantity = 1) => {
+        dispatch({ type: 'add', id, quantity })
+        const name = byId(id)?.name
+        if (name) setNotice({ text: `${name} ajouté au panier`, key: Date.now() })
+      },
       setQuantity: (id, quantity) => dispatch({ type: 'set', id, quantity }),
       remove: (id) => dispatch({ type: 'remove', id }),
       applyCoupon: (code) => {
@@ -32,8 +37,10 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       clear: () => dispatch({ type: 'clear' }),
       drawerOpen,
       setDrawerOpen,
+      notice,
+      dismissNotice: () => setNotice(null),
     }),
-    [state, drawerOpen],
+    [state, drawerOpen, notice],
   )
 
   return <CartContext value={cart}>{children}</CartContext>
