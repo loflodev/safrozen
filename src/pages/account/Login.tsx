@@ -93,7 +93,7 @@ function Register({
 
   return (
     <form
-      className="panel auth__panel auth__panel--register"
+      className="panel tint auth__panel auth__panel--register"
       noValidate
       aria-labelledby="register-title"
       onSubmit={(e) => {

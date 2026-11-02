@@ -98,7 +98,7 @@ export default function Contact() {
               </span>
             </address>
           </div>
-          <div className="panel contact__help">
+          <div className="panel tint contact__help">
             <h2 className="panel__title">Une commande en cours ?</h2>
             <p>Suivez-la en direct avec son numéro et votre e-mail.</p>
             <Link className="btn-ghost" to="/suivi">

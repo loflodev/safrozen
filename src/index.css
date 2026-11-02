@@ -252,13 +252,23 @@ img {
   opacity: 0.7;
 }
 
-/* Text link inside copy: ink, underline in the accent text colour. */
+/*
+ * Text link inside copy: accent text colour, 2px underline. On the terracotta
+ * tint the orange text would be 3.91:1, so tinted surfaces (.tint) set the
+ * link text to ink and keep the orange underline (a mark, ≥ 3:1).
+ */
 .link {
-  color: var(--color-accent-text);
+  color: var(--link-color, var(--color-accent-text));
   font-weight: 700;
   text-decoration: underline;
+  text-decoration-color: var(--color-accent-text);
   text-decoration-thickness: 2px;
   text-underline-offset: 0.2em;
+}
+
+.notice,
+.tint {
+  --link-color: var(--ink);
 }
 
 .link:hover {
@@ -353,6 +363,7 @@ select.field__control {
 }
 
 .field__help {
+  max-width: 70ch;
   margin: 0;
   font-size: var(--text-sm);
   line-height: 1.5;

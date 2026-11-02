@@ -9,6 +9,6 @@ export const formatDate = (iso: string) => day.format(new Date(`${iso.slice(0, 1
 
 export const localDay = (offsetDays = 0) => {
   const d = new Date(Date.now() + offsetDays * 864e5)
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` // taste-skill-ignore: ISO date
 }
 export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n > 1 ? many : one}`

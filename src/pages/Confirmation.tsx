@@ -59,7 +59,7 @@ export default function Confirmation() {
       </div>
 
       {!user && (
-        <section className="panel confirmation__account" aria-labelledby="account-cta">
+        <section className="panel tint confirmation__account" aria-labelledby="account-cta">
           <h2 className="panel__title" id="account-cta">
             Gagnez du temps la prochaine fois
           </h2>

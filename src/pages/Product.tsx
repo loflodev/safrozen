@@ -62,6 +62,9 @@ function Product({ slug }: { slug: string }) {
           />
           <p className="product__short">{item.short}</p>
 
+
+          <p className="price product__price">{formatPrice(item.price)}</p>
+
           {/* TODO: real rating once reviews are collected (same as the landing's). */}
           <Link className="product__rating" to="/#avis">
             <span className="product__stars" aria-hidden="true">
@@ -71,8 +74,6 @@ function Product({ slug }: { slug: string }) {
             </span>
             4,9 / 5 · 120 avis
           </Link>
-
-          <p className="price product__price">{formatPrice(item.price)}</p>
 
           <dl className="product__specs">
             <div>
@@ -125,7 +126,7 @@ function Product({ slug }: { slug: string }) {
             )}
           </p>
 
-          <p className="product__delivery">
+          <p className="product__delivery tint">
             <TruckIcon />
             <span>
               Livraison offerte dès 60 $ dans le Grand Montréal.{' '}
