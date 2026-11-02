@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
-import { CartIcon, CloseIcon, FacebookIcon, InstagramIcon, MenuIcon, TikTokIcon } from './icons'
+import { Link, useLocation } from 'react-router'
+import { useAccount } from '../shop/account'
+import { useCart } from '../shop/cart'
+import { CartIcon, CloseIcon, FacebookIcon, InstagramIcon, MenuIcon, TikTokIcon, UserIcon } from './icons'
 import './Navbar.css'
 
+// Hash links point at landing sections; off the landing they go to "/#…".
 const LINKS = [
   { href: '#accueil', label: 'Accueil' },
-  { href: '#produits', label: 'Produit' },
+  { href: '/boutique', label: 'Produit' },
   { href: '#recettes', label: 'Recette' },
   { href: '#histoire', label: 'Histoire' },
   { href: '#contact', label: 'Contact' },
@@ -19,7 +23,13 @@ const SOCIALS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const cartCount = 0
+  const { pathname } = useLocation()
+  const onHome = pathname === '/'
+  const cart = useCart()
+  const cartCount = cart.totals().count
+  const { user } = useAccount()
+  // The footer (#contact) is on every page, so its link stays a plain hash.
+  const to = (href: string) => (href.startsWith('#') && !onHome && href !== '#contact' ? `/${href}` : href)
 
   useEffect(() => {
     if (!open) return
@@ -34,7 +44,7 @@ export default function Navbar() {
 
   return (
     <header className="nav" data-open={open}>
-      <a className="nav__brand" href="#accueil" aria-label="Legim Express, accueil" onClick={close}>
+      <Link className="nav__brand" to={onHome ? '#accueil' : '/'} aria-label="Legim Express, accueil" onClick={close}>
         <img
           className="nav__logo"
           src="/images/logo.png"
@@ -43,17 +53,28 @@ export default function Navbar() {
           height={257}
           decoding="async"
         />
-      </a>
+      </Link>
 
       <nav className="nav__menu nav__chip" id="nav-menu" aria-label="Principal">
         <ul className="nav__links">
           {LINKS.map((l) => (
             <li key={l.href}>
-              <a className="nav__pill" href={l.href} onClick={close}>
-                {l.label}
-              </a>
+              {to(l.href).startsWith('#') ? (
+                <a className="nav__pill" href={l.href} onClick={close}>
+                  {l.label}
+                </a>
+              ) : (
+                <Link className="nav__pill" to={to(l.href)} onClick={close}>
+                  {l.label}
+                </Link>
+              )}
             </li>
           ))}
+          <li className="nav__menu-only">
+            <Link className="nav__pill" to="/mon-compte" onClick={close}>
+              Mon compte
+            </Link>
+          </li>
         </ul>
       </nav>
 
@@ -68,14 +89,30 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <a
+        <Link
+          className="nav__chip nav__pill nav__icon nav__round nav__account"
+          to="/mon-compte"
+          aria-label={user ? `Mon compte, ${user.displayName}` : 'Mon compte, se connecter'}
+          onClick={close}
+        >
+          <UserIcon />
+        </Link>
+
+        <Link
           className="nav__chip nav__pill nav__icon nav__round"
-          href="#panier"
-          aria-label={`Panier, ${cartCount} article`}
+          to="/panier"
+          aria-label={`Panier, ${cartCount} article${cartCount > 1 ? 's' : ''}`}
+          onClick={(e) => {
+            // The chip opens the mini-cart; the link stays for new tabs and no-JS.
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+            e.preventDefault()
+            close()
+            cart.setDrawerOpen(true)
+          }}
         >
           <CartIcon />
           {cartCount > 0 && <span className="nav__badge">{cartCount}</span>}
-        </a>
+        </Link>
 
         <button
           type="button"

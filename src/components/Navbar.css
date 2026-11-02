@@ -166,6 +166,11 @@
   display: none;
 }
 
+/* "Mon compte" sits in the dropdown only when its round chip is hidden. */
+.nav__menu-only {
+  display: none;
+}
+
 /* Below 900px the menu chip becomes a dropdown panel under the header. */
 @media (max-width: 899px) {
   .nav {
@@ -225,6 +230,17 @@
 @media (max-width: 379px) {
   .nav__socials .nav__icon {
     width: 30px;
+  }
+}
+
+/* Under 420px five chips don't fit beside the logo: the account moves into the menu. */
+@media (max-width: 419px) {
+  .nav__account {
+    display: none;
+  }
+
+  .nav__menu-only {
+    display: block;
   }
 }
 

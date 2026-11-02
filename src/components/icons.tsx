@@ -124,3 +124,54 @@ export const ClockIcon = (props: IconProps) => (
     <path d="M12 7.5V12l3 2" />
   </svg>
 )
+
+export const UserIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 21a8 8 0 0 1 16 0" />
+  </svg>
+)
+
+export const MinusIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M5 12h14" />
+  </svg>
+)
+
+export const PlusIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+)
+
+export const CheckIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="m5 12.5 4.5 4.5L19 7.5" />
+  </svg>
+)
+
+export const TrashIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
+  </svg>
+)
+
+export const ChevronDownIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+
+export const TruckIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7" />
+    <circle cx="7" cy="18" r="2" />
+    <circle cx="17.5" cy="18" r="2" />
+  </svg>
+)
+
+export const BoxIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5zM3 7.5l9 4.5 9-4.5M12 12v9" />
+  </svg>
+)
