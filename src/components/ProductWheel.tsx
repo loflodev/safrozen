@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router'
+import { byId } from '../shop/catalog'
 import { ArrowRightIcon } from './icons'
 import { clamp01 } from './scroll'
 import { isNewScroll, SWIPE_THRESHOLD, WHEEL_THRESHOLD, type WheelSample } from './wheelIntent'
@@ -403,11 +405,11 @@ export default function ProductWheel() {
             <span>4 portions</span>
             <span>Prêt en 20 min</span>
           </p>
-          {/* TODO: point at the real order flow once checkout exists. */}
-          <a className="hero__cta" href="#panier">
+          {/* Orders the product on screen. */}
+          <Link className="hero__cta" to={`/produit/${byId(current.id)?.slug ?? ''}`}>
             Commandez
             <ArrowRightIcon />
-          </a>
+          </Link>
           <p className="visually-hidden" aria-live="polite">
             Legim Express {current.title}
           </p>

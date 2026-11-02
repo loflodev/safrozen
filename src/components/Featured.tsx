@@ -1,10 +1,14 @@
 import { useRef } from 'react'
+import { Link } from 'react-router'
+import { byId } from '../shop/catalog'
+import { useCart } from '../shop/cart'
+import { formatPrice } from '../shop/format'
 import { ArrowRightIcon } from './icons'
 import { PRODUCTS } from './products'
 import { useReveal } from './reveal'
 import './Featured.css'
 
-// TODO: real prices, weights and copy once the catalogue exists.
+// Copy for the two best sellers; prices and links come from the catalogue.
 const FEATURED = [
   {
     id: 'lalo',
@@ -15,7 +19,6 @@ const FEATURED = [
       ['Portions', '4'],
       ['Prêt en', '20 min'],
     ],
-    price: '12,99 $',
   },
   {
     id: 'eggplant',
@@ -26,7 +29,6 @@ const FEATURED = [
       ['Portions', '4'],
       ['Prêt en', '20 min'],
     ],
-    price: '12,99 $',
   },
 ]
 
@@ -46,6 +48,8 @@ const fieldVars = (id: string) => {
 function FeaturedRow({ item, index }: { item: Item; index: number }) {
   const rowRef = useRef<HTMLLIElement>(null)
   useReveal(rowRef)
+  const cart = useCart()
+  const product = byId(item.id)!
 
   return (
     <li className="featured__row" ref={rowRef} style={{ '--i': index } as React.CSSProperties}>
@@ -64,7 +68,9 @@ function FeaturedRow({ item, index }: { item: Item; index: number }) {
       </div>
       <div className="featured__copy">
         <h3 className="featured__line featured__name" style={{ '--j': 0 } as React.CSSProperties}>
-          {item.name}
+          <Link className="featured__link" to={`/produit/${product.slug}`}>
+            {item.name}
+          </Link>
         </h3>
         <p className="featured__line featured__text" style={{ '--j': 1 } as React.CSSProperties}>
           {item.text}
@@ -78,11 +84,11 @@ function FeaturedRow({ item, index }: { item: Item; index: number }) {
           ))}
         </dl>
         <div className="featured__line featured__buy" style={{ '--j': 3 } as React.CSSProperties}>
-          <p className="featured__price">{item.price}</p>
-          <a className="btn-chip" href="#panier">
+          <p className="featured__price">{formatPrice(product.price)}</p>
+          <button type="button" className="btn-chip" onClick={() => cart.add(product.id)}>
             Ajouter au panier
             <ArrowRightIcon />
-          </a>
+          </button>
         </div>
       </div>
     </li>

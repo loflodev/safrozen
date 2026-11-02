@@ -98,6 +98,18 @@
   text-wrap: balance;
 }
 
+.featured__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.featured__link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--color-accent-text);
+  text-underline-offset: 0.12em;
+}
+
 .featured__text {
   max-width: 28rem;
   font-size: var(--text-lg);
