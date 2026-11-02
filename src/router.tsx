@@ -33,6 +33,7 @@ export const router = createBrowserRouter([
       },
       { path: 'mon-compte/mot-de-passe-perdu', lazy: page(() => import('./pages/account/LostPassword')) },
       { path: 'mon-compte/reinitialiser', lazy: page(() => import('./pages/account/ResetPassword')) },
+      { path: 'suivi', lazy: page(() => import('./pages/Track')) },
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },

@@ -1,0 +1,30 @@
+.track__form {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.track__fields {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  .track__fields {
+    grid-template-columns: 1fr 1.4fr auto;
+    align-items: start;
+    gap: var(--space-6);
+  }
+
+  /* Line the button up with the inputs (below the labels). */
+  .track__submit {
+    margin-top: calc(var(--text-base) * 1.5 + var(--space-2));
+  }
+}
+
+.track__result {
+  margin-top: var(--space-8);
+}
+
+.track__result .notice {
+  margin: 0;
+}
