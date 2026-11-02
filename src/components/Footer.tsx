@@ -1,14 +1,24 @@
 import { useRef } from 'react'
+import { Link } from 'react-router'
 import { ClockIcon, FacebookIcon, InstagramIcon, MailIcon, PhoneIcon, PinIcon, TikTokIcon } from './icons'
 import { useReveal } from './reveal'
 import './Footer.css'
 
 const LINKS = [
-  { href: '#accueil', label: 'Accueil' },
-  { href: '#produits', label: 'Produits' },
-  { href: '#recettes', label: 'Recettes' },
-  { href: '#histoire', label: 'Histoire' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/', label: 'Accueil' },
+  { href: '/boutique', label: 'Boutique' },
+  { href: '/recettes', label: 'Recettes' },
+  { href: '/#histoire', label: 'Histoire' },
+  { href: '/contact', label: 'Contact' },
+]
+
+// WooCommerce's customer pages and the store's information pages.
+const HELP = [
+  { href: '/suivi', label: 'Suivi de commande' },
+  { href: '/mon-compte', label: 'Mon compte' },
+  { href: '/livraison', label: 'Livraison' },
+  { href: '/faq', label: 'Questions fréquentes' },
+  { href: '/retours', label: 'Retours' },
 ]
 
 // TODO: real profile URLs and contact details.
@@ -41,15 +51,30 @@ export default function Footer() {
           <ul className="footer__list">
             {LINKS.map((l) => (
               <li key={l.href}>
-                <a className="footer__link" href={l.href}>
+                <Link className="footer__link" to={l.href}>
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        <div className="footer__col" style={{ '--i': 2 } as React.CSSProperties}>
+        <nav className="footer__col" aria-labelledby="footer-help" style={{ '--i': 2 } as React.CSSProperties}>
+          <h2 className="footer__heading" id="footer-help">
+            Aide
+          </h2>
+          <ul className="footer__list">
+            {HELP.map((l) => (
+              <li key={l.href}>
+                <Link className="footer__link" to={l.href}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="footer__col" style={{ '--i': 3 } as React.CSSProperties}>
           <h2 className="footer__heading">Contact</h2>
           <address className="footer__list footer__contact">
             <span>
@@ -71,7 +96,7 @@ export default function Footer() {
           </address>
         </div>
 
-        <div className="footer__col" style={{ '--i': 3 } as React.CSSProperties}>
+        <div className="footer__col" style={{ '--i': 4 } as React.CSSProperties}>
           <h2 className="footer__heading">Suivez-nous</h2>
           <ul className="footer__socials">
             {SOCIALS.map(({ href, label, Icon }) => (
@@ -96,12 +121,15 @@ export default function Footer() {
       <div className="footer__bottom">
         <p>© 2026 Les Aliments Safrozen. Tous droits réservés.</p>
         <p className="footer__legal">
-          <a className="footer__link" href="#">
+          <Link className="footer__link" to="/mentions-legales">
             Mentions légales
-          </a>
-          <a className="footer__link" href="#">
+          </Link>
+          <Link className="footer__link" to="/cgv">
+            CGV
+          </Link>
+          <Link className="footer__link" to="/confidentialite">
             Confidentialité
-          </a>
+          </Link>
         </p>
       </div>
     </footer>

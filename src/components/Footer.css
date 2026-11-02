@@ -32,6 +32,14 @@
   gap: var(--space-12) var(--space-16);
 }
 
+/* Five columns (about, navigation, help, contact, socials) on one row. */
+@media (min-width: 1100px) {
+  .footer__grid {
+    grid-template-columns: 1.3fr 1fr 1fr 1.4fr 1fr;
+    column-gap: var(--space-8);
+  }
+}
+
 .footer__col {
   transition:
     opacity var(--dur-slow) var(--ease-out) calc(var(--i) * 100ms),

@@ -36,6 +36,11 @@ export const router = createBrowserRouter([
       { path: 'suivi', lazy: page(() => import('./pages/Track')) },
       { path: 'recettes', lazy: page(() => import('./pages/RecipesArchive')) },
       { path: 'recettes/:slug', lazy: page(() => import('./pages/RecipeDetail')) },
+      { path: 'contact', lazy: page(() => import('./pages/Contact')) },
+      ...['livraison', 'faq', 'retours', 'cgv', 'confidentialite', 'mentions-legales'].map((path) => ({
+        path,
+        lazy: page(() => import('./pages/InfoPage')),
+      })),
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },
