@@ -365,3 +365,64 @@
 .account__content .order__addresses {
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 }
+
+.addresses {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.addresses__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-6);
+}
+
+.addresses__card {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.addresses__card .panel__title {
+  margin: 0;
+}
+
+.account-form {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 48rem;
+}
+
+.account-form .panel__title {
+  margin: 0;
+}
+
+.account-form .notice {
+  margin: 0;
+}
+
+.account-form__fieldset {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-6) 0 0;
+  border: 0;
+}
+
+.account-form__fieldset legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.account-form__fieldset .field__help {
+  clear: both;
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.account-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

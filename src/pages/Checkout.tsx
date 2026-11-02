@@ -146,7 +146,7 @@ export default function Checkout() {
                   <Field label="Adresse e-mail" type="email" autoComplete="email" inputMode="email" help="Pour la confirmation et le suivi de la commande." {...field('email')} />
                   <Field label="Téléphone" type="tel" autoComplete="tel" inputMode="tel" help="Le livreur vous appelle à l'arrivée." {...field('phone')} />
                 </div>
-                <h3 className="checkout__subhead">Adresse de facturation</h3>
+                <h3 className="form-subhead">Adresse de facturation</h3>
                 <AddressFields prefix="billing" section="billing" field={field} />
               </>
             )}
@@ -157,7 +157,7 @@ export default function Checkout() {
                   Livraison
                 </h2>
                 <fieldset className="checkout__choices">
-                  <legend className="checkout__subhead">Mode de livraison</legend>
+                  <legend className="form-subhead">Mode de livraison</legend>
                   {DELIVERY.map((d) => {
                     const free = d.price === 0 || (d.freeFrom !== undefined && totals.subtotal - totals.discount >= d.freeFrom)
                     return (
@@ -191,7 +191,7 @@ export default function Checkout() {
                       </div>
                     ) : (
                       <>
-                        <h3 className="checkout__subhead">Adresse de livraison</h3>
+                        <h3 className="form-subhead">Adresse de livraison</h3>
                         <AddressFields prefix="shipping" section="shipping" field={field} />
                       </>
                     )}
@@ -217,7 +217,7 @@ export default function Checkout() {
                   Paiement
                 </h2>
                 <fieldset className="checkout__choices">
-                  <legend className="checkout__subhead">Moyen de paiement</legend>
+                  <legend className="form-subhead">Moyen de paiement</legend>
                   {PAYMENT.map((p) => (
                     <ChoiceCard
                       key={p.id}

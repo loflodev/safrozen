@@ -367,6 +367,14 @@ select.field__control {
   color: var(--color-error);
 }
 
+/* Subheading inside a form panel (a group of fields, a legend). */
+.form-subhead {
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
 /* Checkbox and radio rows: a 24px box inside a 44px target. */
 .check {
   display: flex;
