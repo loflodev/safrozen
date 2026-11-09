@@ -40,7 +40,7 @@ export const postcodeError = (v: string) =>
 
 /*
  * Postal code → coordinates through the site (safrozen-core's /legim/v1/geocode:
- * Google's Geocoding API with the key of Réglages Legim, else OpenStreetMap).
+ * Google's Geocoding API with the key of Réglages Safrozen, else OpenStreetMap).
  * Returns null when the code is unknown.
  */
 export async function geocodePostcode(code: string, signal?: AbortSignal): Promise<LatLng | null> {

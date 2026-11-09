@@ -1,7 +1,7 @@
 <?php
 /**
  * Postal code → coordinates for the store locator: GET /wp-json/legim/v1/geocode?code=J5Y3P9
- * answers {lat, lng}, or 404 when the code is unknown. With a key in Réglages Legim
+ * answers {lat, lng}, or 404 when the code is unknown. With a key in Réglages Safrozen
  * (google_geocoding_key) it asks Google's Geocoding API, which knows every Canadian
  * code; without one, OpenStreetMap's Nominatim (many codes missing). The key stays
  * on the server. Answers are cached (a month, a day for unknown codes, per

@@ -6,7 +6,7 @@
  * on a product's hero field), then the shop's details, the form and the socials.
  * Phones stack details, form, socials; from 900px the form sits left (7) and the
  * details over the socials right (5). Texts are in the ACF group "Legim : page
- * Contact"; the details and socials come from Réglages Legim; the form is Contact
+ * Contact"; the details and socials come from Réglages Safrozen; the form is Contact
  * Form 7's "Contact" (Flamingo keeps the messages).
  */
 

@@ -1,6 +1,6 @@
 {
   "key": "group_sf_options",
-  "title": "Réglages Legim",
+  "title": "Réglages Safrozen",
   "fields": [
     {
       "key": "field_sf_options_footer_about",
@@ -107,7 +107,7 @@
       {
         "param": "options_page",
         "operator": "==",
-        "value": "reglages-legim"
+        "value": "reglages-safrozen"
       }
     ]
   ],

@@ -37,7 +37,7 @@
       "label": "Afficher le responsable de la protection des renseignements",
       "name": "officer",
       "type": "true_false",
-      "instructions": "Pour la politique de confidentialité : ajoute le nom et la fonction (Réglages Legim) à la carte.",
+      "instructions": "Pour la politique de confidentialité : ajoute le nom et la fonction (Réglages Safrozen) à la carte.",
       "required": 0,
       "ui": 1,
       "default_value": 0

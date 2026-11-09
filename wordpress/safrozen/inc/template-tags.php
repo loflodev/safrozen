@@ -14,7 +14,7 @@ function safrozen_field( string $name, $post_id = false, $default = '' ) {
 	return ( null === $value || '' === $value || false === $value || array() === $value ) ? $default : $value;
 }
 
-/** A value from the "Réglages Legim" options page (safrozen-core). */
+/** A value from the "Réglages Safrozen" options page (safrozen-core). */
 function safrozen_option( string $name, $default = '' ) {
 	return safrozen_field( $name, 'option', $default );
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Safrozen Core
- * Description: Contenus Legim Express indépendants du thème : avis clients, points de vente, page « Réglages Legim » et champs ACF des produits et recettes.
+ * Description: Contenus Legim Express indépendants du thème : avis clients, points de vente, page « Réglages Safrozen » et champs ACF des produits et recettes.
  * Version: 0.1.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
@@ -76,9 +76,9 @@ add_action(
 		if ( function_exists( 'acf_add_options_page' ) ) {
 			acf_add_options_page(
 				array(
-					'page_title' => __( 'Réglages Legim', 'safrozen-core' ),
-					'menu_title' => __( 'Réglages Legim', 'safrozen-core' ),
-					'menu_slug'  => 'reglages-legim',
+					'page_title' => __( 'Réglages Safrozen', 'safrozen-core' ),
+					'menu_title' => __( 'Réglages Safrozen', 'safrozen-core' ),
+					'menu_slug'  => 'reglages-safrozen',
 					'capability' => 'edit_theme_options',
 					'icon_url'   => 'dashicons-carrot',
 					'position'   => 59,

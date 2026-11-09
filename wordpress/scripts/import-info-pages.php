@@ -3,7 +3,7 @@
  * Fills the information pages from info-pages.json (exported from the React app's
  * src/shop/pages.ts by `pnpm wp:pages`): title, blocks, the "Page d'information"
  * template and its ACF fields. Also sets the shop's contact details and privacy
- * officer (Réglages Legim) and the footer's legal menu. Safe to re-run; it
+ * officer (Réglages Safrozen) and the footer's legal menu. Safe to re-run; it
  * overwrites these pages' content. import-landing.php runs it at the end.
  *
  * Run: wp eval-file wordpress/scripts/import-info-pages.php
@@ -96,7 +96,7 @@ $options = array(
 	'contact_email'        => 'infos@safrozen.com',
 	'copyright_holder'     => 'Les Aliments Safrozen Foods',
 );
-// The officer is set in Réglages Legim; only pages.ts's officer, when it has one, overrides it.
+// The officer is set in Réglages Safrozen; only pages.ts's officer, when it has one, overrides it.
 if ( ! empty( $privacy['officer'] ) ) {
 	$options['privacy_officer_name'] = $privacy['officer']['name'];
 	$options['privacy_officer_role'] = $privacy['officer']['role'];

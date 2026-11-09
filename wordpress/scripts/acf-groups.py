@@ -139,7 +139,7 @@ group('boutique', 'Legim : point de vente', [
     f('boutique', 'lng', 'Longitude', 'number', step='any'),
 ], [[{'param': 'post_type', 'operator': '==', 'value': 'boutique'}]], CORE)
 
-group('options', 'Réglages Legim', [
+group('options', 'Réglages Safrozen', [
     f('options', 'footer_about', 'Phrase du pied de page', 'textarea', rows=2, new_lines=''),
     f('options', 'contact_address', 'Adresse', 'text'),
     f('options', 'contact_phone', 'Téléphone', 'text'),
@@ -154,9 +154,9 @@ group('options', 'Réglages Legim', [
     f('options', 'privacy_officer_role', 'Fonction du responsable', 'text'),
     f('options', 'google_geocoding_key', 'Clé API Google (Geocoding)', 'password',
       help='Situe les codes postaux de la page Points de vente. Utilisée seulement par le serveur, jamais montrée aux visiteurs. Dans Google Cloud, limitez-la à l’API Geocoding et à l’adresse IP du serveur. Vide : OpenStreetMap (moins de codes connus).'),
-], [[{'param': 'options_page', 'operator': '==', 'value': 'reglages-legim'}]], CORE)
+], [[{'param': 'options_page', 'operator': '==', 'value': 'reglages-safrozen'}]], CORE)
 
-# Contact page (Contact.tsx): page-contact.php reads these; the details come from Réglages Legim.
+# Contact page (Contact.tsx): page-contact.php reads these; the details come from Réglages Safrozen.
 group('contact', 'Legim : page Contact', [
     f('contact', 'title', 'Titre', 'text', **text('Parlons-en', help='Le titre de la page (le fil d’Ariane garde « Contact »).')),
     f('contact', 'lede', 'Chapeau', 'textarea', rows=2, new_lines='',
@@ -178,7 +178,7 @@ group('info', 'Legim : page d’information', [
       help='Affichée sous le chapeau. Laissez vide pour ne rien afficher. À changer à chaque modification d’une page légale.'),
     f('info', 'contact_card', 'Carte « Nous joindre » en fin de page', 'true_false', ui=1, default_value=0),
     f('info', 'officer', 'Afficher le responsable de la protection des renseignements', 'true_false', ui=1, default_value=0,
-      help='Pour la politique de confidentialité : ajoute le nom et la fonction (Réglages Legim) à la carte.'),
+      help='Pour la politique de confidentialité : ajoute le nom et la fonction (Réglages Safrozen) à la carte.'),
 ], [[{'param': 'page_template', 'operator': '==', 'value': 'page-info.php'}]], CORE, position='acf_after_title')
 
 print('written:', sorted(os.listdir(THEME)), sorted(os.listdir(CORE)))
