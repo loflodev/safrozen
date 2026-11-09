@@ -1,0 +1,165 @@
+/*
+ * Newsletter: a quiet terracotta panel with the sign-up form. Entrance
+ * (reveal.ts): the title's words rise one by one out of their line, then the
+ * text and the form slide up and the button's arrow nudges once.
+ */
+.newsletter__panel {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: var(--space-8);
+  overflow: hidden;
+  padding: clamp(var(--space-8), 6vw, var(--space-20));
+  border-radius: var(--radius-lg);
+  background: var(--terracotta-100);
+}
+
+/* On the right only, fading out towards the copy. */
+.newsletter__texture {
+  --texture-fade: linear-gradient(to left, black, transparent 70%); /* taste-skill-ignore: mask fade, not a fill */
+}
+
+.newsletter__title {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.25em;
+}
+
+/* Each word rises out of its own clipped line. */
+.newsletter__word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.newsletter__word > span {
+  display: inline-block;
+  transition: transform var(--dur-slow) var(--ease-out) calc(var(--i) * 70ms);
+}
+
+.newsletter__lede {
+  max-width: 34rem;
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+.newsletter__form {
+  width: min(100%, 36rem);
+}
+
+.newsletter__lede,
+.newsletter__form {
+  transition:
+    opacity var(--dur-slow) var(--ease-out) 350ms,
+    transform var(--dur-slow) var(--ease-out) 350ms;
+}
+
+.newsletter__form {
+  transition-delay: 450ms;
+}
+
+.newsletter__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 700;
+}
+
+.newsletter__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.newsletter__input {
+  flex: 1 1 16rem;
+  /* CF7 prints size="40"; the field takes its row, never its intrinsic width. */
+  min-width: 0;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--space-6);
+  border: 1px solid var(--ink-soft); /* taste-skill-ignore: form field */
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-base);
+}
+
+.newsletter__input::placeholder {
+  color: var(--ink-soft);
+}
+
+.newsletter__input:focus-visible {
+  outline-offset: 2px;
+}
+
+.newsletter__submit {
+  flex: none;
+}
+
+/* One nudge of the arrow once the form is in. */
+.newsletter[data-in] .newsletter__submit svg {
+  animation: newsletter-nudge 600ms var(--ease-out) 1100ms;
+}
+
+@keyframes newsletter-nudge {
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+.newsletter__status {
+  min-height: 1.5em;
+  margin: var(--space-3) 0 0;
+  font-weight: 700;
+}
+
+/* Before the entrance (JS only). */
+.newsletter[data-reveal]:not([data-in]) .newsletter__word > span {
+  transform: translateY(110%);
+}
+
+.newsletter[data-reveal]:not([data-in]) :is(.newsletter__lede, .newsletter__form) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Split from 900px: the invitation left, the form right. */
+@media (min-width: 900px) {
+  .newsletter__panel {
+    grid-template-columns: 1fr minmax(0, 30rem);
+    align-items: end;
+    column-gap: var(--space-16);
+  }
+
+  .newsletter__status {
+    margin-bottom: calc(-1 * (1.5em + var(--space-3)));
+  }
+}
+
+@media (max-width: 599px) {
+  .newsletter__submit {
+    flex: 1 1 100%;
+  }
+}
+
+/* Fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .newsletter__word > span {
+    transition: opacity var(--dur-slow) var(--ease-out);
+  }
+
+  .newsletter[data-reveal]:not([data-in]) .newsletter__word > span {
+    transform: none;
+    opacity: 0;
+  }
+
+  .newsletter[data-reveal]:not([data-in]) :is(.newsletter__lede, .newsletter__form) {
+    transform: none;
+  }
+
+  .newsletter[data-in] .newsletter__submit svg {
+    animation: none;
+  }
+}

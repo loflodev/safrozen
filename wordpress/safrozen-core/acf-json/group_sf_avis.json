@@ -1,0 +1,52 @@
+{
+  "key": "group_sf_avis",
+  "title": "Legim : avis",
+  "fields": [
+    {
+      "key": "field_sf_avis_quote",
+      "label": "Avis",
+      "name": "quote",
+      "type": "textarea",
+      "instructions": "",
+      "required": 1,
+      "rows": 4,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_avis_city",
+      "label": "Ville",
+      "name": "city",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_avis_rating",
+      "label": "Note",
+      "name": "rating",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "min": 1,
+      "max": 5,
+      "default_value": 5
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "avis"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

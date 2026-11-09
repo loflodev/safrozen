@@ -1,0 +1,122 @@
+{
+  "key": "group_sf_options",
+  "title": "Réglages Legim",
+  "fields": [
+    {
+      "key": "field_sf_options_footer_about",
+      "label": "Phrase du pied de page",
+      "name": "footer_about",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_options_contact_address",
+      "label": "Adresse",
+      "name": "contact_address",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_contact_phone",
+      "label": "Téléphone",
+      "name": "contact_phone",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_contact_email",
+      "label": "Courriel",
+      "name": "contact_email",
+      "type": "email",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_contact_hours",
+      "label": "Heures",
+      "name": "contact_hours",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_social_tiktok",
+      "label": "TikTok",
+      "name": "social_tiktok",
+      "type": "url",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_social_facebook",
+      "label": "Facebook",
+      "name": "social_facebook",
+      "type": "url",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_social_instagram",
+      "label": "Instagram",
+      "name": "social_instagram",
+      "type": "url",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_copyright_holder",
+      "label": "Titulaire du droit d’auteur",
+      "name": "copyright_holder",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Les Aliments Safrozen Foods"
+    },
+    {
+      "key": "field_sf_options_privacy_officer_name",
+      "label": "Responsable de la protection des renseignements personnels",
+      "name": "privacy_officer_name",
+      "type": "text",
+      "instructions": "Loi 25 : nom de la personne responsable, affiché sur la politique de confidentialité.",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_privacy_officer_role",
+      "label": "Fonction du responsable",
+      "name": "privacy_officer_role",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_options_google_geocoding_key",
+      "label": "Clé API Google (Geocoding)",
+      "name": "google_geocoding_key",
+      "type": "password",
+      "instructions": "Situe les codes postaux de la page Points de vente. Utilisée seulement par le serveur, jamais montrée aux visiteurs. Dans Google Cloud, limitez-la à l’API Geocoding et à l’adresse IP du serveur. Vide : OpenStreetMap (moins de codes connus).",
+      "required": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "options_page",
+        "operator": "==",
+        "value": "reglages-legim"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

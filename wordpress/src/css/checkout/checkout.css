@@ -1,0 +1,152 @@
+/* Commande (Checkout.css). */
+.checkout__login {
+  margin: 0 0 var(--space-6);
+}
+
+.checkout__step {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.checkout__step .panel__title {
+  margin: 0;
+}
+
+.checkout__step .panel__title:focus {
+  outline: none;
+}
+
+.checkout__choices {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.checkout__choices legend {
+  margin-bottom: var(--space-3);
+}
+
+.checkout__address {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--ground);
+}
+
+.checkout__secure {
+  margin: 0;
+}
+
+.checkout__actions {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+.checkout__actions .btn-chip {
+  margin-left: auto;
+}
+
+@media (max-width: 599px) {
+  .checkout__actions > * {
+    flex: 1 1 100%;
+  }
+}
+
+.checkout__edit {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* WordPress: one step shows at a time (js/checkout.ts); all live in Woo's one form. */
+.checkout__form {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.checkout__step[hidden],
+.checkout__actions[hidden],
+[data-step-only][hidden] {
+  display: none;
+}
+
+.checkout__delivery,
+.checkout__methods {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkout__ship {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.checkout__ship[hidden],
+.checkout__ship [hidden] {
+  display: none;
+}
+
+.checkout__payment {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.checkout__pay {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* A method with its own fields (Square's card form) opens them under its card. */
+.checkout__box {
+  margin-top: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--ground);
+}
+
+.checkout__terms .check {
+  font-weight: 500;
+}
+
+/* checkout.js writes the label back as text, so the trailing arrow is drawn here. */
+.checkout__place::after {
+  content: '';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.checkout__place:hover::after,
+.checkout__place:focus-visible::after {
+  transform: translateX(4px);
+}
+
+.checkout__place[aria-disabled='true'] {
+  cursor: progress;
+}
+
+/* Woo's checkout errors (the post's answer) sit atop the form. */
+.checkout__form > .woocommerce-NoticeGroup .notice {
+  margin: 0;
+}
+
+.checkout__form .notice ul {
+  padding-left: var(--space-6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout__place::after {
+    transition: none;
+  }
+}

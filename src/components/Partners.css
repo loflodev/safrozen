@@ -6,6 +6,7 @@
 .partners {
   padding-inline: 0;
   overflow: hidden;
+  background: var(--ground);
 }
 
 .partners__head {
@@ -17,7 +18,7 @@
 
 /* Edges fade out so logos glide in and out instead of being cut. */
 .partners__viewport {
-  margin-inline: var(--frame-edge);
+  margin: calc(-1 * var(--space-8)) var(--frame-edge);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* taste-skill-ignore: mask fade, not a fill */
 }
 
@@ -28,6 +29,8 @@
   padding: var(--space-8) 0;
   list-style: none;
   will-change: transform;
+  /* will-change isolates the logos: their multiply blends against this ground. */
+  background: var(--ground);
 }
 
 .partners__item {
@@ -52,6 +55,8 @@
   object-fit: contain;
   filter: grayscale(1);
   opacity: 0.7;
+  /* Some logos carry a white box; multiply melts it into the cream ground. */
+  mix-blend-mode: multiply;
   transition:
     transform var(--dur-base) var(--ease-out),
     filter var(--dur-base) var(--ease-out),

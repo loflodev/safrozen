@@ -1,0 +1,54 @@
+{
+  "key": "group_sf_newsletter",
+  "title": "Bloc : Infolettre",
+  "fields": [
+    {
+      "key": "field_sf_newsletter_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Rejoignez notre communauté !"
+    },
+    {
+      "key": "field_sf_newsletter_lede",
+      "label": "Chapeau",
+      "name": "lede",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Recevez nos dernières nouvelles directement dans votre boîte mail."
+    },
+    {
+      "key": "field_sf_newsletter_form",
+      "label": "Formulaire",
+      "name": "form",
+      "type": "post_object",
+      "instructions": "Le formulaire Contact Form 7 « Infolettre ». Les inscriptions sont dans Flamingo.",
+      "required": 0,
+      "post_type": [
+        "wpcf7_contact_form"
+      ],
+      "return_format": "id",
+      "allow_null": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/newsletter"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

@@ -1,0 +1,145 @@
+/*
+ * Partners: the title, then a row of logos drifting left forever (Partners.tsx
+ * writes its transform). Entrance (reveal.ts): the title rises, then the logos
+ * pop up one after another.
+ */
+.partners {
+  padding-inline: 0;
+  overflow: hidden;
+  background: var(--ground);
+}
+
+.partners__head {
+  position: relative;
+  isolation: isolate;
+  padding: 0 var(--frame-edge);
+  --texture-fade: radial-gradient(closest-side, black, transparent); /* taste-skill-ignore: mask fade, not a fill */
+}
+
+/* Edges fade out so logos glide in and out instead of being cut. */
+.partners__viewport {
+  margin: calc(-1 * var(--space-8)) var(--frame-edge);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* taste-skill-ignore: mask fade, not a fill */
+}
+
+.partners__track {
+  display: flex;
+  width: max-content;
+  margin: 0;
+  padding: var(--space-8) 0;
+  list-style: none;
+  will-change: transform;
+  /* will-change isolates the logos: their multiply blends against this ground. */
+  background: var(--ground);
+}
+
+.partners__item {
+  flex: none;
+  padding: 0 var(--space-8);
+  transition:
+    opacity var(--dur-slow) var(--ease-out) calc(300ms + var(--i) * 70ms),
+    transform var(--dur-slow) var(--ease-spring) calc(300ms + var(--i) * 70ms);
+}
+
+.partners__item {
+  display: grid;
+  place-items: center;
+  height: 76px;
+}
+
+/* Monochrome at rest so the row reads as one band; colour comes back on hover. */
+.partners__logo {
+  width: 136px;
+  height: auto;
+  max-height: 76px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  /* Some logos carry a white box; multiply melts it into the cream ground. */
+  mix-blend-mode: multiply;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    filter var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .partners__item:hover .partners__logo {
+    transform: translateY(-4px) scale(1.05);
+    filter: none;
+    opacity: 1;
+  }
+}
+
+.partners__title,
+.partners__lede {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.partners__lede {
+  transition-delay: 120ms;
+}
+
+/* Before the entrance (JS only). */
+.partners[data-reveal]:not([data-in]) :is(.partners__title, .partners__lede) {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.partners[data-reveal]:not([data-in]) .partners__item {
+  opacity: 0;
+  transform: translateY(24px) scale(0.85);
+}
+
+@media (max-width: 599px) {
+  .partners__item {
+    padding: 0 var(--space-4);
+  }
+
+  .partners__logo {
+    width: 100px;
+  }
+
+  .partners__item {
+    height: 56px;
+  }
+}
+
+/* No drift: one copy of the logos, wrapped and centred. */
+@media (prefers-reduced-motion: reduce) {
+  .partners__viewport {
+    mask-image: none;
+  }
+
+  .partners__viewport {
+    margin-inline: 0;
+  }
+
+  .partners__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    padding-inline: var(--frame-edge);
+  }
+
+  .partners__item[aria-hidden] {
+    display: none;
+  }
+
+  .partners__item,
+  .partners__title,
+  .partners__lede,
+  .partners__logo {
+    transition-property: opacity;
+  }
+
+  .partners[data-reveal]:not([data-in]) :is(.partners__title, .partners__lede, .partners__item) {
+    transform: none;
+  }
+
+  .partners__item:hover .partners__logo {
+    transform: none;
+  }
+}

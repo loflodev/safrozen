@@ -1,0 +1,109 @@
+.store-map {
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-hover);
+  font: inherit;
+  z-index: 0; /* keeps Leaflet's panes under the navbar and the mini-cart */
+}
+
+.store-map:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Store pin: the navbar's round chip (white glyph ≥ 4.6:1); ink once selected. */
+.store-pin {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--white);
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  box-shadow: 0 2px 6px var(--card-shadow-far); /* taste-skill-ignore: lifts the pin off the tiles */
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.store-pin--active {
+  background: var(--ink);
+  transform: scale(1.15);
+}
+
+.leaflet-marker-icon:focus-visible {
+  outline: none;
+}
+
+.leaflet-marker-icon:focus-visible .store-pin {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* The visitor: an ink dot with a white ring. */
+.store-you {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 4px solid var(--white);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  box-shadow: 0 0 0 6px var(--card-shadow-far); /* taste-skill-ignore: halo marks "you are here" */
+}
+
+.store-map .leaflet-popup-content-wrapper,
+.store-map .leaflet-popup-tip {
+  box-shadow: /* taste-skill-ignore: the cards' lift (§4) */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
+}
+
+.store-map .leaflet-popup-content-wrapper {
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+}
+
+.store-map .leaflet-popup-content {
+  margin: var(--space-4) var(--space-6) var(--space-4) var(--space-4);
+  font: var(--text-sm) / 1.4 var(--font-body);
+}
+
+.store-popup {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.store-popup strong {
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.store-popup a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-accent-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.store-map .leaflet-bar a {
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+  font-family: var(--font-body); /* Leaflet's default is monospace */
+  line-height: 44px;
+}
+
+.store-map .leaflet-control-attribution {
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-pin {
+    transition: none;
+  }
+}

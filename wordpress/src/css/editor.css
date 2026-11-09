@@ -1,0 +1,10 @@
+/* Block editor: the theme's fonts and tokens, so headings and text read as on the site. */
+@import '@fontsource-variable/manrope/index.css';
+@import '@fontsource/aclonica/latin-400.css';
+@import './tokens.css';
+
+.editor-styles-wrapper {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+}

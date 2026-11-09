@@ -22,13 +22,25 @@
   align-items: center;
 }
 
+/* The product page's lift (§16): an 8px white stroke and the cards' two-layer shadow. */
+.featured__frame {
+  display: grid;
+  border: var(--space-2) solid var(--panel-ground);
+  border-radius: var(--radius-xl);
+  background: var(--panel-ground);
+  box-shadow: /* taste-skill-ignore: the cards' lift, shared with the product page's picture */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
 .featured__panel {
   position: relative;
   isolation: isolate;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: calc(var(--radius-xl) - var(--space-2));
   /* The hero field's own vertical blend (PRODUCTS[].field). */
   background: linear-gradient( /* taste-skill-ignore */
     to bottom,
@@ -159,6 +171,10 @@
 }
 
 /* Before the entrance (JS only). */
+.featured__row[data-reveal]:not([data-in]) .featured__frame {
+  opacity: 0;
+}
+
 .featured__row[data-reveal]:not([data-in]) .featured__panel {
   clip-path: circle(0% at 50% 50%);
 }
@@ -177,18 +193,13 @@
   transform: translateY(24px);
 }
 
-.featured__title,
-.featured__lede {
+.featured__title {
   transition:
     opacity var(--dur-slow) var(--ease-out),
     transform var(--dur-slow) var(--ease-out);
 }
 
-.featured__lede {
-  transition-delay: 120ms;
-}
-
-.featured[data-reveal]:not([data-in]) :is(.featured__title, .featured__lede) {
+.featured[data-reveal]:not([data-in]) .featured__title {
   opacity: 0;
   transform: translateY(32px);
 }
@@ -212,7 +223,7 @@
     grid-template-columns: 5fr 7fr;
   }
 
-  .featured__row:nth-child(even) .featured__panel {
+  .featured__row:nth-child(even) .featured__frame {
     order: 2;
   }
 }
@@ -243,7 +254,7 @@
 
   .featured__row:nth-child(n)[data-reveal]:not([data-in]) .featured__pic,
   .featured__row[data-reveal]:not([data-in]) .featured__line,
-  .featured[data-reveal]:not([data-in]) :is(.featured__title, .featured__lede) {
+  .featured[data-reveal]:not([data-in]) .featured__title {
     transform: none;
   }
 

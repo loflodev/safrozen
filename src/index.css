@@ -54,7 +54,7 @@ img {
   scroll-margin-top: 88px;
   position: relative;
   z-index: 1;
-  padding: clamp(var(--space-16), 10vw, var(--space-32)) var(--frame-edge);
+  padding: var(--section-pad) var(--frame-edge);
   background: var(--benefit-ground);
 }
 
@@ -203,8 +203,7 @@ img {
   --nav-bottom: 88px;
   position: relative;
   min-height: 70svh;
-  padding: calc(var(--nav-bottom) + var(--space-12)) var(--frame-edge)
-    clamp(var(--space-16), 10vw, var(--space-32));
+  padding: calc(var(--nav-bottom) + var(--space-12)) var(--frame-edge) var(--section-pad);
   background: var(--color-bg);
 }
 
@@ -351,6 +350,56 @@ select.field__control {
   background-repeat: no-repeat;
   background-position: right var(--space-6) center;
   cursor: pointer;
+}
+
+/* An input with a button at its end (the store search's clear button). */
+.field__box {
+  position: relative;
+}
+
+.field__box .field__control {
+  padding-right: calc(var(--space-2) + 44px + var(--space-2));
+}
+
+.field__end {
+  position: absolute;
+  top: 50%;
+  right: var(--space-2);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  translate: 0 -50%;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    scale var(--dur-fast) var(--ease-out);
+}
+
+.field__end[hidden] {
+  display: none;
+}
+
+.field__end:hover,
+.field__end:focus-visible {
+  background: var(--terracotta-100);
+}
+
+.field__end:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.field__end:active {
+  scale: 0.96;
+  transition-duration: var(--dur-press);
 }
 
 .field__control:focus-visible {

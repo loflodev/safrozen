@@ -1,0 +1,243 @@
+/*
+ * Recipes archive (home.php, category.php) and a single recipe (single.php),
+ * ported from src/pages/Recipes.css. The cards are the landing's (blocks/recipes.css);
+ * here they rise in with the page instead of the landing's curtain.
+ */
+@import './blocks/recipes.css';
+@import './shop/product-card.css';
+@import './shop/empty-state.css';
+
+.recipes-grid > li {
+  --delay: 0ms;
+}
+
+.recipes-grid {
+  display: grid;
+  gap: var(--space-12) var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recipes-grid > li {
+  animation: page-rise var(--dur-reveal) var(--ease-spring) both;
+  animation-delay: calc(150ms + var(--i) * 80ms);
+}
+
+@media (min-width: 600px) {
+  .recipes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .recipes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.recipe-page__hero {
+  display: grid;
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+.recipe-page__tile {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-xl);
+  background: var(--terracotta-100);
+  animation: page-rise var(--dur-reveal) var(--ease-spring) 120ms both;
+}
+
+.recipe-page__tile img {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-8);
+  object-fit: contain;
+}
+
+.recipe-page__facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+}
+
+@media (min-width: 700px) {
+  .recipe-page__facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.recipe-page__facts dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.recipe-page__facts dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.recipe-page__read {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.recipe-page__body {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+  margin-bottom: var(--space-16);
+}
+
+.recipe-page__ingredients ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-6);
+  line-height: 1.5;
+}
+
+.recipe-page__steps ol {
+  display: grid;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+/* Numbered steps: the number in a round gradient chip (like the step dots). */
+.recipe-page__steps li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: var(--space-4);
+  max-width: 40rem;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  counter-increment: step;
+}
+
+.recipe-page__steps li::before {
+  content: counter(step);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+@media (min-width: 900px) {
+  .recipe-page__body {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-12);
+  }
+
+  .recipe-page__ingredients {
+    position: sticky;
+    top: calc(var(--nav-bottom) + var(--space-4));
+  }
+}
+
+.recipe-page__product {
+  display: grid;
+  gap: var(--space-6);
+  margin-bottom: var(--space-24);
+}
+
+.recipe-page__product .panel__title {
+  margin: 0;
+}
+
+.recipe-page__product-card {
+  max-width: 24rem;
+}
+
+.recipe-page__product-card {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* WordPress: an optional article above the recipe, in one readable column. */
+.recipe-page__content {
+  max-width: 68ch;
+  margin-bottom: var(--space-12);
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+.recipe-page__content > :first-child {
+  margin-top: 0;
+}
+
+.recipe-page__content > :last-child {
+  margin-bottom: 0;
+}
+
+/* WordPress: page links under the archive, as pills (the current one in ink). */
+.recipes-pages {
+  margin-top: var(--space-16);
+}
+
+.recipes-pages .screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.recipes-pages .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.recipes-pages .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--panel-ground);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.recipes-pages a.page-numbers:hover,
+.recipes-pages a.page-numbers:focus-visible {
+  background: var(--color-hover);
+}
+
+.recipes-pages a.page-numbers:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
+}
+
+.recipes-pages .page-numbers.current {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.recipes-pages .page-numbers.dots {
+  background: none;
+}

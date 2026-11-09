@@ -1,0 +1,63 @@
+{
+  "key": "group_sf_info",
+  "title": "Legim : page d’information",
+  "fields": [
+    {
+      "key": "field_sf_info_lede",
+      "label": "Chapeau",
+      "name": "lede",
+      "type": "textarea",
+      "instructions": "La phrase sous le titre.",
+      "required": 0,
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_info_updated",
+      "label": "Dernière mise à jour",
+      "name": "updated",
+      "type": "date_picker",
+      "instructions": "Affichée sous le chapeau. Laissez vide pour ne rien afficher. À changer à chaque modification d’une page légale.",
+      "required": 0,
+      "display_format": "j F Y",
+      "return_format": "Y-m-d"
+    },
+    {
+      "key": "field_sf_info_contact_card",
+      "label": "Carte « Nous joindre » en fin de page",
+      "name": "contact_card",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "ui": 1,
+      "default_value": 0
+    },
+    {
+      "key": "field_sf_info_officer",
+      "label": "Afficher le responsable de la protection des renseignements",
+      "name": "officer",
+      "type": "true_false",
+      "instructions": "Pour la politique de confidentialité : ajoute le nom et la fonction (Réglages Legim) à la carte.",
+      "required": 0,
+      "ui": 1,
+      "default_value": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "page_template",
+        "operator": "==",
+        "value": "page-info.php"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "acf_after_title",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

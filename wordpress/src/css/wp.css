@@ -1,0 +1,111 @@
+/*
+ * WordPress-only adjustments: the admin bar, the navbar's icon swap, and
+ * Contact Form 7's markup inside the theme's own form styles.
+ */
+
+/* The admin bar (signed-in editors) sits above the fixed navbar. */
+.admin-bar .nav {
+  top: calc(var(--space-4) + 32px);
+}
+
+@media (max-width: 782px) {
+  .admin-bar .nav {
+    top: calc(var(--space-4) + 46px);
+  }
+}
+
+/* The mobile panel's height also leaves room for the admin bar. */
+@media (max-width: 899px) {
+  .admin-bar .nav__menu {
+    max-height: calc(100svh - var(--logo-size) - 3 * var(--space-4) - 32px);
+  }
+}
+
+@media (max-width: 782px) {
+  .admin-bar .nav__menu {
+    max-height: calc(100svh - var(--logo-size) - 3 * var(--space-4) - 46px);
+  }
+}
+
+/* Menu toggle: both icons are printed, the script shows one. */
+.nav__toggle [data-icon] {
+  display: contents;
+}
+
+.nav__toggle [data-icon][hidden] {
+  display: none;
+}
+
+/* Contact Form 7: its wrappers step aside so the theme's layout applies. */
+.wpcf7-form-control-wrap {
+  display: contents;
+}
+
+.wpcf7 form .wpcf7-response-output {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wpcf7-not-valid-tip {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-error);
+}
+
+.wpcf7-spinner {
+  display: none;
+}
+
+.wpcf7-form.submitting [type='submit'] {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.wpcf7 .screen-reader-response {
+  position: absolute;
+  width: 1px;
+  height: 1px; /* taste-skill-ignore: screen-reader text, not a rule */
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.wpcf7 .hidden-fields-container {
+  display: none;
+}
+
+/* The status line under the form; CF7 hides it until there is something to say. */
+.wpcf7 form.init .wpcf7-response-output,
+.wpcf7 form.resetting .wpcf7-response-output,
+.wpcf7 form.submitting .wpcf7-response-output {
+  display: none;
+}
+
+/* The newsletter keeps its status line's room, so the panel never jumps. */
+.newsletter .wpcf7 form .wpcf7-response-output {
+  display: block;
+  min-height: 1.5em;
+  margin: var(--space-3) 0 0;
+  font-weight: 700;
+}
+
+.newsletter .wpcf7-form.invalid .wpcf7-response-output,
+.newsletter .wpcf7-form.failed .wpcf7-response-output {
+  color: var(--color-error);
+}
+
+/* A field's error drops onto its own line under the email/button row. */
+.newsletter__row .wpcf7-not-valid-tip {
+  flex-basis: 100%;
+  order: 3;
+  margin-top: 0;
+}
+
+/* CF7 prints size="40", which would widen the email field past its row. */
+.wpcf7 .newsletter__input {
+  min-width: 0;
+}

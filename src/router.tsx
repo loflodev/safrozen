@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, redirect } from 'react-router'
 import App from './App'
 import Home from './pages/Home'
 
@@ -37,10 +37,13 @@ export const router = createBrowserRouter([
       { path: 'recettes', lazy: page(() => import('./pages/RecipesArchive')) },
       { path: 'recettes/:slug', lazy: page(() => import('./pages/RecipeDetail')) },
       { path: 'contact', lazy: page(() => import('./pages/Contact')) },
-      ...['livraison', 'faq', 'retours', 'cgv', 'confidentialite', 'mentions-legales'].map((path) => ({
+      { path: 'points-de-vente', lazy: page(() => import('./pages/StoreLocator')) },
+      ...['notre-histoire', 'livraison', 'faq', 'retours', 'cgv', 'confidentialite', 'conditions-utilisation'].map((path) => ({
         path,
         lazy: page(() => import('./pages/InfoPage')),
       })),
+      // The French-law mentions légales became the terms of use (Québec).
+      { path: 'mentions-legales', loader: () => redirect('/conditions-utilisation') },
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },

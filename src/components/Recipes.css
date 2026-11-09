@@ -171,17 +171,48 @@
 @media (min-width: 900px) {
   .recipes__list {
     grid-template-columns: 7fr 5fr;
-    grid-template-rows: auto auto;
+    /* Rows 1–4 are the lead's picture (the pair sits in 2 and 3, centred on it
+       by the two 1fr rows); 5–7 hold the lead's title, excerpt and meta. */
+    grid-template-rows: 1fr auto auto 1fr auto auto auto;
     gap: 0 var(--space-16);
+    container-type: inline-size;
   }
 
-  .recipe:first-child {
-    grid-row: span 2;
+  .recipe:first-child,
+  .recipe:first-child .recipe__card {
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-rows: subgrid;
   }
 
+  /* Stretched: where the pair is taller than the 5:4 picture (narrow screens),
+     the tile grows to it rather than leaving a gap above the title. */
   .recipe:first-child .recipe__tile {
-    aspect-ratio: 5 / 4;
+    grid-row: 1 / 5;
+    align-self: stretch;
+    aspect-ratio: auto;
+    /* 5:4 of the 7fr column; size containment keeps the square image from
+       sizing the rows. */
+    min-height: calc((100cqw - var(--space-16)) * 7 / 12 * 4 / 5);
+    contain: size;
+    margin-bottom: var(--space-3);
   }
+
+  .recipe:first-child .recipe__excerpt,
+  .recipe:first-child .recipe__meta {
+    margin-top: var(--space-3);
+  }
+
+  .recipe:nth-child(2) {
+    grid-row: 2;
+    margin-bottom: var(--space-6);
+  }
+
+  .recipe:nth-child(3) {
+    grid-row: 3;
+    margin-top: var(--space-6);
+  }
+
 
   .recipe:first-child .recipe__title {
     font-size: var(--text-title);
@@ -191,11 +222,6 @@
   }
 
   /* The two rows: thumbnail left, text right. */
-  .recipe:not(:first-child) {
-    align-self: center;
-    padding-block: var(--space-8);
-  }
-
   .recipe:not(:first-child) .recipe__card {
     grid-template-columns: 9rem 1fr;
     column-gap: var(--space-6);

@@ -1,0 +1,59 @@
+{
+  "key": "group_sf_testimonials",
+  "title": "Bloc : Avis clients",
+  "fields": [
+    {
+      "key": "field_sf_testimonials_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Ils en parlent"
+    },
+    {
+      "key": "field_sf_testimonials_lede",
+      "label": "Chapeau",
+      "name": "lede",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Ce que nos clients disent de Legim Express."
+    },
+    {
+      "key": "field_sf_testimonials_average",
+      "label": "Note moyenne",
+      "name": "average",
+      "type": "text",
+      "instructions": "Laisser vide pour masquer le résumé.",
+      "required": 0,
+      "default_value": "4,9"
+    },
+    {
+      "key": "field_sf_testimonials_count_label",
+      "label": "Nombre d’avis",
+      "name": "count_label",
+      "type": "text",
+      "instructions": "Les trois derniers avis (menu Avis) s’affichent seuls.",
+      "required": 0,
+      "default_value": "D’après 120 avis"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/testimonials"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

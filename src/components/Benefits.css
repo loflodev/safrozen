@@ -16,15 +16,25 @@
   --crop-w: 876;
   --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
   --nav-bottom: 88px;
+  /* Rounded corners: the section overlaps the hero by its radius, so the
+     hero's field shows in the top corners (24px on phones, where the hero's
+     button sits 42px above the screen's bottom on a 360x640 phone). */
+  --round: var(--radius-xl);
   position: relative;
-  /* Pulled up over the hero's exit step (one stage height), above its pinned
-     stage. The wheel opens it from a centre line out to both edges (--leave,
-     set on <main>); without JS it is simply open. */
-  z-index: 1;
-  margin-top: -100svh;
-  clip-path: inset(0 calc(50% * (1 - var(--leave, 1))));
+  /* Above the Story too, so the shadow falls on it. taste-skill-ignore */
+  z-index: 2;
+  margin-top: calc(-1 * var(--round));
+  /* Top corners only; the bottom meets the Story flat. */
+  border-radius: var(--round) var(--round) 0 0;
+  /* Lifted (brand request, taste-skill-ignore): the cards' shadow tokens, mostly cast down onto
+     the Story, a lighter one up onto the hero. */
+  box-shadow: /* taste-skill-ignore */
+    0 -2px 8px var(--card-shadow-near),
+    0 6px 16px var(--card-shadow-near);
+  /* The parallax layers move past the section's edges, never into the
+     neighbours; the clip also follows the rounded corners. */
+  overflow: clip;
   background: var(--benefit-ground);
-  padding-bottom: var(--space-16);
 }
 
 /* Stacked: a plain block. Wide landscape: one full screen (see the media query). */
@@ -72,9 +82,16 @@
  * collage's cut-outs, which their lift raises off it. The cards are
  * opaque, so no text crosses a line.
  */
+/*
+ * Parallax (--par, Benefits.tsx): the texture is held back most (furthest), the
+ * collage less (wide landscape only, below), the cards scroll with the page.
+ * The texture overhangs by its travel, so its edge never shows.
+ */
 .benefits__texture {
   position: absolute;
-  inset: 0;
+  inset: calc(-1 * var(--par-texture)) 0;
+  transform: translate3d(0, calc(var(--par, 0) * var(--par-texture)), 0);
+  will-change: transform;
   background-color: var(--benefit-line);
   /* Kept quiet: a texture, not an illustration. */
   opacity: 0.6;
@@ -91,6 +108,10 @@
 }
 
 @media (max-width: 599px) {
+  .benefits {
+    --round: var(--radius-lg);
+  }
+
   .benefits__texture {
     mask-size: 440px 440px;
   }
@@ -197,8 +218,8 @@
     0 12px 28px var(--card-shadow-far);
   cursor: pointer;
   /* The entrance (`transform`, --card-dur, staggered by --card-delay: both set
-     from Benefits.tsx, timed to the counter) and the hover lift
-     (`translate`) are separate properties, so they never fight. */
+     from Benefits.tsx, timed to the counter) and the hover lift (`translate`)
+     are separate properties, so they never fight. */
   transition:
     opacity var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
     transform var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
@@ -246,12 +267,51 @@
 }
 
 /*
+ * Mobile: one screen. The collage stays on top and fades out at its bottom
+ * (so its crop never shows as a line), and the cards sit on the screen's
+ * bottom, riding up over the faded part on short phones. The texture fades
+ * out at the section's end, into the Story's white.
+ */
+@media (max-width: 899px) {
+  .benefits__stage {
+    height: 100svh;
+  }
+
+  /* Full width, so the crop's right edge is the screen's. */
+  .benefits__art {
+    width: 100%;
+    mask-image: linear-gradient(to bottom, black 62%, transparent); /* taste-skill-ignore: mask, not a fill */
+  }
+
+  .benefits__texture {
+    mask-image: url('/images/veg-pattern.svg'), linear-gradient(black 85%, transparent); /* taste-skill-ignore: mask, not a fill */
+    mask-size: 640px 640px, 100% 100%;
+    mask-repeat: repeat, no-repeat;
+    mask-composite: intersect;
+  }
+
+  .benefits__copy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--space-8);
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 599px) {
+  .benefits__texture {
+    mask-size: 440px 440px, 100% 100%;
+  }
+}
+
+/*
  * Wide landscape: the picture fills the section's height, anchored left, and
  * the copy sits on the frame's right edge inside the white right of the cut
  * (--cut-x of the picture's width), 32px clear of it.
  */
 @media (min-width: 1200px) and (min-aspect-ratio: 3/2) {
-  /* One screen; the Story is drawn over it (Story.css). */
+  /* One screen. */
   .benefits {
     --nav-bottom: 128px;
     --h: max(100svh, 640px);
@@ -267,8 +327,10 @@
     overflow: hidden;
   }
 
+  /* Drawn taller by the parallax travel, so the pot's and the box's cut edges
+     (the picture's top and bottom) never show as it moves. */
   .benefits__art {
-    --pic-w: max(100cqw, 160cqh);
+    --pic-w: max(100cqw, 160cqh + 3.2 * var(--par-collage));
     position: absolute;
     inset: 0;
     width: auto;
@@ -283,10 +345,15 @@
     left: 0;
     width: var(--pic-w);
     translate: -3px -50%;
+    transform: translate3d(0, calc(var(--par, 0) * var(--par-collage)), 0);
+    will-change: transform;
   }
 
   .benefits__copy {
-    width: min(30rem, 100% - var(--cut-x) * max(100%, 1.6 * var(--h)) - var(--frame-edge) - 32px);
+    width: min(
+      30rem,
+      100% - var(--cut-x) * max(100%, 1.6 * var(--h) + 3.2 * var(--par-collage)) - var(--frame-edge) - 32px
+    );
     margin-left: auto;
     margin-right: var(--frame-edge);
     padding: 0;
@@ -294,6 +361,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* No parallax (--par is never set either). */
+  .benefits__texture,
+  .benefits__canvas {
+    transform: none;
+  }
+
   /* The cards are simply there. */
   .benefit-card {
     transform: none;

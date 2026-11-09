@@ -8,12 +8,13 @@ const LINKS = [
   { href: '/', label: 'Accueil' },
   { href: '/boutique', label: 'Boutique' },
   { href: '/recettes', label: 'Recettes' },
-  { href: '/#histoire', label: 'Histoire' },
+  { href: '/notre-histoire', label: 'Histoire' },
   { href: '/contact', label: 'Contact' },
 ]
 
 // WooCommerce's customer pages and the store's information pages.
 const HELP = [
+  { href: '/points-de-vente', label: 'Trouver un magasin' },
   { href: '/suivi', label: 'Suivi de commande' },
   { href: '/mon-compte', label: 'Mon compte' },
   { href: '/livraison', label: 'Livraison' },
@@ -79,15 +80,15 @@ export default function Footer() {
           <address className="footer__list footer__contact">
             <span>
               <PinIcon />
-              1234, rue Jean-Talon Est, Montréal (Québec)
+              Québec, Canada H1L 3A9
             </span>
-            <a className="footer__link" href="tel:+15145550142">
+            <a className="footer__link" href="tel:+14389698712">
               <PhoneIcon />
-              514 555-0142
+              +1 (438) 969 8712
             </a>
-            <a className="footer__link" href="mailto:bonjour@legimexpress.ca">
+            <a className="footer__link" href="mailto:infos@safrozen.com">
               <MailIcon />
-              bonjour@legimexpress.ca
+              infos@safrozen.com
             </a>
             <span>
               <ClockIcon />
@@ -119,10 +120,10 @@ export default function Footer() {
       </p>
 
       <div className="footer__bottom">
-        <p>© 2026 Les Aliments Safrozen. Tous droits réservés.</p>
+        <p>© 2026 Les Aliments Safrozen Foods. Tous droits réservés.</p>
         <p className="footer__legal">
-          <Link className="footer__link" to="/mentions-legales">
-            Mentions légales
+          <Link className="footer__link" to="/conditions-utilisation">
+            Conditions d’utilisation
           </Link>
           <Link className="footer__link" to="/cgv">
             CGV

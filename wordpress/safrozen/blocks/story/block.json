@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "safrozen/story",
+	"title": "Notre histoire",
+	"category": "safrozen",
+	"icon": "groups",
+	"description": "La photo de famille et le texte de notre histoire.",
+	"textdomain": "safrozen",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": false,
+		"customClassName": false,
+		"multiple": false,
+		"reusable": false,
+		"mode": false
+	},
+	"style": ["safrozen-story"],
+	"acf": {
+		"blockVersion": 3,
+		"mode": "edit",
+		"renderTemplate": "render.php"
+	}
+}

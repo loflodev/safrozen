@@ -73,6 +73,9 @@
 
 .newsletter__input {
   flex: 1 1 16rem;
+  /* CF7 prints size="40"; the field takes its row, never its intrinsic width. */
+  min-width: 0;
+  width: 100%;
   min-height: 52px;
   padding: 0 var(--space-6);
   border: 1px solid var(--ink-soft); /* taste-skill-ignore: form field */

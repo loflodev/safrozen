@@ -1,0 +1,219 @@
+/*
+ * Testimonials: three review cards on the cream ground. Entrance (reveal.ts):
+ * from 900px the cards start as one fanned deck on the middle card's spot and
+ * are dealt out to their places (middle first, overshooting slightly), then
+ * the stars pop in one by one. Stacked, they slide in from alternate sides.
+ */
+.testimonials {
+  overflow-x: clip;
+  background: var(--ground);
+}
+
+/* Rating summary at the right of the title. */
+.testimonials__score {
+  display: flex;
+  align-items: end;
+  gap: var(--space-6);
+  margin: 0;
+}
+
+.testimonials__avg {
+  font-size: var(--text-title);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.testimonials__max {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+}
+
+.testimonials__count {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 900px) {
+  .testimonials__score {
+    justify-self: end;
+  }
+}
+
+.testimonials__list {
+  --gap: var(--space-8);
+  display: grid;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review {
+  --deal-delay: calc(var(--i) * 120ms);
+  display: grid;
+  transition:
+    opacity var(--dur-slow) var(--ease-out) var(--deal-delay),
+    transform 1000ms var(--ease-spring) var(--deal-delay);
+}
+
+/* Square, white and lifted like the Benefits cards. taste-skill-ignore */
+.review__card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-6);
+  margin: 0;
+  padding: var(--space-8);
+  background: var(--benefit-ground);
+  box-shadow: /* taste-skill-ignore */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
+  transition:
+    translate var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .review__card:hover {
+    translate: 0 -6px;
+    box-shadow: /* taste-skill-ignore */
+      0 4px 10px var(--card-shadow-near),
+      0 20px 40px var(--card-shadow-far);
+  }
+}
+
+.review__stars {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0;
+  color: var(--color-accent);
+}
+
+.review__star {
+  --star-delay: calc(var(--deal-delay) + 700ms + var(--s) * 60ms);
+  transition:
+    opacity var(--dur-fast) var(--ease-out) var(--star-delay),
+    transform var(--dur-base) var(--ease-spring) var(--star-delay);
+}
+
+.review__quote {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.review__quote p {
+  margin: 0;
+}
+
+.review__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+/* Like the Benefits icon chips: white on the navbar gradient. */
+.review__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.review__name {
+  display: block;
+  font-weight: 800;
+}
+
+.review__city {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.testimonials__title,
+.testimonials__lede,
+.testimonials__score {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+/* Before the entrance (JS only). */
+.testimonials[data-reveal]:not([data-in]) :is(.testimonials__title, .testimonials__lede, .testimonials__score) {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.testimonials[data-reveal]:not([data-in]) .review__star {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.testimonials[data-reveal]:not([data-in]) .review {
+  opacity: 0;
+}
+
+.testimonials[data-reveal]:not([data-in]) .review:nth-child(odd) {
+  transform: translateX(-64px) rotate(-4deg);
+}
+
+.testimonials[data-reveal]:not([data-in]) .review:nth-child(even) {
+  transform: translateX(64px) rotate(4deg);
+}
+
+@media (min-width: 900px) {
+  .testimonials__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* The deck: the middle card on top, dealt first. */
+  .review:nth-child(2) {
+    z-index: 1;
+    --deal-delay: 0ms;
+  }
+
+  .review:nth-child(1),
+  .review:nth-child(3) {
+    --deal-delay: 120ms;
+  }
+
+  .testimonials[data-reveal]:not([data-in]) .review:nth-child(1) {
+    transform: translateX(calc(100% + var(--gap))) rotate(-8deg) scale(0.92);
+  }
+
+  .testimonials[data-reveal]:not([data-in]) .review:nth-child(2) {
+    transform: translateY(48px) scale(0.92);
+    opacity: 0;
+  }
+
+  .testimonials[data-reveal]:not([data-in]) .review:nth-child(3) {
+    transform: translateX(calc(-100% - var(--gap))) rotate(8deg) scale(0.92);
+  }
+
+}
+
+/* Fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .testimonials[data-reveal]:not([data-in]) .review:nth-child(n),
+  .testimonials[data-reveal]:not([data-in]) :is(.testimonials__title, .testimonials__lede, .testimonials__score, .review__star) {
+    transform: none;
+  }
+
+  .review__card:hover {
+    translate: none;
+  }
+}

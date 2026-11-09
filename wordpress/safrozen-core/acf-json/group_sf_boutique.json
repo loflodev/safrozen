@@ -1,0 +1,83 @@
+{
+  "key": "group_sf_boutique",
+  "title": "Legim : point de vente",
+  "fields": [
+    {
+      "key": "field_sf_boutique_address",
+      "label": "Adresse",
+      "name": "address",
+      "type": "text",
+      "instructions": "",
+      "required": 1
+    },
+    {
+      "key": "field_sf_boutique_city",
+      "label": "Ville",
+      "name": "city",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_boutique_postcode",
+      "label": "Code postal",
+      "name": "postcode",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_boutique_phone",
+      "label": "Téléphone",
+      "name": "phone",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_boutique_hours",
+      "label": "Heures",
+      "name": "hours",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 3,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_boutique_lat",
+      "label": "Latitude",
+      "name": "lat",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "step": "any"
+    },
+    {
+      "key": "field_sf_boutique_lng",
+      "label": "Longitude",
+      "name": "lng",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "step": "any"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "boutique"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

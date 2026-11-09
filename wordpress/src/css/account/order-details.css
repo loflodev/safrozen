@@ -1,0 +1,191 @@
+.order {
+  display: grid;
+  gap: var(--space-8);
+}
+
+/* Key facts on one white strip (like the product spec strip). */
+.order__facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+}
+
+.order__facts dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.order__facts dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+@media (min-width: 700px) {
+  .order__facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.order__grid {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.order__addresses {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.order__addresses .panel__title {
+  margin-bottom: var(--space-3);
+}
+
+.order__text,
+.order__method,
+.order__note {
+  margin: var(--space-3) 0 0;
+  line-height: 1.5;
+}
+
+.order__method,
+.order__note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 900px) {
+  .order__grid {
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-12);
+  }
+
+  .order__addresses {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* The summary panel (OrderSummary.tsx), without the cart's coupon and action. */
+.summary {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.summary .panel__title {
+  margin: 0;
+}
+
+.summary__lines {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary__lines li,
+.summary__totals > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  line-height: 1.5;
+}
+
+.summary__lines li > :last-child,
+.summary__totals dd {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.summary__qty {
+  color: var(--color-text-muted);
+}
+
+.summary__totals {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--ground);
+}
+
+.summary__totals dt {
+  color: var(--color-text-muted);
+}
+
+.summary__totals dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.summary__discount dd {
+  color: var(--color-success);
+}
+
+.summary__remove {
+  margin-left: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent-text);
+  font: 700 var(--text-sm) / 1.5 var(--font-body);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.summary__total {
+  padding-top: var(--space-2);
+}
+
+.summary__total dt {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.summary__total .price {
+  font-size: var(--text-xl);
+}
+
+/* WordPress: Woo's shipping row reads "8,00 $ via Livraison standard"; the
+   method goes under the price so the row never outgrows a phone. */
+.summary__totals .shipped_via {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: normal;
+  text-align: right;
+  color: var(--color-text-muted);
+}
+
+.summary__totals dd {
+  text-align: right;
+}
+
+/* Grid items never grow past the column (long e-mails, prices). */
+.order,
+.track__result {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.order__progress {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.order__progress-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.order__progress .panel__title,
+.summary .panel__title {
+  margin: 0;
+}

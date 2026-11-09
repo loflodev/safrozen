@@ -1,0 +1,80 @@
+{
+  "key": "group_sf_recipe",
+  "title": "Legim : recette",
+  "fields": [
+    {
+      "key": "field_sf_recipe_reading_time",
+      "label": "Temps de lecture",
+      "name": "reading_time",
+      "type": "text",
+      "instructions": "Ex. « 4 min de lecture ». Vide : calculé.",
+      "required": 0
+    },
+    {
+      "key": "field_sf_recipe_serves",
+      "label": "Portions",
+      "name": "serves",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_recipe_time",
+      "label": "Temps total",
+      "name": "time",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_sf_recipe_product",
+      "label": "Produit utilisé",
+      "name": "product",
+      "type": "post_object",
+      "instructions": "",
+      "required": 0,
+      "post_type": [
+        "product"
+      ],
+      "return_format": "id",
+      "allow_null": 1
+    },
+    {
+      "key": "field_sf_recipe_ingredients",
+      "label": "Ingrédients",
+      "name": "ingredients",
+      "type": "textarea",
+      "instructions": "Un ingrédient par ligne.",
+      "required": 0,
+      "rows": 6,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_recipe_steps",
+      "label": "Étapes",
+      "name": "steps",
+      "type": "textarea",
+      "instructions": "Une étape par ligne.",
+      "required": 0,
+      "rows": 8,
+      "new_lines": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "post"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

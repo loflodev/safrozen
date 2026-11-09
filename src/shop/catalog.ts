@@ -164,7 +164,7 @@ export type DeliveryMethod = { id: string; label: string; detail: string; price:
 export const DELIVERY: DeliveryMethod[] = [
   { id: 'standard', label: 'Livraison standard', detail: 'Grand Montréal, en 2 à 3 jours ouvrables', price: 799, freeFrom: 6000 },
   { id: 'express', label: 'Livraison express', detail: 'Le lendemain, commandé avant 14 h', price: 1299 },
-  { id: 'pickup', label: 'Cueillette', detail: '1234, rue Jean-Talon Est, dès le lendemain', price: 0 },
+  { id: 'pickup', label: 'Cueillette', detail: 'Québec, H1L 3A9, dès le lendemain', price: 0 },
 ]
 
 // TODO: payment methods are mocked; no payment is taken.

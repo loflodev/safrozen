@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "safrozen/featured",
+	"title": "Meilleures ventes",
+	"category": "safrozen",
+	"icon": "products",
+	"description": "Deux produits mis en avant, avec prix et bouton Ajouter au panier.",
+	"textdomain": "safrozen",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": false,
+		"customClassName": false,
+		"multiple": false,
+		"reusable": false,
+		"mode": false
+	},
+	"style": ["safrozen-featured"],
+	"acf": {
+		"blockVersion": 3,
+		"mode": "edit",
+		"renderTemplate": "render.php"
+	}
+}

@@ -1,39 +1,52 @@
 /*
- * Story: the family picture and the "Prêt en 20 minutes" copy. Stacked, an
- * ordinary section after Benefits; wide landscape, drawn over the Benefits
- * screen and played on its own clock (Story.tsx: --t, --wipe, --swap).
+ * Story: the family picture and the "Prêt en 20 minutes" copy, an ordinary
+ * section after Benefits. Wide landscape: copy left, picture right.
  */
 .story {
-  /* In container units: also used in top/height (the panel), where % is height. */
+  /* In container units, so the panel can reach the section's edge. */
   --frame-edge: max(var(--gutter), (100cqw - var(--frame-max)) / 2);
-  --nav-bottom: 88px;
-  /* Story column (wide landscape) and the family picture beside it. */
-  --story-w: min(32rem, 40%);
-  /* The photo's width, shared by the photo and the panel behind it. */
+  /* The photo's width; its right edge is 100cqw - --photo-right from the section's. */
   --photo-w: min(100cqw - 2 * var(--frame-edge), 48rem);
+  --photo-right: calc(100cqw - var(--frame-edge) - var(--photo-w));
   position: relative;
-  container-type: inline-size;
-  /* Above Benefits; opened by the hero along with it (see Benefits.css). */
   z-index: 1;
-  clip-path: inset(0 calc(50% * (1 - var(--leave, 1))));
+  container-type: inline-size;
+  /* The panel slides in from past the right edge. */
+  overflow-x: clip;
   background: var(--benefit-ground);
-  padding-bottom: var(--space-16);
+  padding-block: var(--section-pad);
 }
 
 /*
- * The one entrance for the picture (stacked) and the lines: --t (0 -> 1, set
- * from JS) fades each in and lifts it 40px; at rest (no JS) --t is 1.
+ * Entrance (useReveal): once the section is in view, the picture settles and
+ * the lines rise 40px one after another (--i, set in Story.tsx), and the panel
+ * slides in from the edge. Without JS (no data-reveal) everything is in place.
  */
+.story__photo,
 .story__line,
-.story__photo {
-  opacity: var(--t, 1);
-  transform: translateY(calc((1 - var(--t, 1)) * 40px));
+.story__panel {
+  transition:
+    opacity var(--dur-reveal) var(--ease-out) calc(var(--i, 0) * 100ms),
+    transform var(--dur-reveal) var(--ease-spring) calc(var(--i, 0) * 100ms);
 }
 
-/* Wide landscape only. */
-.story__wipe,
-.story__veil {
-  display: none;
+.story__panel {
+  --i: 1;
+}
+
+.story[data-reveal]:not([data-in]) .story__line {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.story[data-reveal]:not([data-in]) .story__photo {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.story[data-reveal]:not([data-in]) .story__panel {
+  opacity: 0;
+  transform: translateX(48px);
 }
 
 /*
@@ -41,24 +54,27 @@
  * right and runs off the section's right edge, so the photo overlaps it. No
  * text sits on it.
  */
+.story__media {
+  position: relative;
+  width: var(--photo-w);
+  margin: 0 var(--frame-edge);
+}
+
 .story__panel {
   position: absolute;
-  top: calc(var(--photo-w) * 1023 / 1537 * 0.35);
-  right: 0;
-  left: calc(var(--frame-edge) + var(--photo-w) * 0.4);
-  height: calc(var(--photo-w) * 1023 / 1537 * 0.65 + var(--space-6));
+  top: 35%;
+  bottom: calc(-1 * var(--space-6));
+  left: 40%;
+  right: calc(-1 * var(--photo-right));
   border-radius: var(--radius-xl) 0 0 var(--radius-xl);
   background: var(--terracotta-100);
 }
 
-/* Stacked: Benefits' bottom padding already sets the gap above the picture. */
 .story__photo {
   position: relative;
   display: block;
-  width: var(--photo-w);
-  max-width: 48rem;
+  width: 100%;
   height: auto;
-  margin: 0 var(--frame-edge);
   border-radius: var(--radius-lg);
 }
 
@@ -103,104 +119,50 @@
 }
 
 /*
- * Wide landscape: exactly over the Benefits screen (pulled up one --h), with
- * no ground of its own, so it adds no scroll. Until the picture is in, it lets
- * the pointer through to the cards and the ring (Story.tsx).
+ * Wide landscape: copy left (--story-w), picture right, centred on each other,
+ * the panel still running from behind the picture off the section's edge.
  */
 @media (min-width: 1200px) and (min-aspect-ratio: 3/2) {
   .story {
-    --nav-bottom: 128px;
-    --h: max(100svh, 640px);
-    /* The wipe: wide enough to clear the card and story column, soft 96px edge. */
-    --wipe-w: calc(var(--frame-edge) + 32rem + 48px + 96px);
-    --photo-w: min(
-      100cqw - 2 * var(--frame-edge) - var(--story-w) - 64px,
-      (var(--h) - var(--nav-bottom) - var(--space-16)) * 1537 / 1023
-    );
-    height: var(--h);
-    margin-top: calc(-1 * var(--h));
-    padding: 0;
-    overflow: hidden;
-    background: none;
-    pointer-events: none;
+    --story-w: min(32rem, 40cqw);
+    --photo-w: min(100cqw - 2 * var(--frame-edge) - var(--story-w) - 64px, 48rem);
+    --photo-right: var(--frame-edge);
+    /* The frame margins are columns, not padding: the section keeps its full
+       width, so 100cqw inside it reaches its edges. */
+    display: grid;
+    grid-template-columns: var(--frame-edge) var(--story-w) 64px 1fr var(--frame-edge);
+    align-items: center;
   }
 
-  /* White sweeping left to right over the cards and the texture. */
-  .story__wipe {
-    display: block;
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: var(--wipe-w);
-    background: linear-gradient(to right, var(--benefit-ground) calc(100% - 96px), transparent); /* taste-skill-ignore: soft edge of the erasing white */
-    transform: translateX(calc((var(--wipe, 0) - 1) * 100%));
-  }
-
-  /*
-   * bb4 fading out to the white, drawn as white fading in over it, over the
-   * first 60% of the swap so the two pictures barely overlap. Its soft left
-   * edge sits inside the wipe's solid white, just right of the cards, so the
-   * cards are only ever wiped, not faded, and the wipe's own soft edge is fully
-   * covered once both are done.
-   */
-  .story__veil {
-    display: block;
-    position: absolute;
-    inset: 0;
-    background: var(--benefit-ground);
-    mask-image: linear-gradient(to right, transparent calc(var(--wipe-w) - 192px), black calc(var(--wipe-w) - 96px)); /* taste-skill-ignore: mask fade, not a fill */
-    opacity: clamp(0, var(--swap, 0) / 0.6, 1);
-  }
-
-  /*
-   * Wide: the panel is the right half of the room, from under the navbar to
-   * near the bottom, behind the photo's right half. It slides in from the
-   * edge just before the photo.
-   */
-  .story__panel {
-    --o: clamp(0, (var(--swap, 0) - 0.3) / 0.6, 1);
-    inset: calc(var(--nav-bottom) + var(--space-8)) 0 var(--space-8) auto;
-    left: auto;
-    width: calc(var(--frame-edge) + var(--photo-w) * 0.55);
-    height: auto;
-    opacity: var(--o);
-    transform: translateX(calc((1 - var(--o)) * 48px));
-  }
-
-  /* On the right, centred under the navbar; in over the last 60% of the swap. */
-  .story__photo {
-    position: absolute;
-    top: calc((var(--nav-bottom) + var(--h)) / 2);
-    right: var(--frame-edge);
-    width: var(--photo-w);
-    max-width: none;
+  .story__media {
+    grid-area: 1 / 4;
+    justify-self: end;
     margin: 0;
-    border-radius: var(--radius-xl);
-    opacity: clamp(0, (var(--swap, 0) - 0.4) / 0.6, 1);
-    transform: translateY(-50%) scale(calc(1.04 - 0.04 * var(--swap, 0)));
   }
 
-  /* On the white the cards left, centred under the navbar. */
+  .story__photo {
+    border-radius: var(--radius-xl);
+  }
+
+  /* Taller here: behind the photo's right 55%, from above it to below it. */
+  .story__panel {
+    top: calc(-1 * var(--space-8));
+    bottom: calc(-1 * var(--space-8));
+    left: 45%;
+  }
+
   .story__copy {
-    position: absolute;
-    inset: var(--nav-bottom) auto 0 var(--frame-edge);
-    width: var(--story-w);
+    grid-area: 1 / 2;
     max-width: none;
-    align-content: center;
-    padding: 0 0 var(--space-8);
+    padding: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Steps switch at their midpoint (Story.tsx) with no travel. */
-  .story__line,
-  .story__photo,
-  .story__panel {
+  /* Opacity only, no travel. */
+  .story[data-reveal]:not([data-in]) .story__line,
+  .story[data-reveal]:not([data-in]) .story__photo,
+  .story[data-reveal]:not([data-in]) .story__panel {
     transform: none;
-  }
-
-  @media (min-width: 1200px) and (min-aspect-ratio: 3/2) {
-    .story__photo {
-      transform: translateY(-50%);
-    }
   }
 }

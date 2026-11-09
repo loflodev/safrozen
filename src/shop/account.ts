@@ -21,7 +21,7 @@ export type Account = {
 }
 
 export const MIN_PASSWORD = 8
-export const DEMO_EMAIL = 'demo@legimexpress.ca'
+export const DEMO_EMAIL = 'demo@safrozen.com'
 
 export const AccountContext = createContext<Account | null>(null)
 

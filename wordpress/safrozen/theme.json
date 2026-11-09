@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": false,
+		"layout": { "contentSize": "68ch", "wideSize": "1280px" },
+		"color": {
+			"custom": false,
+			"customGradient": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"palette": [
+				{ "slug": "ink", "name": "Encre", "color": "#201e1e" },
+				{ "slug": "ink-soft", "name": "Encre douce", "color": "#4a4545" },
+				{ "slug": "ground", "name": "Crème", "color": "#fbf7f4" },
+				{ "slug": "white", "name": "Blanc", "color": "#ffffff" },
+				{ "slug": "orange-600", "name": "Orange (texte)", "color": "#c64914" },
+				{ "slug": "terracotta-100", "name": "Terracotta pâle", "color": "#f6e4dc" }
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"defaultFontSizes": false,
+			"dropCap": false,
+			"fontFamilies": [
+				{ "slug": "body", "name": "Manrope", "fontFamily": "'Manrope Variable', system-ui, sans-serif" },
+				{ "slug": "wordmark", "name": "Aclonica", "fontFamily": "'Aclonica', 'Manrope Variable', sans-serif" }
+			],
+			"fontSizes": [
+				{ "slug": "sm", "name": "Petit", "size": "0.875rem" },
+				{ "slug": "base", "name": "Normal", "size": "1rem" },
+				{ "slug": "lg", "name": "Grand", "size": "clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem)" },
+				{ "slug": "xl", "name": "Titre de carte", "size": "clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem)" },
+				{ "slug": "title", "name": "Titre de section", "size": "clamp(2.25rem, 1.4rem + 2.2vw, 3.5rem)" }
+			]
+		},
+		"spacing": {
+			"customSpacingSize": false,
+			"defaultSpacingSizes": false,
+			"units": ["px", "rem", "%"],
+			"spacingSizes": [
+				{ "slug": "4", "name": "1", "size": "1rem" },
+				{ "slug": "8", "name": "2", "size": "2rem" },
+				{ "slug": "12", "name": "3", "size": "3rem" },
+				{ "slug": "16", "name": "4", "size": "4rem" }
+			]
+		}
+	}
+}

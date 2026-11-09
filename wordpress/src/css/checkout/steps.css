@@ -1,0 +1,97 @@
+/* Three-step progress (CheckoutSteps.css). Done steps can be revisited. */
+.steps {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps__item {
+  flex: 1;
+}
+
+.steps__btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-4) var(--space-1) var(--space-1);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--panel-ground);
+  color: var(--color-text-muted);
+  font: 700 var(--text-sm) / 1.2 var(--font-body);
+  text-align: left;
+}
+
+.steps__btn:not(:disabled) {
+  cursor: pointer;
+}
+
+.steps__btn:not(:disabled):hover {
+  background: var(--color-hover);
+}
+
+.steps__dot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--ground);
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.steps__dot svg {
+  display: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* A done step shows its check instead of its number. */
+.steps__item[data-state='done'] .steps__num {
+  display: none;
+}
+
+.steps__item[data-state='done'] .steps__dot svg {
+  display: block;
+}
+
+.steps__item[data-state='current'] .steps__btn {
+  color: var(--ink);
+}
+
+/* The current and done steps take the navbar chip; white on it is ≥ 4.6:1. */
+.steps__item[data-state='current'] .steps__dot,
+.steps__item[data-state='done'] .steps__dot {
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+}
+
+.steps__item[data-state='done'] .steps__btn {
+  color: var(--ink);
+}
+
+@media (max-width: 599px) {
+  .steps__item:not([data-state='current']) .steps__label {
+    position: absolute;
+    width: 1px;
+    height: 1px; /* taste-skill-ignore: visually hidden label, not a rule */
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .steps__item:not([data-state='current']) {
+    flex: none;
+  }
+
+  .steps__item:not([data-state='current']) .steps__btn {
+    padding-right: var(--space-1);
+  }
+}

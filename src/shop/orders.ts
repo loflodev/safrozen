@@ -58,7 +58,7 @@ const SEED: Order[] = [
     id: '1041',
     date: '2026-10-29',
     status: 'shipped',
-    email: 'demo@legimexpress.ca',
+    email: 'demo@safrozen.com',
     lines: [
       { id: 'lalo', name: 'Legim Express au Lalo', price: 1299, quantity: 2 },
       { id: 'eggplant', name: "Legim Express à l'Aubergine", price: 1299, quantity: 1 },
@@ -75,7 +75,7 @@ const SEED: Order[] = [
     id: '1038',
     date: '2026-10-12',
     status: 'delivered',
-    email: 'demo@legimexpress.ca',
+    email: 'demo@safrozen.com',
     lines: [{ id: 'pack-famille', name: 'Pack famille', price: 6499, quantity: 1 }],
     totals: { count: 1, subtotal: 6499, discount: 0, delivery: 0, total: 6499 },
     coupon: null,

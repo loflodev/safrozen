@@ -166,8 +166,8 @@
   display: none;
 }
 
-/* "Mon compte" sits in the dropdown only when its round chip is hidden. */
-.nav__menu-only {
+/* The grouped list with icons belongs to the mobile panel only. */
+.nav__groups {
   display: none;
 }
 
@@ -214,16 +214,68 @@
     transition-delay: 0s;
   }
 
-  .nav__links {
-    flex-direction: column;
-    align-items: stretch;
-    height: auto;
+  /* Taller than a short phone once open, so the panel scrolls on its own. */
+  .nav__menu {
+    max-height: calc(100svh - var(--logo-size) - 3 * var(--space-4));
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
-  .nav__links .nav__pill {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .nav__group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Sentence case and full white: 4.81:1 at the panel's lightest point. */
+  .nav__group-title {
+    margin: 0 0 var(--space-1);
+    padding: var(--space-2) var(--space-4) 0;
+    color: var(--color-on-chip);
+    font: 800 var(--text-sm) / 1.3 var(--font-body);
+  }
+
+  .nav__item {
     justify-content: flex-start;
+    gap: var(--space-3);
+    width: 100%;
     min-height: 48px;
     font-size: var(--text-base);
+  }
+
+  .nav__item svg {
+    flex: none;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* The current page keeps its darker pill. */
+  .nav__item[aria-current]::before {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Portrait tablets: Découvrir beside Aide, the account below. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .nav__groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-3);
+  }
+
+  .nav__group:last-child {
+    grid-column: 1 / -1;
   }
 }
 
@@ -233,14 +285,10 @@
   }
 }
 
-/* Under 420px five chips don't fit beside the logo: the account moves into the menu. */
+/* Under 420px five chips don't fit beside the logo: the menu's account group covers it. */
 @media (max-width: 419px) {
   .nav__account {
     display: none;
-  }
-
-  .nav__menu-only {
-    display: block;
   }
 }
 

@@ -1,0 +1,99 @@
+/* Four steps (five with an Interac payment, --steps) joined by a track; done steps fill the track in the chip gradient.
+   Horizontal from 600px, vertical below. */
+.timeline {
+  --dot: 40px;
+  display: grid;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--dot) 1fr;
+  column-gap: var(--space-4);
+  align-items: center;
+}
+
+/* Track to the next step (a tone step, not a hairline: 4px wide, rounded). */
+.timeline__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: var(--dot);
+  left: calc(var(--dot) / 2 - 2px);
+  width: 4px;
+  height: calc(100% - var(--dot) + var(--space-6)); /* down to the next dot */
+  border-radius: var(--radius-pill);
+  background: var(--color-hover);
+}
+
+.timeline__step[data-state='done']::after {
+  background: var(--orange-600);
+}
+
+.timeline__dot {
+  display: grid;
+  place-items: center;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: var(--radius-pill);
+  background: var(--color-hover);
+  color: var(--color-on-chip);
+}
+
+.timeline__dot svg {
+  width: 20px;
+  height: 20px;
+}
+
+.timeline__step[data-state='done'] .timeline__dot,
+.timeline__step[data-state='current'] .timeline__dot {
+  background: var(--gradient-chip);
+}
+
+.timeline__label {
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.timeline__step:not([data-state='todo']) .timeline__label {
+  color: var(--ink);
+}
+
+.timeline__detail {
+  grid-column: 2;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 600px) {
+  .timeline {
+    grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .timeline__step {
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+    row-gap: var(--space-3);
+  }
+
+  .timeline__step:not(:last-child)::after {
+    height: 4px;
+  }
+
+  .timeline__step:not(:last-child)::after {
+    top: calc(var(--dot) / 2 - 2px);
+    left: calc(var(--dot) + var(--space-2));
+    width: calc(100% - var(--dot) - var(--space-4) + var(--space-4));
+    height: 4px;
+  }
+
+  .timeline__detail {
+    grid-column: 1;
+  }
+}

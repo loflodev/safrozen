@@ -33,6 +33,129 @@
   font-weight: 700;
 }
 
+/* The fold (under 600px): Accueil / … / current page, on one line. */
+.crumbs__more {
+  position: relative;
+  display: none;
+}
+
+.crumbs__toggle {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 28px;
+  margin: -4px 0;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.crumbs__toggle:hover,
+.crumbs__toggle:focus-visible,
+.crumbs__toggle[aria-expanded='true'] {
+  background: var(--color-hover);
+}
+
+.crumbs__toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.crumbs__toggle:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
+}
+
+.crumbs__menu {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 12rem;
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+  box-shadow: /* taste-skill-ignore: the cards' lift, so the dropdown reads above the page */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
+  animation: crumbs-drop var(--dur-fast) var(--ease-out);
+}
+
+.crumbs__menu[hidden] {
+  display: none;
+}
+
+.crumbs .crumbs__menu li::before {
+  content: none;
+}
+
+.crumbs__menu a,
+.crumbs__menu span {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  font-size: var(--text-base);
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.crumbs__menu a:hover,
+.crumbs__menu a:focus-visible {
+  background: var(--color-hover);
+  color: var(--ink);
+}
+
+@keyframes crumbs-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 599px) {
+  .crumbs[data-foldable] ol {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .crumbs[data-foldable] .crumbs__more {
+    display: block;
+  }
+
+  .crumbs[data-foldable] .crumbs__mid {
+    display: none;
+  }
+
+  .crumbs[data-foldable] li {
+    flex: none;
+  }
+
+  /* A long page name ends in an ellipsis rather than wrapping. */
+  .crumbs[data-foldable] .crumbs__current {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 /* Every inner page's content rises in once on load (§16). */
 @keyframes page-rise {
   from {
@@ -42,6 +165,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  @keyframes crumbs-drop {
+    from {
+      opacity: 0;
+    }
+  }
+
   @keyframes page-rise {
     from {
       opacity: 0;

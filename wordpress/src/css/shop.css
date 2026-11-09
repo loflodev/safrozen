@@ -1,0 +1,4 @@
+/* Shop pages (WooCommerce): product cards and grid, the boutique bar, empty states. */
+@import './shop/product-card.css';
+@import './shop/empty-state.css';
+@import './shop/shop.css';

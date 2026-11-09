@@ -1,16 +1,58 @@
 // TODO: placeholder copy for the store's information pages until the legal
-// texts are written. Each page is a title, a lede and sections.
+// texts are written (the story is final). Each page is a title, a lede and
+// sections; a section without a heading continues the text above it. A body block is a
+// paragraph, or a list when it's an array. `contact` ends the page with the contact card.
+export type InfoBlock = string | string[]
 export type InfoPage = {
   slug: string
   title: string
   lede: string
   updated?: string
-  sections: { heading: string; body: string[] }[]
+  contact?: boolean
+  officer?: { name: string; role: string } // the privacy officer, shown in the contact card (Law 25)
+  sections: { heading?: string; body: InfoBlock[] }[]
 }
 
 export const INFO_PAGES: InfoPage[] = [
   {
+    slug: 'notre-histoire',
+    title: 'Notre Histoire',
+    lede: 'Une idée née de la COVID, une solution pour notre communauté.',
+    sections: [
+      {
+        body: [
+          'La COVID-19 a changé beaucoup de choses dans nos vies. Elle nous a forcés à ralentir, à réfléchir autrement et surtout, à prendre conscience de l’importance de notre alimentation, de notre famille et de notre communauté.',
+          'Durant cette période, une question toute simple nous est venue à l’esprit :',
+          'Pourquoi trouvait-on dans les congélateurs des petits pois, des pizzas, des légumes préparés et toutes sortes de plats prêts à manger… mais presque aucun véritable plat haïtien ?',
+          'Pourtant, notre cuisine est riche. Elle raconte notre histoire, notre culture et notre identité. Elle rassemble les familles autour d’une même table.',
+          'Alors, pourquoi ne pas avoir une solution qui nous ressemble ?',
+          'C’est ainsi qu’est née l’idée de créer un produit haïtien congelé, sain, nourrissant et pratique, qui permettrait de retrouver le goût de chez nous, même lorsque le temps manque ou que certains ingrédients ne sont pas facilement accessibles.',
+        ],
+      },
+      {
+        heading: 'Legim Express',
+        body: [
+          'La réalité est simple : plusieurs légumes essentiels à nos recettes traditionnelles sont saisonniers et parfois difficiles à trouver au Québec. Certains doivent être importés de l’Amérique latine, du Mexique ou des Caraïbes. Durant la COVID, nous avons particulièrement ressenti cette fragilité de notre approvisionnement.',
+          'Nous nous sommes alors posé une autre question :',
+          'Et si nous pouvions conserver nos saveurs, nos ingrédients et nos traditions autrement ?',
+          'Et si un plat qui demande habituellement plusieurs heures de préparation et de cuisson pouvait être prêt en environ 20 minutes ?',
+          'Ce produit ne serait pas simplement un repas congelé.',
+          'Ce serait du temps gagné.',
+          'Du temps pour les enfants.\nDu temps pour la famille.\nDu temps pour recevoir un ami.\nDu temps pour rire, discuter et partager autour d’une table.',
+          'Parce qu’au fond, notre objectif n’est pas seulement de rendre la cuisine haïtienne plus pratique.',
+          'Notre objectif est de rendre notre culture plus accessible, sans sacrifier la qualité, le goût et la nutrition.',
+          'Nous voulons créer une solution pensée par et pour notre communauté : une solution qui permet de manger haïtien plus souvent, même lorsque la vie va vite.',
+          'Un produit qui nous rappelle que la modernité et la tradition peuvent avancer ensemble.',
+          'Du congélateur à la table, en quelques minutes.\nMoins de temps en cuisine. Plus de temps ensemble.\nLa richesse de notre cuisine, disponible en tout temps.',
+          'Parce que préserver notre culture, ce n’est pas seulement regarder derrière nous.',
+          'C’est aussi trouver de nouvelles façons de la faire vivre demain.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'livraison',
+    contact: true,
     title: 'Livraison',
     lede: 'Vos legims voyagent au froid, de notre cuisine à votre congélateur.',
     sections: [
@@ -25,13 +67,19 @@ export const INFO_PAGES: InfoPage[] = [
         heading: 'Frais',
         body: [
           'Livraison standard : 7,99 $, offerte dès 60 $ d’achat.',
-          'Livraison express : 12,99 $. Cueillette au 1234, rue Jean-Talon Est : gratuite.',
+          'Livraison express : 12,99 $. Cueillette (Québec, H1L 3A9) : gratuite.',
         ],
       },
       {
         heading: 'Chaîne du froid',
         body: [
           'Les boîtes sont livrées dans un sac isotherme avec de la glace sèche. Rangez-les au congélateur dès réception.',
+        ],
+      },
+      {
+        heading: 'Retard de livraison',
+        body: [
+          'La date de livraison prévue figure dans votre confirmation de commande. Si votre commande n’est pas livrée dans les 30 jours suivant cette date, vous pouvez l’annuler et être remboursé, comme le prévoit la Loi sur la protection du consommateur (voir Annulation, retours et remboursements).',
         ],
       },
     ],
@@ -44,51 +92,356 @@ export const INFO_PAGES: InfoPage[] = [
       { heading: 'Combien de temps se gardent les legims ?', body: ['Trois mois au congélateur, à −18 °C. Une fois décongelés, consommez-les dans les 48 heures.'] },
       { heading: 'Faut-il les décongeler avant de les cuire ?', body: ['Non. Videz la boîte encore congelée dans une casserole avec un peu d’eau et laissez mijoter 20 minutes.'] },
       { heading: 'Les legims sont-ils épicés ?', body: ['Non, la base est douce pour que chacun l’assaisonne à son goût.'] },
-      { heading: 'Puis-je modifier ma commande ?', body: ['Oui, tant qu’elle n’est pas préparée. Écrivez-nous à bonjour@legimexpress.ca avec votre numéro de commande.'] },
-      { heading: 'Où trouver vos produits en magasin ?', body: ['Chez nos partenaires épiciers du Grand Montréal. La liste complète arrive bientôt.'] },
+      { heading: 'Puis-je modifier ma commande ?', body: ['Oui, tant qu’elle n’est pas préparée. Écrivez-nous à infos@safrozen.com avec votre numéro de commande.'] },
+      { heading: 'Où trouver vos produits en magasin ?', body: ['Chez nos partenaires épiciers du Grand Montréal. Entrez votre code postal sur la page « Trouver un magasin » (lien en bas de page) pour voir le plus proche.'] },
     ],
   },
+  // Returns and cancellation: the Consumer Protection Act's distance-contract rules
+  // (LPC s. 54.8–54.14) and the legal warranty (s. 37–38), for frozen food.
   {
     slug: 'retours',
-    title: 'Retours et remboursements',
-    lede: 'Un problème avec votre commande ? On s’en occupe.',
-    updated: '2026-11-01',
+    contact: true,
+    title: 'Annulation, retours et remboursements',
+    lede: 'Un problème avec votre commande ? Voici ce que nous faisons, et ce que la loi vous garantit.',
+    updated: '2026-11-06',
     sections: [
-      { heading: 'Produits abîmés ou manquants', body: ['Écrivez-nous dans les 48 heures suivant la livraison avec une photo : nous remplaçons ou remboursons la boîte.'] },
-      { heading: 'Produits surgelés', body: ['Pour des raisons de sécurité alimentaire, nous ne reprenons pas les boîtes livrées en bon état.'] },
-      { heading: 'Remboursement', body: ['Le remboursement est fait sur le moyen de paiement d’origine sous 5 à 10 jours ouvrables.'] },
+      {
+        heading: 'Annuler ou modifier une commande',
+        body: [
+          'Tant que votre commande n’est pas préparée, vous pouvez la modifier ou l’annuler sans frais : écrivez-nous avec votre numéro de commande. Une fois préparée, la chaîne du froid est entamée et la commande ne peut plus être annulée, sauf dans les cas prévus par la loi (ci-dessous).',
+        ],
+      },
+      {
+        heading: 'Produits abîmés, manquants ou non conformes',
+        body: [
+          'Vérifiez votre commande à la réception. Si une boîte est abîmée, décongelée, manquante ou ne correspond pas à votre commande, écrivez-nous dans les 48 heures avec votre numéro de commande et une photo. Selon votre choix, nous remplaçons le produit ou vous remboursons.',
+        ],
+      },
+      {
+        heading: 'Produits surgelés en bon état',
+        body: [
+          'Pour des raisons de salubrité, nous ne reprenons pas les produits alimentaires livrés en bon état et conformes à la commande : nous ne pouvons pas garantir qu’ils ont été conservés au froid après la livraison.',
+        ],
+      },
+      {
+        heading: 'Vos droits d’annulation selon la loi',
+        body: [
+          'La Loi sur la protection du consommateur vous permet d’annuler un achat fait en ligne, notamment :',
+          [
+            'dans les 7 jours suivant la réception de votre copie du contrat, si nous ne vous avons pas fourni avant la commande les renseignements exigés par la loi ou si le contrat ne les reprend pas ;',
+            'dans les 30 jours suivant la commande, si nous ne vous avons pas transmis de copie du contrat dans les 15 jours ;',
+            'avant la livraison, si votre commande n’est pas livrée dans les 30 jours suivant la date de livraison prévue ou, à défaut de date, dans les 30 jours suivant la commande.',
+          ],
+          'Pour annuler, envoyez-nous un avis écrit par courriel ou par la poste. Nous vous remboursons toutes les sommes payées, y compris les frais de livraison, dans les 15 jours suivant l’annulation, et assumons les frais de retour s’il y a lieu.',
+        ],
+      },
+      {
+        heading: 'Remboursement',
+        body: [
+          'Le remboursement est fait sur le moyen de paiement d’origine. Si vous avez payé par carte de crédit et que nous ne vous remboursons pas dans les 15 jours suivant une annulation permise par la loi, vous pouvez demander à l’émetteur de votre carte d’annuler la transaction (rétrofacturation).',
+        ],
+      },
+      {
+        heading: 'Garantie légale',
+        body: [
+          'Nos produits bénéficient de la garantie légale prévue par la Loi sur la protection du consommateur : ils doivent pouvoir servir à l’usage auquel ils sont destinés et être conformes à leur description. Rien dans cette page ne limite cette garantie.',
+        ],
+      },
     ],
   },
+  // Terms of sale: the information the Consumer Protection Act requires before a
+  // distance contract (LPC s. 54.4), the order steps (s. 54.5–54.7), no arbitration
+  // clause (s. 11.1) and no limit on the legal warranty (s. 37–38).
   {
     slug: 'cgv',
+    contact: true,
     title: 'Conditions générales de vente',
-    lede: 'Les règles qui encadrent vos achats sur legimexpress.ca.',
-    updated: '2026-11-01',
+    lede: 'Les règles qui encadrent vos achats sur safrozen.com, conformément à la Loi sur la protection du consommateur du Québec.',
+    updated: '2026-11-06',
     sections: [
-      { heading: 'Vendeur', body: ['Les Aliments Safrozen, 1234, rue Jean-Talon Est, Montréal (Québec).'] },
-      { heading: 'Prix', body: ['Les prix sont en dollars canadiens. Les aliments de base sont détaxés.'] },
-      { heading: 'Commande', body: ['La commande est ferme une fois le paiement confirmé. Un e-mail de confirmation vous est envoyé.'] },
-      { heading: 'Livraison', body: ['Voir la page Livraison pour les zones, les délais et les frais.'] },
+      {
+        heading: 'Le commerçant',
+        body: [
+          'Le site safrozen.com est exploité par Les Aliments Safrozen Foods, dont Legim Express est l’un des produits.',
+          [
+            'Adresse : Québec, Canada H1L 3A9',
+            'Téléphone : +1 (438) 969 8712',
+            'Courriel : infos@safrozen.com',
+          ],
+        ],
+      },
+      {
+        heading: 'Application',
+        body: [
+          'Ces conditions s’appliquent à toute commande passée sur le site par un consommateur. En passant commande, vous confirmez les avoir lues et acceptées. Elles ne limitent aucun des droits que vous accorde la Loi sur la protection du consommateur.',
+        ],
+      },
+      {
+        heading: 'Produits',
+        body: [
+          'Nos plats sont précuits et congelés. Chaque fiche produit indique la description, le poids, le nombre de portions, la liste des ingrédients, les allergènes et le mode de conservation. Les photos sont des suggestions de présentation. Les produits sont offerts jusqu’à épuisement des stocks.',
+        ],
+      },
+      {
+        heading: 'Prix et taxes',
+        body: [
+          'Les prix sont en dollars canadiens. Avant de confirmer votre commande, le panier détaille le prix de chaque produit, les frais de livraison, les taxes applicables s’il y a lieu, les rabais et le total à payer. Le prix facturé est celui affiché au moment de la commande.',
+        ],
+      },
+      {
+        heading: 'Commande',
+        body: [
+          'Avant de payer, le récapitulatif de commande vous permet de vérifier vos produits, vos coordonnées, le mode et la date de livraison, et de corriger toute erreur. Vous pouvez accepter ou abandonner la commande à cette étape.',
+          'Une fois la commande passée, vous recevez par courriel une confirmation qui tient lieu de copie du contrat, avec tous les renseignements exigés par la loi. Nous vous la transmettons au plus tard dans les 15 jours suivant la commande.',
+        ],
+      },
+      {
+        heading: 'Paiement',
+        body: [
+          'Vous pouvez payer par carte de crédit (Visa, Mastercard, American Express), par virement Interac ou à la livraison. Le paiement par carte est traité par notre processeur de paiement sur une page sécurisée : nous ne voyons ni ne conservons votre numéro de carte complet.',
+        ],
+      },
+      {
+        heading: 'Livraison',
+        body: [
+          'Nous livrons le Grand Montréal. Le mode, les frais et la date prévue de livraison sont indiqués avant le paiement et repris dans la confirmation. Les produits voyagent au froid et doivent être placés au congélateur dès leur réception. Voir la page Livraison pour les zones, les délais et les frais.',
+        ],
+      },
+      {
+        heading: 'Annulation, retours et garantie',
+        body: [
+          'Les conditions d’annulation, de retour, d’échange et de remboursement sont décrites sur la page Annulation, retours et remboursements, qui fait partie de ces conditions. Vos produits bénéficient de la garantie légale prévue par la Loi sur la protection du consommateur.',
+        ],
+      },
+      {
+        heading: 'Conservation et salubrité',
+        body: [
+          'Conservez les produits à −18 °C ou moins et suivez le mode de préparation indiqué sur l’emballage. Une fois décongelé, un produit ne doit pas être recongelé.',
+        ],
+      },
+      {
+        heading: 'Renseignements personnels',
+        body: [
+          'Les renseignements fournis lors d’une commande servent à la traiter, à la livrer et à vous en informer. Notre Politique de confidentialité explique comment nous les protégeons et comment exercer vos droits.',
+        ],
+      },
+      {
+        heading: 'Litiges et droit applicable',
+        body: [
+          'Ces conditions sont régies par les lois du Québec et du Canada applicables. En cas de désaccord, écrivez-nous d’abord : nous cherchons toujours une solution. Vous pouvez aussi vous renseigner sur vos droits auprès de l’Office de la protection du consommateur (opc.gouv.qc.ca). Ces conditions ne vous obligent à aucun arbitrage.',
+        ],
+      },
+      {
+        heading: 'Modifications',
+        body: [
+          'Nous pouvons modifier ces conditions. La version applicable à votre commande est celle en vigueur au moment où vous l’avez passée ; la date de la dernière mise à jour figure en haut de cette page.',
+        ],
+      },
     ],
   },
+  // Privacy policy: Québec's private-sector privacy act as amended by Law 25 (person in
+  // charge s. 3.1, published policy s. 3.2, notice at collection s. 8, tracking s. 8.1,
+  // outside Québec s. 17, retention s. 23, access and portability s. 27, de-indexing
+  // s. 28.1, minors s. 4.1, incidents s. 3.5), plus CASL for the newsletter. It follows
+  // the layout of boissonsolutionx.ca's policy.
+  // TODO: confirm with the client the person in charge, the host, the e-mail and
+  // payment providers and the retention periods; add any analytics tool here (off by default).
   {
     slug: 'confidentialite',
+    contact: true,
     title: 'Politique de confidentialité',
-    lede: 'Ce que nous faisons de vos données, et ce que nous n’en faisons pas.',
-    updated: '2026-11-01',
+    lede: 'Ce que nous recueillons sur safrozen.com, pourquoi, combien de temps nous le gardons et comment exercer vos droits, conformément à la Loi sur la protection des renseignements personnels dans le secteur privé du Québec (Loi 25).',
+    updated: '2026-11-06',
     sections: [
-      { heading: 'Données collectées', body: ['Votre nom, votre adresse, votre e-mail et votre téléphone, pour livrer vos commandes et vous en informer.'] },
-      { heading: 'Partage', body: ['Nous ne vendons pas vos données. Seuls notre livreur et notre prestataire de paiement en reçoivent ce qui leur est nécessaire.'] },
-      { heading: 'Vos droits', body: ['Vous pouvez consulter, corriger ou supprimer vos données en nous écrivant à bonjour@legimexpress.ca.'] },
+      {
+        heading: 'Portée de la politique',
+        body: [
+          'Cette politique s’applique au site safrozen.com, exploité par Les Aliments Safrozen Foods, et aux renseignements que vous nous transmettez par son intermédiaire : commande, compte client, suivi de commande, formulaire de contact, infolettre et recherche de points de vente. Elle ne couvre pas les sites de tiers vers lesquels nous faisons un lien, comme nos réseaux sociaux ou Google Maps.',
+        ],
+      },
+      {
+        heading: 'Renseignements que nous recueillons',
+        body: [
+          'Nous recueillons seulement ce qui est nécessaire aux fins indiquées plus bas :',
+          [
+            'commande : nom, adresses de facturation et de livraison, courriel, téléphone, produits achetés, mode de livraison et de paiement, instructions de livraison ;',
+            'compte client : nom, courriel, mot de passe (conservé sous forme chiffrée), adresses enregistrées et historique de commandes ;',
+            'formulaire de contact : nom, courriel, téléphone (facultatif), sujet et message ;',
+            'infolettre : votre adresse courriel ;',
+            'suivi de commande : numéro de commande et courriel, pour vérifier qu’elle vous appartient ;',
+            'points de vente : le code postal que vous saisissez ou, si vous l’autorisez, votre position approximative.',
+          ],
+          'Nous ne recevons jamais votre numéro de carte complet : le paiement par carte est saisi directement chez notre processeur de paiement.',
+        ],
+      },
+      {
+        heading: 'Pourquoi nous les utilisons',
+        body: [
+          [
+            'Traiter, préparer, livrer et facturer vos commandes, et vous en informer.',
+            'Gérer votre compte client et votre historique de commandes.',
+            'Répondre à vos questions et traiter vos demandes de service.',
+            'Vous envoyer l’infolettre, si vous y êtes abonné.',
+            'Vous indiquer les points de vente les plus proches.',
+            'Prévenir la fraude et les abus, et respecter nos obligations légales et fiscales.',
+          ],
+          'Nous n’utilisons pas vos renseignements à d’autres fins sans votre consentement, sauf dans les cas prévus par la loi. Nous ne prenons aucune décision fondée exclusivement sur un traitement automatisé.',
+        ],
+      },
+      {
+        heading: 'Votre consentement',
+        body: [
+          'En passant commande, en créant un compte ou en nous écrivant, vous consentez à ce que nous utilisions vos renseignements aux fins décrites ci-dessus. L’infolettre demande votre consentement exprès : vous pouvez vous désabonner en tout temps par le lien présent dans chaque envoi, et nous cessons les envois dans un délai de 10 jours ouvrables.',
+          'Vous pouvez retirer votre consentement en tout temps en écrivant à la personne responsable indiquée plus bas, sous réserve des renseignements que la loi nous oblige à conserver.',
+        ],
+      },
+      {
+        heading: 'Témoins (cookies) et suivi',
+        body: [
+          'Le site utilise seulement les témoins et le stockage local nécessaires à son fonctionnement : votre panier, votre session et votre connexion au compte. Ils ne servent pas à vous profiler.',
+          'Nous n’utilisons aucun témoin publicitaire ni outil de mesure d’audience. Si nous en ajoutions un, il serait désactivé par défaut et ne serait activé qu’avec votre accord. Nos polices de caractères sont hébergées sur nos propres serveurs.',
+          'Vous pouvez effacer les témoins et le stockage local dans les réglages de votre navigateur ; votre panier sera alors vidé.',
+        ],
+      },
+      {
+        heading: 'Localisation et carte des points de vente',
+        body: [
+          'La page Points de vente vous demande un code postal ou, avec votre autorisation, la position de votre appareil. Votre position sert uniquement à trier les magasins par distance dans votre navigateur : elle ne nous est pas transmise et n’est pas conservée.',
+          'Pour situer un code postal, notre serveur le transmet au service de géocodage de Google (Google Maps Platform) ou, à défaut, à celui d’OpenStreetMap (Nominatim) : seul le code postal leur est communiqué, sans votre adresse IP. La carte est affichée avec les tuiles d’OpenStreetMap, que votre navigateur charge directement et qui reçoivent votre adresse IP. Ces serveurs sont situés à l’extérieur du Québec.',
+        ],
+      },
+      {
+        heading: 'Communication à des tiers',
+        body: [
+          'Nous ne vendons, ne louons et n’échangeons jamais vos renseignements personnels. Nous les communiquons seulement aux fournisseurs qui nous aident à exploiter la boutique, et seulement dans la mesure nécessaire :',
+          [
+            'notre processeur de paiement, pour traiter les paiements par carte ;',
+            'notre service de livraison, qui reçoit votre nom, votre adresse, votre téléphone et vos instructions de livraison ;',
+            'l’hébergement du site et de la boutique ;',
+            'l’envoi des courriels de commande et de l’infolettre ;',
+            'Google et OpenStreetMap, pour situer les codes postaux et afficher la carte des points de vente (voir plus haut).',
+          ],
+          'Ces fournisseurs sont liés par contrat à la confidentialité et ne peuvent utiliser vos renseignements qu’aux fins du service rendu. Nous pouvons aussi communiquer des renseignements lorsque la loi l’exige, par exemple à une autorité fiscale.',
+        ],
+      },
+      {
+        heading: 'Renseignements conservés hors du Québec',
+        body: [
+          'Certains de ces fournisseurs peuvent conserver ou traiter des renseignements à l’extérieur du Québec, notamment ailleurs au Canada, aux États-Unis ou en Europe. Avant de leur en communiquer, nous évaluons si les renseignements y bénéficieront d’une protection adéquate, comme l’exige la loi.',
+        ],
+      },
+      {
+        heading: 'Durée de conservation',
+        body: [
+          [
+            'Commandes et factures : six ans après la fin de l’année d’imposition concernée, comme l’exigent les lois fiscales.',
+            'Compte client : tant que le compte est ouvert. Un compte inactif depuis trois ans est supprimé, sauf l’historique que nous devons conserver.',
+            'Messages du formulaire de contact : 24 mois après le dernier échange.',
+            'Infolettre : jusqu’à votre désabonnement.',
+          ],
+          'Une fois leur finalité accomplie, vos renseignements sont détruits de façon sécuritaire ou anonymisés.',
+        ],
+      },
+      {
+        heading: 'Sécurité',
+        body: [
+          'Le site est servi exclusivement en HTTPS. Les mots de passe sont chiffrés, et seuls les employés qui en ont besoin pour leur travail ont accès à vos renseignements. Nous tenons un registre des incidents de confidentialité ; si un incident présente un risque de préjudice sérieux, nous en avisons la Commission d’accès à l’information et les personnes concernées.',
+        ],
+      },
+      {
+        heading: 'Vos droits',
+        body: [
+          'Vous pouvez en tout temps :',
+          [
+            'demander l’accès aux renseignements que nous détenons sur vous ;',
+            'en faire corriger les erreurs ou compléter ceux qui sont incomplets ;',
+            'retirer votre consentement ou demander la suppression de vos renseignements, sous réserve de nos obligations légales ;',
+            'demander que nous cessions de diffuser un renseignement ou que nous désindexions un lien vous concernant, dans les cas prévus par la loi ;',
+            'obtenir les renseignements que vous nous avez fournis dans un format technologique structuré et couramment utilisé, ou demander qu’ils soient transmis à un tiers.',
+          ],
+          'Vous pouvez aussi corriger vos coordonnées et adresses vous-même depuis votre compte. Adressez toute autre demande par écrit à la personne responsable ci-dessous : nous y répondons dans un délai de 30 jours, gratuitement. Si vous n’êtes pas satisfait de notre réponse, vous pouvez vous adresser à la Commission d’accès à l’information du Québec (cai.gouv.qc.ca).',
+        ],
+      },
+      {
+        heading: 'Mineurs',
+        body: [
+          'La boutique ne s’adresse pas aux enfants de moins de 14 ans. Nous ne recueillons pas sciemment leurs renseignements sans le consentement d’un parent ou d’un tuteur.',
+        ],
+      },
+      {
+        heading: 'Modifications',
+        body: [
+          'Nous pouvons mettre à jour cette politique pour refléter l’évolution de nos pratiques ou de la loi. La date de la dernière mise à jour figure en haut de cette page ; en cas de changement important, nous vous en informons sur le site ou par courriel.',
+        ],
+      },
+      {
+        heading: 'Responsable de la protection des renseignements personnels',
+        body: [
+          'Pour toute question sur cette politique, pour exercer vos droits ou pour porter plainte, écrivez à la personne responsable de la protection des renseignements personnels de Les Aliments Safrozen Foods, dont les coordonnées figurent ci-dessous.',
+        ],
+      },
     ],
   },
+  // Terms of use replace the French-law "mentions légales" (not required in Québec);
+  // they keep its publisher identity and add the site's rules of use.
   {
-    slug: 'mentions-legales',
-    title: 'Mentions légales',
-    lede: 'Qui édite ce site.',
+    slug: 'conditions-utilisation',
+    contact: true,
+    title: 'Conditions d’utilisation',
+    lede: 'Qui édite ce site et les règles qui encadrent son utilisation.',
+    updated: '2026-11-06',
     sections: [
-      { heading: 'Éditeur', body: ['Les Aliments Safrozen, 1234, rue Jean-Talon Est, Montréal (Québec).', 'bonjour@legimexpress.ca · 514 555-0142'] },
-      { heading: 'Hébergement', body: ['À préciser.'] },
+      {
+        heading: 'Éditeur du site',
+        body: [
+          'Le site safrozen.com est édité par Les Aliments Safrozen Foods, dont Legim Express est l’un des produits.',
+          [
+            'Adresse : Québec, Canada H1L 3A9',
+            'Téléphone : +1 (438) 969 8712',
+            'Courriel : infos@safrozen.com',
+          ],
+        ],
+      },
+      {
+        heading: 'Acceptation',
+        body: [
+          'En utilisant ce site, vous acceptez ces conditions. Vos achats sont régis en plus par nos Conditions générales de vente, et vos renseignements personnels par notre Politique de confidentialité.',
+        ],
+      },
+      {
+        heading: 'Propriété intellectuelle',
+        body: [
+          'Les textes, photos, illustrations, recettes, logos et la marque Legim Express sont la propriété de Les Aliments Safrozen Foods ou de ses partenaires. Vous pouvez les consulter et les partager pour un usage personnel, en citant la source ; toute autre reproduction demande notre autorisation écrite.',
+        ],
+      },
+      {
+        heading: 'Votre compte',
+        body: [
+          'Vous êtes responsable de la confidentialité de votre mot de passe et des renseignements que vous fournissez, qui doivent être exacts. Prévenez-nous sans délai si vous pensez que votre compte a été utilisé sans votre accord.',
+        ],
+      },
+      {
+        heading: 'Utilisation acceptable',
+        body: [
+          'Vous vous engagez à ne pas utiliser le site à des fins illégales, à ne pas tenter d’en perturber le fonctionnement ou d’accéder sans autorisation à ses systèmes, et à ne pas envoyer de contenu abusif par nos formulaires.',
+        ],
+      },
+      {
+        heading: 'Contenu et liens',
+        body: [
+          'Nous veillons à l’exactitude des renseignements publiés, notamment les ingrédients et allergènes, mais l’emballage du produit fait foi. Les recettes et conseils sont donnés à titre indicatif. Les liens vers des sites de tiers (réseaux sociaux, Google Maps, OpenStreetMap) sont fournis pour votre commodité ; ces sites ont leurs propres conditions.',
+        ],
+      },
+      {
+        heading: 'Disponibilité du site',
+        body: [
+          'Nous faisons notre possible pour que le site soit accessible en tout temps, mais il peut être interrompu pour entretien ou en cas de panne. Rien dans ces conditions n’exclut notre responsabilité lorsque la loi ne le permet pas.',
+        ],
+      },
+      {
+        heading: 'Droit applicable',
+        body: ['Ces conditions sont régies par les lois du Québec et du Canada applicables.'],
+      },
     ],
   },
 ]

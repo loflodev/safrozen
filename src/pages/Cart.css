@@ -172,6 +172,13 @@
   font-size: var(--text-lg);
 }
 
+/* Under 900px the bar's "Commander" is the one checkout button. */
+@media (max-width: 899px) {
+  .cart__checkout {
+    display: none;
+  }
+}
+
 @media (min-width: 900px) {
   .checkout-bar {
     display: none;

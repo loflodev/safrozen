@@ -1,0 +1,306 @@
+/* Contact page (page-contact.php), ported from src/pages/Contact.css. */
+
+/*
+ * Store locator band: the page's main action, first under the header, on the
+ * chayotte hero field with its line texture (ink 11.5:1+ on the field).
+ */
+.contact-locator {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: linear-gradient( /* taste-skill-ignore: the hero field (§6), like the product panels */
+    to bottom,
+    var(--field-0),
+    var(--field-1) 25%,
+    var(--field-2) 50%,
+    var(--field-3) 75%,
+    var(--field-4)
+  );
+}
+
+.contact-locator__texture {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--field-line);
+  opacity: 0.6;
+  mask-image: url('../images/veg-pattern.svg');
+  mask-size: 440px 440px;
+}
+
+.contact-locator__copy {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.contact-locator__title {
+  margin: 0;
+  max-width: 18ch;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.contact-locator__text {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--ink-soft);
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+.contact-locator__cta {
+  justify-self: stretch;
+  margin-top: var(--space-2);
+}
+
+/* The box, cropped from its 2:1 canvas. On phones it sits above the copy. */
+.contact-locator__art {
+  order: -1;
+  justify-self: center;
+  width: min(100%, 18rem);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (min-width: 600px) {
+  .contact-locator {
+    grid-template-columns: 1fr minmax(12rem, 0.8fr);
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-8);
+  }
+
+  .contact-locator__art {
+    order: 0;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .contact-locator__cta {
+    justify-self: start;
+  }
+}
+
+@media (min-width: 900px) {
+  .contact-locator {
+    margin-bottom: var(--space-12);
+    padding: var(--space-12) var(--space-16);
+  }
+
+  .contact-locator__title {
+    font-size: var(--text-title);
+    line-height: 1;
+  }
+}
+
+/*
+ * Phones: details, form, socials. From 900px: the form on the left, the
+ * details and the socials stacked on the right.
+ */
+.contact__layout {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .contact__layout {
+    grid-template-columns: 7fr 5fr;
+    grid-template-areas:
+      'form info'
+      'form social';
+    grid-template-rows: auto 1fr;
+    gap: var(--space-8) var(--space-12);
+  }
+
+  .contact__form {
+    grid-area: form;
+  }
+
+  .contact__info {
+    grid-area: info;
+  }
+
+  .contact__social {
+    grid-area: social;
+  }
+}
+
+.contact__form {
+  display: grid;
+  gap: var(--space-6);
+  justify-items: start;
+}
+
+.contact__form > :not(.btn-chip, .btn-ghost) {
+  justify-self: stretch;
+}
+
+.contact__form .panel__title,
+.contact__form p {
+  margin: 0;
+}
+
+/* Full width under a thumb on phones. */
+.contact__submit {
+  justify-self: stretch;
+}
+
+@media (min-width: 600px) {
+  .contact__submit {
+    justify-self: start;
+  }
+}
+
+.contact__list,
+.contact__socials {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  list-style: none;
+}
+
+/* A whole row is the tap target: chip-gradient icon, a quiet label, the value. */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 64px;
+  margin: 0 calc(-1 * var(--space-3));
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.35;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.contact-row:hover,
+.contact-row:focus-visible {
+  background: var(--color-hover);
+}
+
+.contact-row:active {
+  transform: scale(0.98);
+  transition-duration: var(--dur-press);
+}
+
+.contact-row__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .contact-row:hover .contact-row__icon {
+    transform: scale(1.05);
+  }
+}
+
+.contact-row__text {
+  display: grid;
+  gap: 2px;
+}
+
+.contact-row__label {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.contact__hours {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.contact__hours svg {
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-row,
+  .contact-row__icon {
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .contact-row:active,
+  .contact-row:hover .contact-row__icon {
+    transform: none;
+  }
+}
+
+/*
+ * The Contact Form 7 form: the field markup is Field.tsx's (import-contact.php).
+ * Errors sit under their field; the status line is a notice under the button.
+ * Once sent, the fields step aside and the thanks reads as a success notice.
+ */
+.contact-form {
+  display: grid;
+  gap: var(--space-6);
+  justify-items: start;
+}
+
+.contact-form > :not(.btn-chip) {
+  justify-self: stretch;
+}
+
+/* CF7 prints size="40"; the control must still fit a phone's column. */
+.contact-form .field__control {
+  min-width: 0;
+}
+
+.contact-form .field .wpcf7-not-valid-tip {
+  margin-top: 0;
+}
+
+.contact-form .wpcf7-not-valid {
+  border-color: var(--color-error);
+}
+
+.wpcf7 .contact-form .wpcf7-response-output {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-error-bg);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.wpcf7 .contact-form.sent .wpcf7-response-output {
+  background: var(--color-success-bg);
+}
+
+.contact-form.sent .form-grid,
+.contact-form.sent .contact__submit {
+  display: none;
+}

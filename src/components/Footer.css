@@ -11,7 +11,7 @@
   overflow: hidden;
   /* The wordmark is sized to the frame width (cqw). */
   container-type: inline-size;
-  padding: clamp(var(--space-16), 8vw, var(--space-24)) var(--frame-edge) var(--space-8);
+  padding: var(--section-pad) var(--frame-edge) var(--space-8);
   background: var(--footer-ground);
   color: var(--footer-text);
 }

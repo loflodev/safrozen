@@ -1,0 +1,72 @@
+{
+  "key": "group_sf_story",
+  "title": "Bloc : Notre histoire",
+  "fields": [
+    {
+      "key": "field_sf_story_kicker",
+      "label": "Surtitre",
+      "name": "kicker",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Legim Express"
+    },
+    {
+      "key": "field_sf_story_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Prêt en 20 minutes"
+    },
+    {
+      "key": "field_sf_story_body",
+      "label": "Texte",
+      "name": "body",
+      "type": "textarea",
+      "instructions": "Un paragraphe par bloc, séparés par une ligne vide.",
+      "required": 0,
+      "rows": 10,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_story_tagline",
+      "label": "Phrase de fin",
+      "name": "tagline",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Gagner du temps avec Legim Express !"
+    },
+    {
+      "key": "field_sf_story_photo",
+      "label": "Photo",
+      "name": "photo",
+      "type": "image",
+      "instructions": "Paysage, environ 3:2. Son texte alternatif décrit la scène.",
+      "required": 0,
+      "return_format": "id",
+      "preview_size": "medium",
+      "library": "all",
+      "mime_types": "jpg,jpeg,png,webp"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/story"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

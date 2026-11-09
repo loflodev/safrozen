@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "safrozen/recipes",
+	"title": "Dernières recettes",
+	"category": "safrozen",
+	"icon": "food",
+	"description": "Les trois dernières recettes (articles).",
+	"textdomain": "safrozen",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": false,
+		"customClassName": false,
+		"multiple": false,
+		"reusable": false,
+		"mode": false
+	},
+	"style": ["safrozen-recipes"],
+	"acf": {
+		"blockVersion": 3,
+		"mode": "edit",
+		"renderTemplate": "render.php"
+	}
+}

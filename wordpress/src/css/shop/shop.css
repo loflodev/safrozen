@@ -1,0 +1,194 @@
+.shop__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.shop__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Filter pills: white at rest, ink when pressed (white text 16.6:1). */
+.filter-pill {
+  min-height: 44px;
+  padding: 0 var(--space-6);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--panel-ground);
+  color: var(--ink);
+  font: 700 var(--text-base) / 1 var(--font-body);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.filter-pill:hover {
+  background: var(--color-hover);
+}
+
+.filter-pill[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.filter-pill:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
+}
+
+.shop__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shop__sort .field__label {
+  white-space: nowrap;
+}
+
+.shop__sort .field__control {
+  width: auto;
+}
+
+.shop__sort-control {
+  position: relative;
+  display: inline-grid;
+}
+
+.shop__sort-icon {
+  display: none;
+}
+
+/* Phones: the sort is a round 44px icon chip beside the pills, white like them
+   and ink once a sort other than the default is chosen. The label stays for
+   screen readers; the select keeps its accessible name and native picker. */
+@media (max-width: 599px) {
+  .shop__bar {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* Tighter pills, so they and the sort chip keep to one row down to 360px. */
+  .filter-pill {
+    padding: 0 var(--space-4);
+  }
+
+  .shop__sort .field__label {
+    position: absolute;
+    width: 1px;
+    height: 1px; /* taste-skill-ignore: visually hidden label, not a rule */
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .shop__sort .field__control {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: var(--panel-ground);
+    color: transparent;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .shop__sort .field__control option {
+    color: var(--ink);
+  }
+
+  .shop__sort .field__control:hover {
+    background: var(--color-hover);
+  }
+
+  .shop__sort .field__control:active {
+    transform: scale(0.96);
+    transition-duration: var(--dur-press);
+  }
+
+  .shop__sort-control[data-active] .field__control {
+    background: var(--ink);
+  }
+
+  .shop__sort-icon {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: auto;
+    color: var(--ink);
+    pointer-events: none;
+  }
+
+  .shop__sort-control[data-active] .shop__sort-icon {
+    color: var(--white);
+  }
+}
+
+.shop__count {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-pill {
+    transition: none;
+  }
+}
+
+/* WordPress: the pills are links to the category archives (aria-current marks
+   the one shown), and the sort is a form submitted on change. */
+a.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.filter-pill[aria-current='page'] {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.shop__sort {
+  margin: 0;
+}
+
+/* WordPress: WooCommerce notices print one paragraph per message. */
+.notice p {
+  margin: 0;
+}
+
+.notice p + p {
+  margin-top: var(--space-2);
+}
+
+/* WordPress: the pills come from the real categories, whose names can be long.
+   Phones keep them on one row that scrolls sideways, beside the sort chip. */
+@media (max-width: 599px) {
+  .shop__filters {
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .shop__filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-pill {
+    flex: none;
+  }
+}

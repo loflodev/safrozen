@@ -1,0 +1,37 @@
+/* The summary's cart and checkout parts (OrderSummary.css); its base is account/order-details.css. */
+.summary__body {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.summary__action {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.summary__action .btn-chip,
+.summary__action .btn-ghost {
+  width: 100%;
+}
+
+.coupon {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.coupon__row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.coupon__row .field__control {
+  min-width: 0;
+}
+
+.coupon__row .btn-ghost {
+  flex: none;
+}
+
+a.summary__remove {
+  display: inline;
+}

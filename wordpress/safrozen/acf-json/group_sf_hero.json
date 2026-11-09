@@ -1,0 +1,72 @@
+{
+  "key": "group_sf_hero",
+  "title": "Bloc : Héros",
+  "fields": [
+    {
+      "key": "field_sf_hero_brand",
+      "label": "Ligne de marque",
+      "name": "brand",
+      "type": "text",
+      "instructions": "En Aclonica au-dessus du titre.",
+      "required": 0,
+      "default_value": "Legim Express"
+    },
+    {
+      "key": "field_sf_hero_description",
+      "label": "Description",
+      "name": "description",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 2,
+      "new_lines": "",
+      "default_value": "Un mijoté de légumes traditionnellement cuits à l'haïtienne"
+    },
+    {
+      "key": "field_sf_hero_cta_label",
+      "label": "Bouton",
+      "name": "cta_label",
+      "type": "text",
+      "instructions": "Mène à la page du produit affiché.",
+      "required": 0,
+      "default_value": "Commandez"
+    },
+    {
+      "key": "field_sf_hero_products",
+      "label": "Produits de la roue",
+      "name": "products",
+      "type": "relationship",
+      "instructions": "Dans l'ordre de la roue. Chaque produit a besoin de son image (boîte 2:1), de son arrière-plan et de ses couleurs de champ (onglet Legim du produit).",
+      "required": 0,
+      "min": 1,
+      "max": 5,
+      "post_type": [
+        "product"
+      ],
+      "return_format": "object",
+      "filters": [
+        "search"
+      ],
+      "elements": [
+        "featured_image"
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/hero"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

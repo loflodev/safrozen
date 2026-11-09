@@ -1,18 +1,68 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router'
+import { Link, NavLink, useLocation } from 'react-router'
 import { useAccount } from '../shop/account'
 import { useCart } from '../shop/cart'
-import { CartIcon, CloseIcon, FacebookIcon, InstagramIcon, MenuIcon, TikTokIcon, UserIcon } from './icons'
+import {
+  BookIcon,
+  BoxIcon,
+  CartIcon,
+  CloseIcon,
+  FacebookIcon,
+  HomeIcon,
+  InstagramIcon,
+  LeafIcon,
+  LogoutIcon,
+  MailIcon,
+  MenuIcon,
+  PinIcon,
+  QuestionIcon,
+  TikTokIcon,
+  TruckIcon,
+  UserIcon,
+} from './icons'
 import './Navbar.css'
 
 // Hash links point at landing sections; off the landing they go to "/#…".
+// Accueil is the home page; on the landing itself it scrolls back to the hero.
 const LINKS = [
-  { href: '#accueil', label: 'Accueil' },
+  { href: '/', label: 'Accueil' },
   { href: '/boutique', label: 'Produit' },
-  { href: '#recettes', label: 'Recette' },
-  { href: '#histoire', label: 'Histoire' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/recettes', label: 'Recette' },
+  { href: '/notre-histoire', label: 'Histoire' },
+  { href: '/contact', label: 'Contact' },
 ]
+
+type MenuItem = { href: string; label: string; Icon: typeof HomeIcon }
+
+// The mobile panel (< 900px) lists every destination by category, each with an icon.
+const GROUPS: { id: string; title: string; items: MenuItem[] }[] = [
+  {
+    id: 'decouvrir',
+    title: 'Découvrir',
+    items: [
+      { href: '/', label: 'Accueil', Icon: HomeIcon },
+      { href: '/boutique', label: 'Produits', Icon: BoxIcon },
+      { href: '/recettes', label: 'Recettes', Icon: BookIcon },
+      { href: '/notre-histoire', label: 'Notre histoire', Icon: LeafIcon },
+    ],
+  },
+  {
+    id: 'aide',
+    title: 'Aide',
+    items: [
+      { href: '/suivi', label: 'Suivre ma commande', Icon: TruckIcon },
+      { href: '/points-de-vente', label: 'Points de vente', Icon: PinIcon },
+      { href: '/faq', label: 'FAQ', Icon: QuestionIcon },
+      { href: '/contact', label: 'Contact', Icon: MailIcon },
+    ],
+  },
+]
+
+const ACCOUNT_IN: MenuItem[] = [
+  { href: '/mon-compte', label: 'Mon compte', Icon: UserIcon },
+  { href: '/mon-compte/deconnexion', label: 'Déconnexion', Icon: LogoutIcon },
+]
+const ACCOUNT_OUT: MenuItem[] = [{ href: '/mon-compte', label: 'Se connecter', Icon: UserIcon }]
 
 // TODO: replace with the real profile URLs.
 const SOCIALS = [
@@ -28,8 +78,10 @@ export default function Navbar() {
   const cart = useCart()
   const cartCount = cart.totals().count
   const { user } = useAccount()
-  // The footer (#contact) is on every page, so its link stays a plain hash.
-  const to = (href: string) => (href.startsWith('#') && !onHome && href !== '#contact' ? `/${href}` : href)
+  const to = (href: string) => {
+    if (href === '/' && onHome) return '#accueil'
+    return href.startsWith('#') && !onHome ? `/${href}` : href
+  }
 
   useEffect(() => {
     if (!open) return
@@ -41,6 +93,7 @@ export default function Navbar() {
   }, [open])
 
   const close = () => setOpen(false)
+  const groups = [...GROUPS, { id: 'compte', title: 'Mon compte', items: user ? ACCOUNT_IN : ACCOUNT_OUT }]
 
   return (
     <header className="nav" data-open={open}>
@@ -60,7 +113,7 @@ export default function Navbar() {
           {LINKS.map((l) => (
             <li key={l.href}>
               {to(l.href).startsWith('#') ? (
-                <a className="nav__pill" href={l.href} onClick={close}>
+                <a className="nav__pill" href={to(l.href)} onClick={close}>
                   {l.label}
                 </a>
               ) : (
@@ -70,12 +123,34 @@ export default function Navbar() {
               )}
             </li>
           ))}
-          <li className="nav__menu-only">
-            <Link className="nav__pill" to="/mon-compte" onClick={close}>
-              Mon compte
-            </Link>
-          </li>
         </ul>
+
+        <div className="nav__groups">
+          {groups.map((g) => (
+            <section key={g.id} className="nav__group">
+              <h2 className="nav__group-title" id={`nav-group-${g.id}`}>
+                {g.title}
+              </h2>
+              <ul aria-labelledby={`nav-group-${g.id}`}>
+                {g.items.map(({ href, label, Icon }) => (
+                  <li key={href}>
+                    {to(href).startsWith('#') ? (
+                      <a className="nav__pill nav__item" href={to(href)} onClick={close}>
+                        <Icon />
+                        {label}
+                      </a>
+                    ) : (
+                      <NavLink className="nav__pill nav__item" to={to(href)} end onClick={close}>
+                        <Icon />
+                        {label}
+                      </NavLink>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </nav>
 
       <div className="nav__end">

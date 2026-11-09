@@ -1,0 +1,29 @@
+.empty {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: 40rem;
+  --texture-fade: linear-gradient(to left, black, transparent 70%); /* taste-skill-ignore: mask */
+}
+
+.empty .panel__title {
+  margin: 0;
+}
+
+.empty__text {
+  max-width: 32rem;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.empty__text p {
+  margin: 0;
+}
+
+.empty__action {
+  margin-top: var(--space-2);
+}

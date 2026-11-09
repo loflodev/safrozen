@@ -1,32 +1,270 @@
-/* Long-form text: one readable column (~68ch) on a white panel. */
-.info__article {
+/*
+ * Article pages (after the reference policy layout): the lede and the update date
+ * in the header, then a numbered contents list beside one readable column (~68ch)
+ * on a white panel, then a contact card. Separation by space and tone, no rules.
+ */
+/*
+ * Header band (user request): the terracotta tint, full bleed and under the
+ * navbar, closed by a line, so the body on cream reads as its own part. The
+ * title, then the lede and the date below it, in one column.
+ */
+/* --frame-edge resolves against the box that uses it, so each child takes the
+   frame itself on the full-width page rather than the band undoing the padding. */
+.page.info {
+  padding-top: 0;
+  padding-inline: 0;
+}
+
+.page.info > * {
+  margin-inline: var(--frame-edge);
+}
+
+.page.info > .info__hero {
+  margin: 0 0 var(--space-12);
+  padding: calc(var(--nav-bottom) + var(--space-12)) var(--frame-edge) var(--space-12);
+  border-bottom: 1px solid var(--color-rule); /* taste-skill-ignore: header edge, by request */
+  background: var(--color-hover);
+}
+
+@media (min-width: 900px) {
+  .page.info > .info__hero {
+    margin-bottom: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+}
+
+/* On the tint the orange hover would be 3.91:1, so crumbs hover to ink. */
+.info__hero .crumbs a:hover {
+  color: var(--ink);
+}
+
+.info__hero .section__head {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  margin-bottom: 0;
+}
+
+.info__hero .section__title {
+  max-width: 22ch;
+}
+
+.info__intro {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 40rem;
+}
+
+.info__updated {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.info__layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.info__main {
   display: grid;
   gap: var(--space-8);
   max-width: 48rem;
+  min-width: 0;
+}
+
+/* Without a contents list, the text column sits in the middle of the frame. */
+.info__layout:not([data-toc]) .info__main {
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media (min-width: 900px) {
+  .info__layout[data-toc] {
+    grid-template-columns: 16rem minmax(0, 48rem);
+    column-gap: var(--space-16);
+  }
+}
+
+/* Contents: a white panel above the text; from 900px it sits sticky on the cream. */
+.info__toc {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+}
+
+@media (min-width: 900px) {
+  .info__toc {
+    position: sticky;
+    top: calc(var(--nav-bottom) + var(--space-6));
+    padding: 0;
+    background: none;
+  }
+}
+
+.info__toc-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.info__toc ol {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info__toc a {
+  display: flex;
+  gap: var(--space-3);
+  min-height: 44px;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(-1 * var(--space-3));
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.3;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.info__toc a:hover,
+.info__toc a:focus-visible {
+  background: var(--color-hover);
+  color: var(--ink);
+}
+
+.info__toc a[aria-current] {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Section numbers: 01, 02… in the accent text colour (4.81:1 on white, 4.52:1 on cream). */
+.info__num {
+  flex: none;
+  color: var(--color-accent-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.info__toc a[aria-current] .info__num,
+.info__toc a:hover .info__num {
+  color: var(--ink);
+}
+
+/* The text. */
+.info__article {
+  display: grid;
+  gap: var(--space-12);
 }
 
 .info__article h2 {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
   font-size: var(--text-xl);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  text-wrap: balance;
+  scroll-margin-top: calc(var(--nav-bottom) + var(--space-6));
 }
 
-.info__article p {
+.info__article h2 .info__num {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-base);
+  letter-spacing: 0;
+}
+
+.info__article p,
+.info__article ul {
   max-width: 68ch;
   margin: 0;
   font-size: var(--text-base);
   line-height: 1.6;
 }
 
-.info__article p + p {
-  margin-top: var(--space-3);
+.info__article p {
+  white-space: pre-line;
 }
 
-.info__updated {
+.info__article :is(p, ul) + :is(p, ul) {
+  margin-top: var(--space-4);
+}
+
+.info__article ul {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-6);
+}
+
+.info__article li::marker {
+  color: var(--color-accent-text);
+}
+
+/* Contact card: a quiet terracotta panel (links in ink, §16). */
+.info__contact {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-hover);
+}
+
+.info__contact .panel__title {
+  margin: 0;
+}
+
+.info__contact-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip); /* taste-skill-ignore: brand chip icon (§16) */
+  color: var(--color-on-chip);
+}
+
+.info__facts {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  margin: 0;
+}
+
+.info__facts dt {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
+}
+
+.info__facts dd {
+  margin: var(--space-1) 0 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 600px) {
+  .info__facts {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-8);
+  }
+
+  .info__facts-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 900px) {
+  .info__contact {
+    padding: var(--space-8);
+  }
 }
 
 /* FAQ: the product page's disclosure style. */
@@ -79,6 +317,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .info__toc a,
   .info__faq summary::after {
     transition: none;
   }

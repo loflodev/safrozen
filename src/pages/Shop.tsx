@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router'
 import PageHeader from '../components/shop/PageHeader'
 import ProductCard from '../components/shop/ProductCard'
 import EmptyState from '../components/shop/EmptyState'
+import { SortIcon } from '../components/icons'
 import { CATALOG, CATEGORIES, type Category } from '../shop/catalog'
 import { plural } from '../shop/format'
 import './Shop.css'
@@ -36,7 +37,7 @@ export default function Shop() {
     <main className="page shop">
       <PageHeader
         crumbs={currentLabel ? [{ to: '/boutique', label: 'Boutique' }, { label: currentLabel }] : [{ label: 'Boutique' }]}
-        title="Nos legims"
+        title="Nos produits"
         lede="Précuits et congelés, prêts en 20 minutes. Livrés au froid dans le Grand Montréal."
       />
 
@@ -58,13 +59,17 @@ export default function Shop() {
           <label className="field__label" htmlFor="tri">
             Trier par
           </label>
-          <select id="tri" className="field__control" value={sort} onChange={(e) => update('tri', e.target.value === 'populaires' ? null : e.target.value)}>
-            {SORTS.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.label}
-              </option>
-            ))}
-          </select>
+          {/* Under 600px the select is drawn as a round icon button; tapping it still opens the native picker. */}
+          <span className="shop__sort-control" data-active={sort !== 'populaires' || undefined}>
+            <select id="tri" className="field__control" value={sort} onChange={(e) => update('tri', e.target.value === 'populaires' ? null : e.target.value)}>
+              {SORTS.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+            <SortIcon className="shop__sort-icon" />
+          </span>
         </div>
       </div>
 

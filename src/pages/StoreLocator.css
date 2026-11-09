@@ -1,0 +1,192 @@
+/*
+ * Phones: search, map, list (the map shows the answer right under the field).
+ * From 900px: search and list on the left (5), the map sticky on the right (7).
+ */
+.locator__layout {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.locator__map {
+  height: min(70svh, 28rem);
+  scroll-margin-top: calc(var(--nav-bottom) + var(--space-4));
+}
+
+@media (min-width: 900px) {
+  .locator__layout {
+    grid-template-columns: 5fr 7fr;
+    grid-template-areas:
+      'search map'
+      'results map';
+    grid-template-rows: auto 1fr;
+    gap: var(--space-8);
+  }
+
+  .locator__search {
+    grid-area: search;
+  }
+
+  .locator__results {
+    grid-area: results;
+  }
+
+  .locator__map {
+    grid-area: map;
+    position: sticky;
+    top: calc(var(--nav-bottom) + var(--space-4));
+    height: calc(100svh - var(--nav-bottom) - var(--space-8));
+    min-height: 28rem;
+  }
+}
+
+.locator__search {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.locator__actions {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.locator__actions > * {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .locator__actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .locator__actions > * {
+    width: auto;
+  }
+}
+
+.locator__geo svg {
+  flex: none;
+}
+
+.locator__status,
+.locator__search .notice {
+  margin: 0;
+}
+
+.locator__status {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.locator__status:empty {
+  display: none;
+}
+
+.locator__list {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A phone search lands on the nearest store, clear of the navbar. */
+.locator__list > li {
+  scroll-margin-top: calc(var(--nav-bottom) + var(--space-4));
+}
+
+/* White card; the selected one gets an ink ring, matching its ink pin. */
+.store-card {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--panel-ground);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  transition: outline-color var(--dur-fast) var(--ease-out);
+}
+
+.store-card--selected {
+  outline-color: var(--ink);
+}
+
+.store-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.store-card__name {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.store-card__km {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.store-card__km--nearest {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.store-card__line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.store-card__line svg {
+  flex: none;
+  margin-top: 0.2em;
+}
+
+.store-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.store-card__show {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.locator__more {
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-card {
+    transition: none;
+  }
+}

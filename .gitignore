@@ -25,3 +25,39 @@ dist-ssr
 
 # Tool caches
 .taste-skill
+
+# WordPress theme build (pnpm wp:build)
+wordpress/safrozen/build
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Build and tool caches
+coverage
+*.tsbuildinfo
+.vite
+.eslintcache
+Thumbs.db
+
+# Claude Code instructions and project plans (kept local)
+CLAUDE.md
+CLAUDE.local.md
+.claude
+.mcp.json
+skills-lock.json
+docs
+
+# Image sources and superseded art the site doesn't load (kept local)
+public/images/draft
+public/images/bb1.png
+public/images/bb2@3x.png
+public/images/bb4*
+public/images/bb5*
+public/images/bb6@3x.png
+public/images/benefit-*.png
+public/images/benefit-dark-bg*
+public/images/benefit-light-bg*
+public/images/benefits-ready-in*
+public/images/family.png

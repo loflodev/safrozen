@@ -1,0 +1,52 @@
+{
+  "key": "group_sf_featured",
+  "title": "Bloc : Meilleures ventes",
+  "fields": [
+    {
+      "key": "field_sf_featured_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Nos meilleures ventes"
+    },
+    {
+      "key": "field_sf_featured_products",
+      "label": "Produits",
+      "name": "products",
+      "type": "relationship",
+      "instructions": "Nom, phrase (description courte), repères et prix viennent du produit.",
+      "required": 0,
+      "min": 1,
+      "max": 4,
+      "post_type": [
+        "product"
+      ],
+      "return_format": "object",
+      "filters": [
+        "search"
+      ],
+      "elements": [
+        "featured_image"
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/featured"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

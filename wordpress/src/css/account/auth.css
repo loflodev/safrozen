@@ -1,0 +1,334 @@
+/* Logged-out account forms: two panels side by side from 900px. */
+.auth {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.auth__panel {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: stretch;
+}
+
+.auth__panel .panel__title {
+  margin: 0;
+}
+
+.auth__panel .btn-chip,
+.auth__panel .btn-ghost {
+  margin-top: var(--space-2);
+}
+
+.auth__lede {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.auth__lost {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.auth--single {
+  max-width: 32rem;
+}
+
+@media (min-width: 900px) {
+  .auth:not(.auth--single) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+/*
+ * Signed-out card: the form on the left, an illustration on the right (on top
+ * under 900px). Both modes are stacked in one grid cell each, so the card never
+ * jumps; the link under the form swaps them: the forms slide past each other
+ * (login out to the left, sign-up in from the right, and back), the pictures
+ * crossfade while the new one settles from 1.06.
+ */
+.auth-card {
+  --swap-dur: var(--dur-slow);
+  display: grid;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--panel-ground);
+}
+
+.auth-card__forms,
+.auth-card__art {
+  display: grid;
+}
+
+.auth-card__pane,
+.auth-art {
+  grid-area: 1 / 1;
+}
+
+.auth-card__forms {
+  padding: var(--space-8) var(--space-6);
+}
+
+.auth-card__pane {
+  display: grid;
+  align-content: start;
+  gap: var(--space-6);
+  transition:
+    opacity var(--swap-dur) var(--ease-out),
+    transform var(--swap-dur) var(--ease-out),
+    visibility 0s linear;
+}
+
+/* The inactive pane waits off to its side, hidden and inert. */
+.auth-card[data-mode='register'] .auth-card__pane--login,
+.auth-card[data-mode='login'] .auth-card__pane--register {
+  opacity: 0;
+  visibility: hidden;
+  transition-duration: var(--dur-base), var(--dur-base), 0s;
+  transition-delay: 0s, 0s, var(--dur-base);
+}
+
+.auth-card[data-mode='register'] .auth-card__pane--login {
+  transform: translateX(-48px);
+}
+
+.auth-card[data-mode='login'] .auth-card__pane--register {
+  transform: translateX(48px);
+}
+
+/* The incoming pane moves once the outgoing one has mostly left; it is
+   visible (focusable) at once. */
+.auth-card[data-mode='login'] .auth-card__pane--login,
+.auth-card[data-mode='register'] .auth-card__pane--register {
+  transition-delay: 120ms, 120ms, 0s;
+}
+
+.auth-form {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 28rem;
+}
+
+.auth-form .panel__title {
+  margin: 0 0 var(--space-2);
+}
+
+.auth-form .panel__title:focus {
+  outline: none;
+}
+
+.auth-form .btn-chip {
+  margin-top: var(--space-2);
+}
+
+.auth-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.auth-card__switch {
+  margin: 0;
+  max-width: 28rem;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--ground);
+  line-height: 1.5;
+}
+
+.auth-card__toggle {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Illustration: a hero field with its line texture, the cut-out and a caption. */
+.auth-art {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  gap: var(--space-6);
+  margin: 0;
+  padding: var(--space-8);
+  background: linear-gradient( /* taste-skill-ignore: the hero field (§6), like the product panels */
+    to bottom,
+    var(--field-0),
+    var(--field-1) 25%,
+    var(--field-2) 50%,
+    var(--field-3) 75%,
+    var(--field-4)
+  );
+  transition:
+    opacity var(--swap-dur) var(--ease-out),
+    visibility 0s linear;
+}
+
+.auth-art__texture {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--field-line);
+  opacity: 0.6;
+  mask-image: url('../../images/veg-pattern.svg');
+  mask-size: 440px 440px;
+}
+
+.auth-art {
+  align-content: center;
+}
+
+.auth-art img {
+  width: min(100%, 22rem);
+  height: auto;
+  max-height: 20rem;
+  align-self: center;
+  object-fit: contain;
+  transition: transform var(--swap-dur) var(--ease-spring);
+}
+
+.auth-art figcaption {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 24rem;
+  text-align: center;
+  transition:
+    opacity var(--swap-dur) var(--ease-out),
+    transform var(--swap-dur) var(--ease-out);
+}
+
+.auth-art__title {
+  text-wrap: balance;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.auth-art__text {
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.auth-card[data-mode='register'] .auth-art--login,
+.auth-card[data-mode='login'] .auth-art--register {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, var(--swap-dur);
+}
+
+.auth-card[data-mode='register'] .auth-art--login img,
+.auth-card[data-mode='login'] .auth-art--register img {
+  transform: scale(1.06) rotate(-4deg);
+}
+
+.auth-card[data-mode='register'] .auth-art--login figcaption,
+.auth-card[data-mode='login'] .auth-art--register figcaption {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* Phones: a short picture band on top, the caption hidden (the form says it). */
+@media (max-width: 899px) {
+  .auth-card__art {
+    order: -1;
+    overflow: hidden;
+  }
+
+  .auth-art {
+    grid-template-rows: auto;
+    padding: var(--space-4);
+  }
+
+  .auth-art img {
+    width: auto;
+    max-width: 100%;
+    height: 10rem;
+    max-height: none;
+  }
+
+  .auth-art figcaption {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .auth-card {
+    grid-template-columns: 1fr 1fr;
+    min-height: 36rem;
+  }
+
+  .auth-card__forms {
+    padding: var(--space-12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card .auth-card__pane,
+  .auth-card .auth-art img,
+  .auth-card .auth-art figcaption {
+    transform: none !important;
+  }
+}
+
+
+/* WordPress: the switch is a link to the other pane (#inscription,
+   #connexion), so it works without JS through :target; js/auth.ts turns it
+   into the swap and marks the card data-auth-ready. */
+.auth-card__toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+.auth-card:not([data-auth-ready]):has(#inscription:target) .auth-card__pane--login,
+.auth-card:not([data-auth-ready]):has(#connexion:target) .auth-card__pane--register {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.auth-card:not([data-auth-ready]):has(#inscription:target) .auth-card__pane--register,
+.auth-card:not([data-auth-ready]):has(#connexion:target) .auth-card__pane--login {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* Lost / reset password: a single white panel. */
+.auth--single {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: 36rem;
+}
+
+.auth--single.auth-form {
+  max-width: 36rem;
+}
+
+.auth--single .field,
+.auth--single .notice {
+  justify-self: stretch;
+}
+
+.auth--single .notice {
+  margin: 0;
+}
+
+/* Woo's notices above the card or the section (a wrong password, a taken
+   e-mail, a saved address), on the account and tracking pages. */
+.woocommerce-notices-wrapper > .notice,
+.woocommerce > .notice {
+  margin: 0 0 var(--space-6);
+}

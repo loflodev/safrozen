@@ -1,0 +1,50 @@
+{
+  "key": "group_sf_recipes",
+  "title": "Bloc : Dernières recettes",
+  "fields": [
+    {
+      "key": "field_sf_recipes_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Nos dernières recettes"
+    },
+    {
+      "key": "field_sf_recipes_lede",
+      "label": "Chapeau",
+      "name": "lede",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Des idées simples pour apprêter Legim Express à votre goût."
+    },
+    {
+      "key": "field_sf_recipes_link_label",
+      "label": "Lien vers toutes les recettes",
+      "name": "link_label",
+      "type": "text",
+      "instructions": "Les trois dernières recettes (Articles) s’affichent seules.",
+      "required": 0,
+      "default_value": "Voir toutes les recettes"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/recipes"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

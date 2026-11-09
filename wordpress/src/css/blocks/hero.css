@@ -1,0 +1,453 @@
+/* One screen; the products turn in place (autoplay, or a scroll on the box). */
+.wheel {
+  position: relative;
+  height: 100svh;
+}
+
+/*
+ * Stage geometry. The box art and each background's painted floor patch share
+ * one 2:1 canvas, drawn at the same size and place (--art-w, --art-x, --art-y),
+ * so every box lands exactly on its painted floor.
+ *
+ * The carousel dots own a strip on the right (--dots-space: frame edge + dot +
+ * --dots-gap). The box artwork spans 24.7-75.2% of its canvas width, so its
+ * right edge is --art-x + --box-half; the canvas is never placed past that strip.
+ */
+.wheel__stage {
+  --frame-edge: max(var(--gutter), (100vw - var(--frame-max)) / 2);
+  --dots-gap: 40px;
+  --dots-space: calc(var(--frame-edge) + 8px + var(--dots-gap));
+  --art-w: max(100vw, 200svh);
+  --box-half: calc(var(--art-w) * 0.26);
+  --art-x: min(50vw, 100vw - var(--dots-space) - var(--box-half));
+  --art-y: calc(50svh - var(--art-w) / 4);
+  position: relative;
+  /* Keeps the text's and dots' z-index inside the hero, so Benefits' rounded
+     top (pulled up over the hero's bottom edge) covers them. */
+  isolation: isolate;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/*
+ * Landscape: the product sits in the room between the hero text column (plus
+ * 32px) and the dots' strip, centred there. It is at most 0.7x the full-bleed
+ * size and shrinks when that room is short, so it never meets the text or the dots.
+ */
+@media (min-aspect-ratio: 5/4) and (min-width: 900px) {
+  .wheel__stage {
+    --text-right: calc(var(--frame-edge) + min(40vw, 34rem) + 32px);
+    --art-w: min(
+      0.7 * max(100vw, 200svh),
+      (100vw - var(--dots-space) - var(--text-right)) / 0.52
+    );
+    --art-x: calc((var(--text-right) + 100vw - var(--dots-space)) / 2);
+  }
+}
+
+/*
+ * Portrait screens (phones and portrait tablets): the box comes first, right
+ * under the navbar, and the hero text follows below it.
+ * The box is 15% smaller than the room it could fill: at most as wide as the
+ * space between the left frame edge and the dots' strip, centred there.
+ * The artwork starts at 11.3% of the canvas height, so the canvas is raised by
+ * that much to put the box's top edge --gap-above under the navbar (16px + the
+ * logo: 72px under 900px wide, 112px from 900px, see Navbar.css). Both gaps grow
+ * with the screen height, so tall phones breathe and small ones still fit.
+ */
+@media (max-aspect-ratio: 5/4) {
+  .wheel__stage {
+    --nav-bottom: 88px;
+    --dots-gap: 20px;
+    --art-w: calc(0.85 * min(176vw, (100vw - var(--frame-edge) - var(--dots-space)) / 0.52));
+    --art-x: calc((var(--frame-edge) + 100vw - var(--dots-space)) / 2);
+    --gap-above: clamp(40px, 7.5svh, 72px); /* navbar -> box */
+    --gap-below: clamp(32px, 5.5svh, 56px); /* box -> hero text */
+    --art-y: calc(var(--nav-bottom) + var(--gap-above) - 0.0565 * var(--art-w));
+    /* Bottom edge of the box artwork (87.8% of the canvas height). */
+    --box-bottom: calc(var(--art-y) + 0.439 * var(--art-w));
+  }
+}
+
+@media (max-aspect-ratio: 5/4) and (min-width: 900px) {
+  .wheel__stage {
+    --nav-bottom: 128px;
+  }
+}
+
+.wheel__backgrounds,
+.wheel__bg {
+  position: absolute;
+  inset: 0;
+}
+
+/* Keep the per-image z-index juggling inside each layer. */
+.wheel__backgrounds {
+  z-index: 0;
+}
+
+/*
+ * Around the canvas, the field continues the background's own vertical blend
+ * (colours sampled from the image's edge, see PRODUCTS[].field), with stops
+ * pinned to the canvas so the two meet without a seam.
+ */
+.wheel__bg {
+  /* Continues the brand background image; not a decorative fill. */
+  background: linear-gradient( /* taste-skill-ignore */
+    to bottom,
+    var(--field-0) var(--art-y),
+    var(--field-1) calc(var(--art-y) + var(--art-w) / 8),
+    var(--field-2) calc(var(--art-y) + var(--art-w) / 4),
+    var(--field-3) calc(var(--art-y) + var(--art-w) * 3 / 8),
+    var(--field-4) calc(var(--art-y) + var(--art-w) / 2)
+  );
+}
+
+.wheel__bg-art,
+.wheel__layer {
+  position: absolute;
+  left: var(--art-x);
+  top: var(--art-y);
+  width: var(--art-w);
+  aspect-ratio: 2 / 1;
+  translate: -50% 0;
+}
+
+/* Feathered edges; the painted floor sits at ~90% of the height, so the bottom fade stays short. */
+.wheel__bg-art {
+  height: auto;
+  mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), /* taste-skill-ignore: mask */
+    linear-gradient(to bottom, transparent, #000 10%, #000 96%, transparent); /* taste-skill-ignore: mask */
+  mask-composite: intersect;
+}
+
+/*
+ * Vegetable line texture (tomato, carrot, cabbage) over the field and the
+ * painted floor, under the boxes. The SVG tile is only a mask; each product
+ * colours it with its own --field-line, and it fades with its background.
+ * The drift moves the mask, not the layer: the wheel turns on forever, and a
+ * repeating mask never shows an edge.
+ */
+.wheel__texture {
+  position: absolute;
+  inset: -120px 0;
+  background-color: var(--field-line);
+  /* Kept quiet: a texture, not an illustration. */
+  opacity: 0.6;
+  mask-image: url('../../images/veg-pattern.svg');
+  mask-size: 640px 640px;
+  mask-repeat: repeat;
+  mask-position: 0 calc(var(--drift, 0) * -40px);
+}
+
+@media (max-width: 599px) {
+  .wheel__texture {
+    mask-size: 440px 440px;
+  }
+}
+
+.wheel__layer {
+  z-index: 1;
+}
+
+.wheel__boxes {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * Hover and touch area: the box artwork's span inside its canvas (x 24.7-75.2%,
+ * y 11.3-87.8%). It sits in the layer, so it follows --art-* and the exit slide.
+ */
+.wheel__hit {
+  position: absolute;
+  left: 24.7%;
+  width: 50.5%;
+  top: 11.3%;
+  height: 76.5%;
+  z-index: 200;
+  cursor: grab;
+}
+
+/*
+ * Box hovered: the boxes lift, then bob gently, so it reads as something to
+ * scroll (the next box also peeks out above, see paint()). `scale`/`translate`
+ * compose with the inline `transform` each box gets from the wheel.
+ */
+@media (hover: hover) {
+  .wheel__boxes {
+    transition:
+      scale var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out);
+  }
+
+  .wheel__stage[data-hover] .wheel__boxes {
+    scale: 1.03;
+    translate: 0 -2%;
+    animation: wheel-bob var(--dur-bob) ease-in-out var(--dur-base) infinite;
+  }
+}
+
+@keyframes wheel-bob {
+  0%,
+  100% {
+    translate: 0 -2%;
+  }
+
+  50% {
+    translate: 0 -0.8%;
+  }
+}
+
+.wheel__box {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Centre of the box artwork inside the canvas. */
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+}
+
+/* Hero text: left column, kept in step with the active product. */
+.hero {
+  position: absolute;
+  z-index: 200;
+  /* Same left edge as the navbar frame, so the text lines up with the logo. */
+  left: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  top: 120px;
+  width: min(100% - 2 * var(--gutter), 34rem);
+}
+
+@media (max-aspect-ratio: 5/4) {
+  .hero {
+    top: calc(var(--box-bottom) + var(--gap-below));
+  }
+}
+
+@media (min-aspect-ratio: 5/4) and (min-width: 900px) {
+  .hero {
+    top: 50%;
+    translate: 0 -50%;
+    width: min(40vw, 34rem);
+  }
+}
+
+.hero__heading {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  font-weight: inherit;
+}
+
+/* Brand line in Aclonica; large text (>= 24px), so the 3:1 rule applies on the pastels. */
+.hero__brand {
+  font-family: var(--font-wordmark);
+  font-size: var(--text-wordmark);
+  line-height: 1.1;
+  color: var(--color-accent-text);
+}
+
+/* The three titles share one cell so the swap never moves the layout. */
+.hero__titles {
+  display: grid;
+}
+
+.hero__title {
+  grid-area: 1 / 1;
+  align-self: end;
+  font-size: clamp(2.75rem, 1rem + 4.6vw, 5.25rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--color-text);
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.hero__title[data-active='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.hero__desc {
+  margin: var(--space-6) 0 0;
+  max-width: 28ch;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--color-text);
+  animation: hero-rise var(--dur-slow) var(--ease-out) 80ms both;
+}
+
+/* Quiet spec row (landscape only: portrait phones keep their height for the CTA). */
+.hero__specs {
+  display: none;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.hero__specs span + span::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  vertical-align: middle;
+  opacity: 0.5;
+}
+
+/* One row per product, only the active one shown (hero.ts). */
+.hero__specs[hidden] {
+  display: none;
+}
+
+@media (min-aspect-ratio: 5/4) and (min-width: 900px) {
+  .hero__specs {
+    display: flex;
+  }
+}
+
+/* Primary action: same gradient chip language as the navbar; white on it is >= 4.83:1. */
+.hero__cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  margin-top: var(--space-8);
+  padding: 0 var(--space-6) 0 var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--gradient-chip);
+  color: var(--color-on-chip);
+  font: 700 var(--text-base) / 1 var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+/* Hover darkens (contrast only rises) and nudges the arrow. */
+.hero__cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--chip-hover);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.hero__cta svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.hero__cta:hover::before,
+.hero__cta:focus-visible::before {
+  opacity: 1;
+}
+
+.hero__cta:hover svg,
+.hero__cta:focus-visible svg {
+  transform: translateX(4px);
+}
+
+.hero__cta:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
+}
+
+.hero__cta:focus-visible {
+  outline-color: var(--ink);
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.wheel__dots {
+  position: absolute;
+  z-index: 200;
+  right: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Portrait: dots sit level with the middle of the box, not beside the text. */
+@media (max-aspect-ratio: 5/4) {
+  .wheel__dots {
+    top: calc(var(--art-y) + 0.25 * var(--art-w));
+  }
+}
+
+.wheel__dots li {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--ink-soft);
+  opacity: 0.35;
+  transition:
+    height var(--dur-slow) var(--ease-out),
+    background-color var(--dur-slow) var(--ease-out),
+    opacity var(--dur-slow) var(--ease-out);
+}
+
+.wheel__dots li.is-active {
+  height: 24px;
+  background: var(--color-accent-text);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheel__stage[data-hover] .wheel__boxes {
+    scale: none;
+    translate: none;
+    animation: none;
+  }
+
+  .hero__title,
+  .wheel__dots li {
+    transition: none;
+  }
+
+  .hero__title {
+    transform: none;
+  }
+
+  .hero__desc {
+    animation: none;
+  }
+
+  .hero__cta,
+  .hero__cta::before,
+  .hero__cta svg {
+    transition: none;
+  }
+
+  .hero__cta:hover svg,
+  .hero__cta:focus-visible svg {
+    transform: none;
+  }
+}

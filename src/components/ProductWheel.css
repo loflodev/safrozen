@@ -1,8 +1,7 @@
-/* Scroll length: one stage height per product plus one for the exit to
-   Benefits (--steps = products + 1); the last one ends the pin. */
+/* One screen; the products turn in place (autoplay, or a scroll on the box). */
 .wheel {
   position: relative;
-  height: calc(var(--steps) * 100svh);
+  height: 100svh;
 }
 
 /*
@@ -22,8 +21,10 @@
   --box-half: calc(var(--art-w) * 0.26);
   --art-x: min(50vw, 100vw - var(--dots-space) - var(--box-half));
   --art-y: calc(50svh - var(--art-w) / 4);
-  position: sticky;
-  top: 0;
+  position: relative;
+  /* Keeps the text's and dots' z-index inside the hero, so Benefits' rounded
+     top (pulled up over the hero's bottom edge) covers them. */
+  isolation: isolate;
   height: 100svh;
   overflow: hidden;
 }
@@ -125,7 +126,8 @@
  * Vegetable line texture (tomato, carrot, cabbage) over the field and the
  * painted floor, under the boxes. The SVG tile is only a mask; each product
  * colours it with its own --field-line, and it fades with its background.
- * It is taller than the stage so the scroll drift never shows an edge.
+ * The drift moves the mask, not the layer: the wheel turns on forever, and a
+ * repeating mask never shows an edge.
  */
 .wheel__texture {
   position: absolute;
@@ -136,8 +138,7 @@
   mask-image: url('/images/veg-pattern.svg');
   mask-size: 640px 640px;
   mask-repeat: repeat;
-  transform: translate3d(0, calc(var(--drift, 0) * -40px), 0);
-  will-change: transform;
+  mask-position: 0 calc(var(--drift, 0) * -40px);
 }
 
 @media (max-width: 599px) {
@@ -150,21 +151,53 @@
   z-index: 1;
 }
 
+.wheel__boxes {
+  position: absolute;
+  inset: 0;
+}
+
 /*
- * Leaving for Benefits: --leave (0 -> 1, set on <main> by the wheel) moves the
- * box out to the right and the text out to the left while Benefits opens from
- * the centre. `transform` composes with the `translate` that places them.
+ * Hover and touch area: the box artwork's span inside its canvas (x 24.7-75.2%,
+ * y 11.3-87.8%). It sits in the layer, so it follows --art-* and the exit slide.
  */
-.wheel__layer {
-  transform: translateX(calc(var(--leave, 0) * 100vw));
+.wheel__hit {
+  position: absolute;
+  left: 24.7%;
+  width: 50.5%;
+  top: 11.3%;
+  height: 76.5%;
+  z-index: 200;
+  cursor: grab;
 }
 
-.hero {
-  transform: translateX(calc(var(--leave, 0) * -1 * (100% + var(--frame-edge))));
+/*
+ * Box hovered: the boxes lift, then bob gently, so it reads as something to
+ * scroll (the next box also peeks out above, see paint()). `scale`/`translate`
+ * compose with the inline `transform` each box gets from the wheel.
+ */
+@media (hover: hover) {
+  .wheel__boxes {
+    transition:
+      scale var(--dur-base) var(--ease-out),
+      translate var(--dur-base) var(--ease-out);
+  }
+
+  .wheel__stage[data-hover] .wheel__boxes {
+    scale: 1.03;
+    translate: 0 -2%;
+    animation: wheel-bob var(--dur-bob) ease-in-out var(--dur-base) infinite;
+  }
 }
 
-.wheel__dots {
-  opacity: calc(1 - 2 * var(--leave, 0));
+@keyframes wheel-bob {
+  0%,
+  100% {
+    translate: 0 -2%;
+  }
+
+  50% {
+    translate: 0 -0.8%;
+  }
 }
 
 .wheel__box {
@@ -383,6 +416,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .wheel__stage[data-hover] .wheel__boxes {
+    scale: none;
+    translate: none;
+    animation: none;
+  }
+
   .hero__title,
   .wheel__dots li {
     transition: none;

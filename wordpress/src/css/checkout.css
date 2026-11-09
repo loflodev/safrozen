@@ -1,0 +1,9 @@
+/* Panier, Commande and Commande reçue (the classic cart and checkout drawn by the theme). */
+@import './account/timeline.css';
+@import './account/order-details.css';
+@import './checkout/cart.css';
+@import './checkout/summary.css';
+@import './checkout/steps.css';
+@import './checkout/choice.css';
+@import './checkout/checkout.css';
+@import './checkout/confirmation.css';

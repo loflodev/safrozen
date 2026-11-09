@@ -53,17 +53,20 @@ function FeaturedRow({ item, index }: { item: Item; index: number }) {
 
   return (
     <li className="featured__row" ref={rowRef} style={{ '--i': index } as React.CSSProperties}>
-      <div className="featured__panel" style={fieldVars(item.id)}>
-        <div className="featured__texture" aria-hidden="true" />
-        <div className="featured__pic">
-          <img
-            src={`/images/${item.id}-box-1280.webp`}
-            alt={`La boîte ${item.name}`}
-            width={1280}
-            height={640}
-            loading="lazy"
-            decoding="async"
-          />
+      {/* The frame carries the white stroke and the lift; the panel inside it clips for the circle entrance. */}
+      <div className="featured__frame">
+        <div className="featured__panel" style={fieldVars(item.id)}>
+          <div className="featured__texture" aria-hidden="true" />
+          <div className="featured__pic">
+            <img
+              src={`/images/${item.id}-box-1280.webp`}
+              alt={`La boîte ${item.name}`}
+              width={1280}
+              height={640}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
       <div className="featured__copy">
@@ -105,7 +108,6 @@ export default function Featured() {
         <h2 className="section__title featured__title" id="featured-title">
           Nos meilleures ventes
         </h2>
-        <p className="section__lede featured__lede">Les deux favoris de nos clients, prêts quand vous l'êtes.</p>
       </div>
 
       <ul className="featured__list">

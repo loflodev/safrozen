@@ -5,8 +5,13 @@
   margin-bottom: var(--space-16);
 }
 
+/* A white stroke and the cards' lift raise the field panel off the cream. */
 .product__art {
+  border: var(--space-2) solid var(--panel-ground);
   border-radius: var(--radius-xl);
+  box-shadow: /* taste-skill-ignore: the cards' lift, requested for the product picture */
+    0 2px 6px var(--card-shadow-near),
+    0 12px 28px var(--card-shadow-far);
   animation: page-rise var(--dur-reveal) var(--ease-spring) both;
 }
 
@@ -27,8 +32,9 @@
   margin-bottom: 0;
 }
 
-.product__info .crumbs ol {
-  margin-bottom: var(--space-4);
+/* The grid gap does the spacing under 900px; from 900px the crumbs sit atop the buy column. */
+.product__crumbs ol {
+  margin: 0;
 }
 
 .product__short {
@@ -232,11 +238,25 @@
 @media (min-width: 900px) {
   .product__top {
     grid-template-columns: 7fr 5fr;
-    gap: var(--space-12);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'media crumbs'
+      'media info';
+    column-gap: var(--space-12);
+    row-gap: var(--space-4);
     align-items: start;
   }
 
+  .product__crumbs {
+    grid-area: crumbs;
+  }
+
+  .product__info {
+    grid-area: info;
+  }
+
   .product__media {
+    grid-area: media;
     position: sticky;
     top: calc(var(--nav-bottom) + var(--space-4));
   }

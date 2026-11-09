@@ -132,7 +132,7 @@ export default function Cart() {
             onApplyCoupon={cart.applyCoupon}
             onRemoveCoupon={cart.removeCoupon}
           >
-            <Link className="btn-chip" to="/commande">
+            <Link className="btn-chip cart__checkout" to="/commande">
               Passer la commande
               <ArrowRightIcon />
             </Link>

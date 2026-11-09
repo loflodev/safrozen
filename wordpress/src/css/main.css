@@ -1,0 +1,13 @@
+/* Global stylesheet: fonts, tokens, base, the shell (navbar, footer, mini-cart, toast). */
+@import '@fontsource-variable/manrope/index.css';
+@import '@fontsource/aclonica/latin-400.css';
+@import './tokens.css';
+@import './base.css';
+@import './navbar.css';
+@import './footer.css';
+@import './page-header.css';
+@import './product-art.css';
+@import './quantity-stepper.css';
+@import './minicart.css';
+@import './toast.css';
+@import './wp.css';

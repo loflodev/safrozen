@@ -1,0 +1,266 @@
+/*
+ * Recipes (the blog): the three latest posts. From 900px it's an editorial
+ * grid: the newest as a large lead card on the left, the two others as rows
+ * (thumbnail + text) on the right. Entrance (reveal.ts), per card,
+ * 150ms apart: the picture tile is uncovered by a curtain wiping upwards while
+ * the dish inside settles from 1.15 scale, then the date, title and excerpt
+ * fade up.
+ */
+.recipes__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.recipes__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  color: var(--color-accent-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.recipes__all svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.recipes__all:hover svg,
+.recipes__all:focus-visible svg {
+  transform: translateX(4px);
+}
+
+.recipes__list {
+  display: grid;
+  gap: var(--space-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recipe {
+  --delay: calc(var(--i) * 150ms);
+}
+
+.recipe__card {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.recipe__tile {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background: var(--terracotta-100);
+  clip-path: inset(0 round var(--radius-lg));
+  transition: clip-path var(--dur-reveal) var(--ease-out) var(--delay);
+}
+
+.recipe__img {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-6);
+  object-fit: contain;
+  transition: transform 1200ms var(--ease-out) var(--delay);
+}
+
+@media (hover: hover) {
+  .recipe__card:hover .recipe__img {
+    transform: scale(1.05);
+    transition-delay: 0ms;
+  }
+}
+
+.recipe__text {
+  margin: 0;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.recipe__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition-delay: calc(var(--delay) + 560ms);
+}
+
+.recipe__read {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.recipe__title {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition-delay: calc(var(--delay) + 400ms);
+}
+
+/* The title's link covers the card; its underline grows on hover. */
+.recipe__link {
+  color: inherit;
+  text-decoration: none;
+  background: linear-gradient(var(--color-accent-text), var(--color-accent-text)) left bottom / 0 2px no-repeat; /* taste-skill-ignore: underline, not a fill */
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+
+.recipe__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.recipe__card:hover .recipe__link,
+.recipe__link:focus-visible {
+  background-size: 100% 2px;
+}
+
+.recipe__link:focus-visible {
+  outline: none;
+}
+
+.recipe__card:has(.recipe__link:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 6px;
+  border-radius: var(--radius-lg);
+}
+
+.recipe__excerpt {
+  max-width: 34rem;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  text-wrap: pretty;
+  transition-delay: calc(var(--delay) + 480ms);
+}
+
+.recipes__title,
+.recipes__lede,
+.recipes__all {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+/* Before the entrance (JS only). */
+.recipes[data-reveal]:not([data-in]) .recipe__tile {
+  clip-path: inset(100% 0 0 round var(--radius-lg));
+}
+
+.recipes[data-reveal]:not([data-in]) .recipe__img {
+  transform: scale(1.15);
+}
+
+.recipes[data-reveal]:not([data-in]) :is(.recipe__text, .recipes__title, .recipes__lede, .recipes__all) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@media (min-width: 900px) {
+  .recipes__list {
+    grid-template-columns: 7fr 5fr;
+    /* Rows 1–4 are the lead's picture (the pair sits in 2 and 3, centred on it
+       by the two 1fr rows); 5–7 hold the lead's title, excerpt and meta. */
+    grid-template-rows: 1fr auto auto 1fr auto auto auto;
+    gap: 0 var(--space-16);
+    container-type: inline-size;
+  }
+
+  .recipe:first-child,
+  .recipe:first-child .recipe__card {
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-rows: subgrid;
+  }
+
+  /* Stretched: where the pair is taller than the 5:4 picture (narrow screens),
+     the tile grows to it rather than leaving a gap above the title. */
+  .recipe:first-child .recipe__tile {
+    grid-row: 1 / 5;
+    align-self: stretch;
+    aspect-ratio: auto;
+    /* 5:4 of the 7fr column; size containment keeps the square image from
+       sizing the rows. */
+    min-height: calc((100cqw - var(--space-16)) * 7 / 12 * 4 / 5);
+    contain: size;
+    margin-bottom: var(--space-3);
+  }
+
+  .recipe:first-child .recipe__excerpt,
+  .recipe:first-child .recipe__meta {
+    margin-top: var(--space-3);
+  }
+
+  .recipe:nth-child(2) {
+    grid-row: 2;
+    margin-bottom: var(--space-6);
+  }
+
+  .recipe:nth-child(3) {
+    grid-row: 3;
+    margin-top: var(--space-6);
+  }
+
+
+  .recipe:first-child .recipe__title {
+    font-size: var(--text-title);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  /* The two rows: thumbnail left, text right. */
+  .recipe:not(:first-child) .recipe__card {
+    grid-template-columns: 9rem 1fr;
+    column-gap: var(--space-6);
+    align-content: center;
+  }
+
+  .recipe:not(:first-child) .recipe__tile {
+    grid-row: span 3;
+    align-self: start;
+    aspect-ratio: 1;
+  }
+
+  .recipe:not(:first-child) .recipe__img {
+    padding: var(--space-3);
+  }
+
+
+  .recipe:not(:first-child) .recipe__excerpt {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .recipe__tile {
+    transition: opacity var(--dur-slow) var(--ease-out) var(--delay);
+  }
+
+  .recipes[data-reveal]:not([data-in]) .recipe__tile {
+    clip-path: inset(0 round var(--radius-lg));
+    opacity: 0;
+  }
+
+  .recipes[data-reveal]:not([data-in]) .recipe__img,
+  .recipe__card:hover .recipe__img {
+    transform: none;
+  }
+
+  .recipes[data-reveal]:not([data-in]) :is(.recipe__text, .recipes__title, .recipes__lede, .recipes__all) {
+    transform: none;
+  }
+}

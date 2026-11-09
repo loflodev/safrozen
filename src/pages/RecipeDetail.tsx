@@ -91,7 +91,7 @@ export default function RecipeDetail() {
       )}
 
       <section className="recipe-page__more" aria-labelledby="more-title">
-        <div className="section__head">
+        <div className="section__head recipes__head">
           <h2 className="section__title" id="more-title">
             D'autres recettes
           </h2>

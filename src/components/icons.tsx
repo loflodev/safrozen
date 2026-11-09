@@ -175,3 +175,38 @@ export const BoxIcon = (props: IconProps) => (
     <path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5zM3 7.5l9 4.5 9-4.5M12 12v9" />
   </svg>
 )
+
+// Sort: an arrow down beside lines of falling length.
+export const SortIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M4 6h9M4 12h6M4 18h3M17 5v14M14 16l3 3 3-3" />
+  </svg>
+)
+
+export const HomeIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z" />
+  </svg>
+)
+
+// Recipes: an open book.
+export const BookIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5ZM12 6.5v13" />
+  </svg>
+)
+
+export const QuestionIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.7c0 1.8-2.5 2.2-2.5 3.8" />
+    <path d="M12 17h.01" />
+  </svg>
+)
+
+// Sign out: a door with an arrow leaving it.
+export const LogoutIcon = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M14 4H6v16h8M10 12h10M17 8.5l3.5 3.5-3.5 3.5" />
+  </svg>
+)

@@ -1,0 +1,98 @@
+{
+  "key": "group_sf_contact",
+  "title": "Legim : page Contact",
+  "fields": [
+    {
+      "key": "field_sf_contact_title",
+      "label": "Titre",
+      "name": "title",
+      "type": "text",
+      "instructions": "Le titre de la page (le fil d’Ariane garde « Contact »).",
+      "required": 0,
+      "default_value": "Parlons-en"
+    },
+    {
+      "key": "field_sf_contact_lede",
+      "label": "Chapeau",
+      "name": "lede",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 2,
+      "new_lines": "",
+      "default_value": "Une question sur une commande, la livraison ou nos legims ? Nous répondons en un jour ouvrable."
+    },
+    {
+      "key": "field_sf_contact_locator_title",
+      "label": "Bandeau : titre",
+      "name": "locator_title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Trouvez nos legims près de chez vous"
+    },
+    {
+      "key": "field_sf_contact_locator_text",
+      "label": "Bandeau : texte",
+      "name": "locator_text",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 2,
+      "new_lines": "",
+      "default_value": "Nos boîtes vous attendent au congélateur de nos épiciers partenaires. Cherchez le magasin le plus proche."
+    },
+    {
+      "key": "field_sf_contact_locator_label",
+      "label": "Bandeau : bouton",
+      "name": "locator_label",
+      "type": "text",
+      "instructions": "Mène à la page Trouver un magasin.",
+      "required": 0,
+      "default_value": "Trouver un magasin"
+    },
+    {
+      "key": "field_sf_contact_locator_product",
+      "label": "Bandeau : produit",
+      "name": "locator_product",
+      "type": "post_object",
+      "instructions": "Sa boîte et ses couleurs de champ habillent le bandeau.",
+      "required": 0,
+      "post_type": [
+        "product"
+      ],
+      "return_format": "id",
+      "allow_null": 1
+    },
+    {
+      "key": "field_sf_contact_form",
+      "label": "Formulaire",
+      "name": "form",
+      "type": "post_object",
+      "instructions": "Le formulaire Contact Form 7 « Contact ». Les messages sont dans Flamingo.",
+      "required": 0,
+      "post_type": [
+        "wpcf7_contact_form"
+      ],
+      "return_format": "id",
+      "allow_null": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "page_template",
+        "operator": "==",
+        "value": "page-contact.php"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "acf_after_title",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

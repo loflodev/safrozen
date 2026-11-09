@@ -1,0 +1,83 @@
+{
+  "key": "group_sf_benefits",
+  "title": "Bloc : Avantages",
+  "fields": [
+    {
+      "key": "field_sf_benefits_heading",
+      "label": "Titre (lu par les lecteurs d’écran)",
+      "name": "heading",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "Pourquoi Legim Express"
+    },
+    {
+      "key": "field_sf_benefits_minutes",
+      "label": "Compteur (minutes)",
+      "name": "minutes",
+      "type": "number",
+      "instructions": "Le chiffre blanc sur l’anneau du collage.",
+      "required": 0,
+      "min": 1,
+      "max": 99,
+      "default_value": 20
+    },
+    {
+      "key": "field_sf_benefits_cards",
+      "label": "Cartes",
+      "name": "cards",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "sub_fields": [
+        {
+          "key": "field_sf_benefits_cards_title",
+          "label": "Titre",
+          "name": "title",
+          "type": "text",
+          "instructions": "",
+          "required": 0
+        },
+        {
+          "key": "field_sf_benefits_cards_icon",
+          "label": "Icône",
+          "name": "icon",
+          "type": "select",
+          "instructions": "",
+          "required": 0,
+          "choices": {
+            "snowflake": "Flocon (congelé)",
+            "leaf": "Feuille (écologique)",
+            "timer": "Minuteur (rapide)",
+            "truck": "Camion (livraison)",
+            "box": "Boîte",
+            "star": "Étoile"
+          },
+          "default_value": "snowflake",
+          "return_format": "value"
+        }
+      ],
+      "min": 1,
+      "max": 4,
+      "layout": "table",
+      "button_label": "Ajouter une carte"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "safrozen/benefits"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

@@ -1,0 +1,76 @@
+// Partner grocers that stock the legims (WP: the "Points de vente" posts, which
+// wordpress/scripts/import-stores.php fills from this list via pnpm wp:stores).
+// From safrozen.com/point-de-vente (WP Store Locator), 2026-11-06, with names
+// and addresses tidied. TODO: phones and hours, which the source doesn't have.
+export type LatLng = { lat: number; lng: number }
+
+export type Store = LatLng & {
+  id: string
+  name: string
+  address: string
+  city: string
+  postcode: string
+  phone?: string
+  hours?: string
+}
+
+export const STORES: Store[] = [
+  { id: 'iasenza-longueuil', name: 'Centre des Viandes F. Iasenza', address: '1030, boulevard Curé-Poirier Ouest', city: 'Longueuil', postcode: 'J4K 2E1', lat: 45.517274, lng: -73.489132 },
+  { id: 'iasenza-belanger', name: 'Centre des Viandes F. Iasenza', address: '3266, rue Bélanger', city: 'Montréal', postcode: 'H1X 1A1', lat: 45.557665, lng: -73.593498 },
+  { id: 'le-pro-villeray', name: 'Le Pro', address: '1600, rue Villeray', city: 'Montréal', postcode: 'H2E 1H3', lat: 45.550441, lng: -73.615124 },
+  { id: 'obeissance', name: 'Obéissance', address: '8565, boulevard Pie-IX', city: 'Montréal', postcode: 'H1Z 3T9', lat: 45.575543, lng: -73.611106 },
+  { id: 'wawaa', name: 'Supermarché Wawaa', address: '9048, boulevard Saint-Michel', city: 'Montréal', postcode: 'H1Z 3G5', lat: 45.571487, lng: -73.627807 },
+  { id: 'marche-haitien', name: 'Le Marché Haïtien', address: '9151, boulevard Pie-IX', city: 'Montréal', postcode: 'H1Z 3V9', lat: 45.580232, lng: -73.621802 },
+  { id: 'iasenza-lasalle', name: 'Centre des Viandes F. Iasenza', address: '392, avenue Lafleur', city: 'LaSalle', postcode: 'H8R 3H6', lat: 45.431595, lng: -73.647521 },
+  { id: 'damesara', name: 'Damesara', address: '10320, avenue Pelletier', city: 'Montréal', postcode: 'H1H 3R3', lat: 45.588005, lng: -73.629066 },
+  { id: 'iasenza-montreal-nord', name: 'Centre des Viandes F. Iasenza', address: '10847, boulevard Pie-IX', city: 'Montréal-Nord', postcode: 'H1H 4A9', lat: 45.590857, lng: -73.636902 },
+  { id: 'intermarche-palumbo', name: 'L’Intermarché Palumbo', address: '2710, rue des Ormeaux', city: 'Montréal', postcode: 'H1L 4X7', lat: 45.602088, lng: -73.522104 },
+  { id: 'iga-extra-saint-laurent', name: 'IGA Extra', address: '5600, boulevard Henri-Bourassa Ouest', city: 'Saint-Laurent', postcode: 'H4R 0M6', lat: 45.517342, lng: -73.715154 },
+  { id: 'iasenza-sherbrooke', name: 'Centre des Viandes F. Iasenza', address: '9305, rue Sherbrooke Est', city: 'Montréal', postcode: 'H1L 6P2', lat: 45.609929, lng: -73.527461 },
+  { id: 'iasenza-laval', name: 'Centre des Viandes F. Iasenza', address: '1550, boulevard Daniel-Johnson', city: 'Laval', postcode: 'H7T 1A1', lat: 45.556853, lng: -73.744267 },
+  { id: 'iasenza-ddo', name: 'Centre des Viandes F. Iasenza', address: '2900, rue du Marché', city: 'Dollard-des-Ormeaux', postcode: 'H9B 3M2', lat: 45.483406, lng: -73.799534 },
+  { id: 'epicerie-armel', name: 'Épicerie Armel', address: '555, boulevard Lacombe, local F', city: 'Repentigny', postcode: 'J5Z 3B5', lat: 45.758552, lng: -73.461598 },
+  { id: 'gb-caribbean', name: 'GB Caribbean Grocery', address: '621 Center Street', city: 'Ottawa', postcode: 'K1K 2N8', lat: 45.4416, lng: -75.642594 },
+  { id: 'ms-marche-tropical', name: 'M&S Marché Tropical', address: '977, route de l’Église', city: 'Québec', postcode: 'G1V 3V3', lat: 46.773897, lng: -71.298002 },
+]
+
+// Great-circle distance in km.
+export function distanceKm(a: LatLng, b: LatLng) {
+  const rad = (d: number) => (d * Math.PI) / 180
+  const dLat = rad(b.lat - a.lat)
+  const dLng = rad(b.lng - a.lng)
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2
+  return 6371 * 2 * Math.asin(Math.sqrt(h))
+}
+
+const km = new Intl.NumberFormat('fr-CA', { maximumFractionDigits: 1 })
+export const formatKm = (d: number) => `${km.format(d < 10 ? d : Math.round(d))} km`
+
+// Opens the store in Google Maps (app on phones, site elsewhere).
+export const mapsUrl = (s: Store) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${s.name}, ${s.address}, ${s.city} ${s.postcode}`)}`
+
+export const normalizePostcode = (v: string) => {
+  const c = v.replace(/\s/g, '').toUpperCase()
+  return `${c.slice(0, 3)} ${c.slice(3)}`
+}
+
+const cache = new Map<string, LatLng | null>()
+
+/*
+ * Postal code → coordinates via OpenStreetMap's Nominatim (no key; at most one
+ * request a second, which a person typing never reaches). Returns null when
+ * the code is unknown. TODO: in WordPress, geocode on the server (or through
+ * the store locator plugin) and cache there.
+ */
+export async function geocodePostcode(code: string, signal?: AbortSignal): Promise<LatLng | null> {
+  const key = normalizePostcode(code)
+  if (cache.has(key)) return cache.get(key)!
+  const url = `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(key)}&countrycodes=ca&format=jsonv2&limit=1`
+  const res = await fetch(url, { signal, headers: { 'Accept-Language': 'fr-CA' } })
+  if (!res.ok) throw new Error(`geocode ${res.status}`)
+  const [hit] = (await res.json()) as { lat: string; lon: string }[]
+  const point = hit ? { lat: Number(hit.lat), lng: Number(hit.lon) } : null
+  cache.set(key, point)
+  return point
+}

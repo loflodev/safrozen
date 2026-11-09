@@ -1,0 +1,139 @@
+{
+  "key": "group_sf_product",
+  "title": "Legim : produit",
+  "fields": [
+    {
+      "key": "field_sf_product_hero_title",
+      "label": "Titre dans la roue",
+      "name": "hero_title",
+      "type": "text",
+      "instructions": "Ex. « Au Lalo ». La ligne de marque est ajoutée au-dessus.",
+      "required": 0
+    },
+    {
+      "key": "field_sf_product_background_image",
+      "label": "Arrière-plan de la roue",
+      "name": "background_image",
+      "type": "image",
+      "instructions": "Même toile 2:1 que la boîte (l’image du produit), sol peint au même endroit.",
+      "required": 0,
+      "return_format": "id",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
+      "key": "field_sf_product_field_colors",
+      "label": "Couleurs du champ",
+      "name": "field_colors",
+      "type": "text",
+      "instructions": "Les 5 couleurs du bord gauche de l’arrière-plan, de haut en bas, séparées par des virgules. Ex. #f4f9e9, #eef5de, #e8f2d1, #e2efc7, #dcebba",
+      "required": 0
+    },
+    {
+      "key": "field_sf_product_line_color",
+      "label": "Teinte de la texture",
+      "name": "line_color",
+      "type": "color_picker",
+      "instructions": "Un cran plus foncé que le champ ; garder l’encre ≥ 9,8:1 et #C64914 ≥ 3,1:1 dessus.",
+      "required": 0
+    },
+    {
+      "key": "field_sf_product_image_kind",
+      "label": "Type d’image",
+      "name": "image_kind",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "choices": {
+        "box": "Boîte sur toile 2:1 (recadrée 4:3)",
+        "photo": "Photo entière"
+      },
+      "default_value": "box",
+      "return_format": "value"
+    },
+    {
+      "key": "field_sf_product_weight",
+      "label": "Poids",
+      "name": "weight",
+      "type": "text",
+      "instructions": "Les trois repères (Poids, Portions, Prêt en) s’affichent tels quels sous le titre dans la roue du héros. Vide : masqué.",
+      "required": 0,
+      "default_value": "500 g"
+    },
+    {
+      "key": "field_sf_product_portions",
+      "label": "Portions",
+      "name": "portions",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "4"
+    },
+    {
+      "key": "field_sf_product_ready",
+      "label": "Prêt en",
+      "name": "ready",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "default_value": "20 min"
+    },
+    {
+      "key": "field_sf_product_ingredients",
+      "label": "Ingrédients",
+      "name": "ingredients",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 3,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_product_preparation",
+      "label": "Préparation",
+      "name": "preparation",
+      "type": "textarea",
+      "instructions": "Une étape par ligne.",
+      "required": 0,
+      "rows": 5,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_product_allergens",
+      "label": "Allergènes",
+      "name": "allergens",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_sf_product_contents",
+      "label": "Contenu du pack",
+      "name": "contents",
+      "type": "textarea",
+      "instructions": "Packs seulement : une boîte par ligne.",
+      "required": 0,
+      "rows": 3,
+      "new_lines": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "product"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0,
+  "modified": 1794005565
+}

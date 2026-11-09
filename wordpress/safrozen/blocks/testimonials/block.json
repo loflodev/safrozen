@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "safrozen/testimonials",
+	"title": "Avis clients",
+	"category": "safrozen",
+	"icon": "format-quote",
+	"description": "La note moyenne et les trois derniers avis.",
+	"textdomain": "safrozen",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": false,
+		"customClassName": false,
+		"multiple": false,
+		"reusable": false,
+		"mode": false
+	},
+	"style": ["safrozen-testimonials"],
+	"acf": {
+		"blockVersion": 3,
+		"mode": "edit",
+		"renderTemplate": "render.php"
+	}
+}

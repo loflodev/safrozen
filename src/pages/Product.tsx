@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { ArrowRightIcon, StarIcon, TruckIcon } from '../components/icons'
-import PageHeader from '../components/shop/PageHeader'
+import PageHeader, { Crumbs } from '../components/shop/PageHeader'
 import ProductArt from '../components/shop/ProductArt'
 import ProductCard from '../components/shop/ProductCard'
 import QuantityStepper from '../components/shop/QuantityStepper'
@@ -47,19 +47,21 @@ function Product({ slug }: { slug: string }) {
   return (
     <main className="page product">
       <div className="product__top">
+        {/* Its own grid item: above the art under 900px, atop the buy column from 900px. */}
+        <Crumbs
+          className="product__crumbs"
+          crumbs={[
+            { to: '/boutique', label: 'Boutique' },
+            { to: `/boutique?categorie=${category.id}`, label: category.label },
+            { label: item.name },
+          ]}
+        />
         <div className="product__media">
           <ProductArt item={item} size={2048} eager className="product__art" />
         </div>
 
         <div className="product__info">
-          <PageHeader
-            crumbs={[
-              { to: '/boutique', label: 'Boutique' },
-              { to: `/boutique?categorie=${category.id}`, label: category.label },
-              { label: item.name },
-            ]}
-            title={item.name}
-          />
+          <PageHeader title={item.name} />
           <p className="product__short">{item.short}</p>
 
 
