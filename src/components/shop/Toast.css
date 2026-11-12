@@ -71,8 +71,21 @@
   outline-color: var(--white);
 }
 
+/* It leaves along the path it came in on. */
+.toast[data-leaving] {
+  pointer-events: none;
+  animation: toast-out var(--dur-fast) var(--ease-out) both;
+}
+
 @keyframes toast-in {
   from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes toast-out {
+  to {
     opacity: 0;
     transform: translateY(16px);
   }
@@ -83,8 +96,18 @@
     animation-name: toast-fade;
   }
 
+  .toast[data-leaving] {
+    animation-name: toast-fade-out;
+  }
+
   @keyframes toast-fade {
     from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes toast-fade-out {
+    to {
       opacity: 0;
     }
   }
