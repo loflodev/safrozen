@@ -24,6 +24,8 @@
   --color-accent-text: var(--orange-600);
   --color-on-accent: var(--ink);
   --color-hover: var(--terracotta-100);
+  --band-veil: 0.85; /* tint opacity over the info band photo (every page) */
+  --band-veil-phone: 0.94; /* same under 900px, where the photo sits behind the text */
   --color-rule: var(--benefit-line); /* info pages' header edge only (user request) */
   --color-focus: var(--orange-600);
 
@@ -47,9 +49,9 @@
   --logo-shadow-far: rgb(32 30 30 / 0.2);
 
   /*
-   * Benefits section ground, beside bb6's picture,
-   * which the cards share. The cards' lift is the second resting depth effect,
-   * requested by the brand. taste-skill-ignore
+   * White ground of the Story and other sections. The cards' lift (shared by
+   * the review cards and Featured panels) is a resting depth effect requested
+   * by the brand. taste-skill-ignore
    */
   --benefit-ground: #ffffff;
   /* Vegetable line texture on that white (shown at 0.6 opacity); the cards
@@ -57,12 +59,15 @@
   --benefit-line: #e8c4b3;
   --card-shadow-near: rgb(32 30 30 / 0.08);
   --card-shadow-far: rgb(32 30 30 / 0.14);
-  /* bb6 collage lift: follows the cut-outs (pot, plates, box), so they sit
-     raised off the white. Brand request. */
+  /* Contour lift for transparent product cut-outs (ProductArt). Brand request. */
   --art-shadow-near: rgb(32 30 30 / 0.12);
   --art-shadow-far: rgb(32 30 30 / 0.18);
-  /* Counter on the ring's disc: white by brand request (2.05:1 on #F6A41C). */
-  --color-on-disc: var(--white);
+  /* Product art lift (.product-art--lifted): a light pool behind the cut-out
+     and an oval floor shade under it, whatever the image. */
+  --art-glow: rgb(255 255 255 / 0.55);
+  --art-floor: rgb(32 30 30 / 0.22);
+  /* Benefits timer dial: its size (the counter scales with it). */
+  --dial-size: clamp(16rem, 11rem + 14vw, 23rem);
 
   /* Footer: the one dark section (ink ground). */
   --footer-ground: var(--ink);

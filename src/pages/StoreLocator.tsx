@@ -117,7 +117,7 @@ export default function StoreLocator() {
       : search.state === 'found'
         ? `Le plus proche de ${search.label} : ${stores[0].name}, à ${formatKm(stores[0].km!)}.`
         : search.state === 'idle'
-          ? `${STORES.length} épiceries partenaires ont nos legims au congélateur.`
+          ? `${STORES.length} épiceries partenaires ont nos produits au congélateur.`
           : ''
 
   return (
@@ -125,7 +125,7 @@ export default function StoreLocator() {
       <PageHeader
         crumbs={[{ label: 'Trouver un magasin' }]}
         title="Trouver un magasin"
-        lede="Entrez votre code postal : nous vous montrons l’épicerie la plus proche qui a nos legims au congélateur."
+        lede="Entrez votre code postal : nous vous montrons l’épicerie la plus proche qui a nos produits au congélateur."
       />
 
       <div className="locator__layout">

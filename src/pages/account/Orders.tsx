@@ -16,7 +16,7 @@ export default function Orders() {
         title="Aucune commande pour l'instant"
         action={
           <Link className="btn-chip" to="/boutique">
-            Découvrir nos legims
+            Découvrir nos produits
             <ArrowRightIcon />
           </Link>
         }

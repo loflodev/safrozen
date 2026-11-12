@@ -54,14 +54,14 @@ export default function Contact() {
       <PageHeader
         crumbs={[{ label: 'Contact' }]}
         title="Parlons-en"
-        lede="Une question sur une commande, la livraison ou nos legims ? Nous répondons en un jour ouvrable."
+        lede="Une question sur une commande, la livraison ou nos produits ? Nous répondons en un jour ouvrable."
       />
 
       <section className="contact-locator" style={fieldVars(chayotte)} aria-labelledby="contact-locator-title">
         <div className="contact-locator__texture" aria-hidden="true" />
         <div className="contact-locator__copy">
           <h2 className="contact-locator__title" id="contact-locator-title">
-            Trouvez nos legims près de chez vous
+            Trouvez nos produits près de chez vous
           </h2>
           <p className="contact-locator__text">
             Nos boîtes vous attendent au congélateur de nos épiciers partenaires. Cherchez le magasin le plus proche.

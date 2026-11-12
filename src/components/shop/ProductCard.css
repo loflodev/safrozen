@@ -111,6 +111,12 @@
     transform: translateY(-6px) rotate(-3deg);
   }
 
+  /* The floor shade tightens as the product rises off it. */
+  .product-card:hover .product-art--lifted::after {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+
   .product-card__add:hover {
     transform: scale(1.05);
   }
@@ -128,7 +134,8 @@
   }
 
   .product-card:hover,
-  .product-card:hover .product-art img {
+  .product-card:hover .product-art img,
+  .product-card:hover .product-art--lifted::after {
     transform: none;
   }
 }

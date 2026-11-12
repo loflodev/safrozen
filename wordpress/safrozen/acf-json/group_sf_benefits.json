@@ -4,22 +4,22 @@
   "fields": [
     {
       "key": "field_sf_benefits_heading",
-      "label": "Titre (lu par les lecteurs d’écran)",
+      "label": "Titre",
       "name": "heading",
       "type": "text",
-      "instructions": "",
+      "instructions": "« Legim Express » s’écrit en Aclonica ; « ? » est ajouté.",
       "required": 0,
       "default_value": "Pourquoi Legim Express"
     },
     {
       "key": "field_sf_benefits_minutes",
-      "label": "Compteur (minutes)",
+      "label": "Minuteur (minutes)",
       "name": "minutes",
       "type": "number",
-      "instructions": "Le chiffre blanc sur l’anneau du collage.",
+      "instructions": "Le chiffre au centre du cadran, où l’arc s’arrête.",
       "required": 0,
       "min": 1,
-      "max": 99,
+      "max": 60,
       "default_value": 20
     },
     {
@@ -55,6 +55,19 @@
           },
           "default_value": "snowflake",
           "return_format": "value"
+        },
+        {
+          "key": "field_sf_benefits_cards_product",
+          "label": "Couleur (produit)",
+          "name": "product",
+          "type": "post_object",
+          "instructions": "La carte prend le champ de ce produit (onglet Legim).",
+          "required": 0,
+          "post_type": [
+            "product"
+          ],
+          "return_format": "id",
+          "allow_null": 1
         }
       ],
       "min": 1,
@@ -79,5 +92,5 @@
   "instruction_placement": "label",
   "active": true,
   "show_in_rest": 0,
-  "modified": 1794005565
+  "modified": 1794466534
 }

@@ -20,7 +20,7 @@ $meta = safrozen_hero_specs( $product->get_id() );
 ?>
 <li style="--i: <?php echo (int) $index; ?>">
 	<article class="product-card">
-		<?php echo safrozen_product_art( $product, 'product-card__art', $index < 3 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<?php echo safrozen_product_art( $product, 'product-card__art product-art--lifted', $index < 3 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="product-card__body">
 			<h3 class="product-card__name">
 				<a href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $name ); ?></a>

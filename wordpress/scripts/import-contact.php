@@ -86,8 +86,8 @@ update_post_meta( $page->ID, '_wp_page_template', 'page-contact.php' );
 $chayotte = get_page_by_path( 'legim-a-la-chayotte', OBJECT, 'product' );
 $fields   = array(
 	'title'           => 'Parlons-en',
-	'lede'            => 'Une question sur une commande, la livraison ou nos legims ? Nous répondons en un jour ouvrable.',
-	'locator_title'   => 'Trouvez nos legims près de chez vous',
+	'lede'            => 'Une question sur une commande, la livraison ou nos produits ? Nous répondons en un jour ouvrable.',
+	'locator_title'   => 'Trouvez nos produits près de chez vous',
 	'locator_text'    => 'Nos boîtes vous attendent au congélateur de nos épiciers partenaires. Cherchez le magasin le plus proche.',
 	'locator_label'   => 'Trouver un magasin',
 	'locator_product' => $chayotte ? $chayotte->ID : '',

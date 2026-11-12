@@ -1,244 +1,236 @@
 /*
- * Benefits on bb6 (measured on its 1440x900 size). A cut-out
- * collage on the left on a transparent ground (no backdrop, no hard edge), so
- * it sits straight on the white; right of x 876 it is empty. The cards sit on
- * the white on the right. Every placement below is in picture coordinates, so
- * swapping the picture means re-measuring these:
- *   --disc-x/y  centre of the ring's orange disc (146px wide)
- *   --cut-x     where the collage ends (share of the picture's width)
- *   --crop-w    width of the stacked crop (picture x 0..--crop-w)
+ * Benefits: a cream section between the hero's pastel fields and the Story's
+ * white. The title over a kitchen-timer dial that sweeps to 20 minutes (the
+ * brand badge's words around it), and three flat cards, each filled with one
+ * hero product's field, so the section echoes all three: stacked, or side by
+ * side from 900px. No picture, no shadow, no texture.
  */
 .benefits {
-  --disc-x: 390.5;
-  --disc-y: 311;
-  --ring-d: 240; /* the printed ring's outer diameter: the hover area */
-  --cut-x: 0.608;
-  --crop-w: 876;
   --frame-edge: max(var(--gutter), (100% - var(--frame-max)) / 2);
-  --nav-bottom: 88px;
-  /* Rounded corners: the section overlaps the hero by its radius, so the
-     hero's field shows in the top corners (24px on phones, where the hero's
-     button sits 42px above the screen's bottom on a 360x640 phone). */
-  --round: var(--radius-xl);
+  /* Square, straight after the hero. */
   position: relative;
-  /* Above the Story too, so the shadow falls on it. taste-skill-ignore */
-  z-index: 2;
-  margin-top: calc(-1 * var(--round));
-  /* Top corners only; the bottom meets the Story flat. */
-  border-radius: var(--round) var(--round) 0 0;
-  /* Lifted (brand request, taste-skill-ignore): the cards' shadow tokens, mostly cast down onto
-     the Story, a lighter one up onto the hero. */
-  box-shadow: /* taste-skill-ignore */
-    0 -2px 8px var(--card-shadow-near),
-    0 6px 16px var(--card-shadow-near);
-  /* The parallax layers move past the section's edges, never into the
-     neighbours; the clip also follows the rounded corners. */
-  overflow: clip;
-  background: var(--benefit-ground);
+  z-index: 1;
+  padding: var(--section-pad) var(--frame-edge);
+  scroll-margin-top: 88px;
+  display: grid;
+  justify-items: center;
+  background: var(--ground);
 }
 
-/* Stacked: a plain block. Wide landscape: one full screen (see the media query). */
-.benefits__stage {
-  position: relative;
+.benefits__lead {
+  display: grid;
+  justify-items: center;
 }
 
-/* Stacked (phones, tablets, short landscape): the collage on top, cropped to
-   picture x 0..--crop-w, left-aligned so the pot runs off the edge. The
-   crop's right edge is empty picture, so it needs no feather. */
-.benefits__art {
-  position: relative;
-  width: min(100%, 72svh * var(--crop-w) / 900);
-  aspect-ratio: var(--crop-w) / 900;
-  margin-right: auto;
-  overflow: hidden;
+.benefits__title {
+  /* One line on desktop; on phones it breaks before the brand name. */
+  max-width: none;
+  text-align: center;
 }
 
-.benefits__canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(100% * 1440 / var(--crop-w));
-  aspect-ratio: 16 / 10;
+/* The brand name in its wordmark face, as in the hero and the Story kicker. */
+.benefits__brand {
+  font-family: var(--font-wordmark);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--color-accent-text);
+  white-space: nowrap;
+}
+
+/* Entrance (useReveal): the title rises in; without JS it is in place. */
+.benefits__title,
+.benefits__dial {
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-spring);
+}
+
+.benefits__dial {
+  transition-delay: 100ms;
+}
+
+.benefits[data-reveal]:not([data-in]) .benefits__title {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.benefits[data-reveal]:not([data-in]) .benefits__dial {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+/*
+ * The dial: a flat white plate on the cream, an hour of ticks, a quiet track
+ * and the orange arc (a UI mark: 3.28:1 on white) with a dot on its tip. The
+ * counter sits in its centre, ink on white, sized to the dial (cqw).
+ */
+.benefits__dial {
+  position: relative;
+  width: var(--dial-size);
+  aspect-ratio: 1;
+  margin-block: var(--space-12) var(--space-24);
   container-type: inline-size;
-  /* The source's first columns are semi-transparent: nudged 3px past the
-     clipped left edge so they never show as a pale line along the pot.
-     The counter moves with the canvas, so it stays on the disc. */
-  translate: -3px 0;
+  cursor: pointer;
 }
 
-.benefits__img {
+.benefits__face {
+  display: block;
   width: 100%;
   height: 100%;
-  /* The picture is a transparent cut-out, so the lift follows each piece
-     of the collage and raises it off the white (brand request). */
-  filter: /* taste-skill-ignore */
-    drop-shadow(0 4px 6px var(--art-shadow-near)) /* taste-skill-ignore */
-    drop-shadow(0 16px 24px var(--art-shadow-far)); /* taste-skill-ignore */
+  overflow: visible;
 }
 
-/*
- * Vegetable line texture (the hero's veg-pattern.svg, used as a mask) over the
- * whole section, behind the picture and the cards: it shows between the
- * collage's cut-outs, which their lift raises off it. The cards are
- * opaque, so no text crosses a line.
- */
-/*
- * Parallax (--par, Benefits.tsx): the texture is held back most (furthest), the
- * collage less (wide landscape only, below), the cards scroll with the page.
- * The texture overhangs by its travel, so its edge never shows.
- */
-.benefits__texture {
-  position: absolute;
-  inset: calc(-1 * var(--par-texture)) 0;
-  transform: translate3d(0, calc(var(--par, 0) * var(--par-texture)), 0);
-  will-change: transform;
-  background-color: var(--benefit-line);
-  /* Kept quiet: a texture, not an illustration. */
-  opacity: 0.6;
-  mask-image: url('/images/veg-pattern.svg');
-  mask-size: 640px 640px;
-  pointer-events: none;
+.benefits__plate {
+  fill: var(--benefit-ground);
 }
 
-/* Above the texture (DOM order). */
-.benefits__copy {
-  position: relative;
-  z-index: 2;
-  isolation: isolate;
+.benefits__tick {
+  stroke: var(--benefit-line);
+  stroke-width: 1;
+  stroke-linecap: round;
 }
 
-@media (max-width: 599px) {
-  .benefits {
-    --round: var(--radius-lg);
-  }
-
-  .benefits__texture {
-    mask-size: 440px 440px;
-  }
+.benefits__tick--hour {
+  stroke: var(--ink-soft);
+  stroke-width: 1.5;
 }
 
-/* Hover area over the printed ring (mouse only): replays the count. */
-.benefits__ring {
-  position: absolute;
-  left: calc(100% * var(--disc-x) / 1440);
-  top: calc(100% * var(--disc-y) / 900);
-  width: calc(100% * var(--ring-d) / 1440);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
+.benefits__track,
+.benefits__arc {
+  fill: none;
+  stroke-width: 10;
+}
+
+.benefits__track {
+  stroke: var(--terracotta-100);
+}
+
+.benefits__arc {
+  stroke: var(--orange-500);
+  stroke-linecap: round;
+  /* Written per frame from Benefits.tsx: minutes drawn of the face's 60. */
+  stroke-dasharray: 0 60;
+}
+
+.benefits__tip {
+  fill: var(--orange-600);
+}
+
+/* "PRÊT EN · READY IN · LAP PARE NAN" around the face, as on the brand badge
+   (SVG units: about 17px on a 300px dial). */
+.benefits__word {
+  fill: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
 /* "±20 MIN": the sign stacked plus over minus, the number, MIN under it. */
 .benefits__counter {
   position: absolute;
-  pointer-events: none; /* hover goes to the ring underneath */
-  left: calc(100% * var(--disc-x) / 1440);
-  top: calc(100% * var(--disc-y) / 900);
-  translate: -50% -50%;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-areas:
-    'sign num'
-    '. unit';
+  inset: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  color: var(--color-on-disc);
-  /* Scaled to the disc: bb4's 3.95% for a 130px disc, times 146/130. */
-  font-size: 4.44cqw;
-  font-weight: 500;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--ink);
+  /* The face is 200 of the box's 264 units. */
+  font-size: 18cqw;
+  font-weight: 800;
   line-height: 1;
 }
 
+.benefits__value {
+  position: relative;
+}
+
 .benefits__sign {
-  grid-area: sign;
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  translate: 0 -50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-right: 0.04em;
-  font-size: 0.42em;
-  font-weight: 600;
+  font-size: 0.36em;
+  font-weight: 700;
   line-height: 0.72;
+  color: var(--color-accent-text);
 }
 
 .benefits__num {
-  grid-area: num;
+  display: block;
   min-width: 2ch;
   text-align: center;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 
 .benefits__unit {
-  grid-area: unit;
-  justify-self: center;
+  margin-top: 0.12em;
   font-size: 0.26em;
   font-weight: 700;
   letter-spacing: 0.06em;
+  color: var(--ink-soft);
 }
 
-.benefits__copy {
-  padding: var(--space-12) var(--frame-edge) 0;
-}
-
-/* Right-aligned, on the white right of the collage. */
+/* Three equal cards from 768px, stacked below. */
 .benefits__list {
   display: grid;
   gap: var(--space-4);
-  max-width: 40rem;
-  margin: 0 0 0 auto;
+  width: 100%;
+  max-width: 64rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
+@media (min-width: 768px) {
+  .benefits__list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}
+
 /*
  * Card entrance: --t (0 or 1, set from JS) fades each in and lifts it 40px,
- * easing there on its own (transition below), one after another; at rest
- * (no JS) --t is 1.
+ * easing there on its own, one after another; at rest (no JS) --t is 1.
  */
 .benefit-card {
   opacity: var(--t, 1);
   transform: translateY(calc((1 - var(--t, 1)) * 40px));
 }
 
-/* Cards: the ground's own white, square corners, lifted by a soft shadow.
-   taste-skill-ignore */
+/* Flat cards filled with their product's field, in the hero's own vertical
+   blend (--field-top/bottom from PRODUCTS, set inline). */
 .benefit-card {
   display: grid;
-  grid-template-columns: auto 1fr;
+  justify-items: center;
   gap: var(--space-4);
-  align-items: center;
-  padding: var(--space-6);
-  background: var(--benefit-ground);
-  /* Right edge (the outer edge) in the icons' chip gradient; only the
-     right side has a width. */
-  border-right: 4px solid transparent;
-  border-image: var(--gradient-chip) 1; /* taste-skill-ignore */
-  box-shadow: /* taste-skill-ignore */
-    0 2px 6px var(--card-shadow-near),
-    0 12px 28px var(--card-shadow-far);
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(var(--field-top), var(--field-bottom)); /* taste-skill-ignore: the hero field */
+  text-align: center;
   cursor: pointer;
-  /* The entrance (`transform`, --card-dur, staggered by --card-delay: both set
-     from Benefits.tsx, timed to the counter) and the hover lift (`translate`)
-     are separate properties, so they never fight. */
+  /* The entrance (`transform`, timed to the counter from Benefits.tsx) and the
+     hover lift (`translate`) are separate properties, so they never fight. */
   transition:
     opacity var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
     transform var(--card-dur, var(--dur-slow)) var(--ease-out) var(--card-delay, 0ms),
-    translate var(--dur-base) var(--ease-out),
-    box-shadow var(--dur-base) var(--ease-out);
+    translate var(--dur-base) var(--ease-out);
 }
 
-@media (hover: hover) {
-  .benefit-card:hover {
-    translate: 0 -6px;
-    box-shadow: /* taste-skill-ignore */
-      0 4px 10px var(--card-shadow-near),
-      0 20px 40px var(--card-shadow-far);
+/* Rows (phones, and beside the dial from 900px): icon beside the title. */
+@media (max-width: 767px), (min-width: 900px) {
+  .benefit-card {
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    align-items: center;
+    padding: var(--space-6);
+    text-align: left;
   }
-}
-
-.benefit-card:active {
-  translate: 0 -2px;
-  transition-duration: var(--dur-press);
 }
 
 .benefit-card__icon {
@@ -252,13 +244,6 @@
   transition: scale var(--dur-base) var(--ease-out);
 }
 
-/* Like the navbar's round chips. */
-@media (hover: hover) {
-  .benefit-card:hover .benefit-card__icon {
-    scale: 1.08;
-  }
-}
-
 .benefit-card__title {
   margin: 0;
   font-size: var(--text-lg);
@@ -266,116 +251,69 @@
   line-height: 1.3;
 }
 
-/*
- * Mobile: one screen. The collage stays on top and fades out at its bottom
- * (so its crop never shows as a line), and the cards sit on the screen's
- * bottom, riding up over the faded part on short phones. The texture fades
- * out at the section's end, into the Story's white.
- */
-@media (max-width: 899px) {
-  .benefits__stage {
-    height: 100svh;
+@media (hover: hover) {
+  .benefit-card:hover {
+    translate: 0 -4px;
   }
 
-  /* Full width, so the crop's right edge is the screen's. */
-  .benefits__art {
-    width: 100%;
-    mask-image: linear-gradient(to bottom, black 62%, transparent); /* taste-skill-ignore: mask, not a fill */
-  }
-
-  .benefits__texture {
-    mask-image: url('/images/veg-pattern.svg'), linear-gradient(black 85%, transparent); /* taste-skill-ignore: mask, not a fill */
-    mask-size: 640px 640px, 100% 100%;
-    mask-repeat: repeat, no-repeat;
-    mask-composite: intersect;
-  }
-
-  .benefits__copy {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: var(--space-8);
-    padding-top: 0;
+  .benefit-card:hover .benefit-card__icon {
+    scale: 1.08;
   }
 }
 
-@media (max-width: 599px) {
-  .benefits__texture {
-    mask-size: 440px 440px, 100% 100%;
-  }
+.benefit-card:active {
+  translate: 0 -1px;
+  transition-duration: var(--dur-press);
 }
 
-/*
- * Wide landscape: the picture fills the section's height, anchored left, and
- * the copy sits on the frame's right edge inside the white right of the cut
- * (--cut-x of the picture's width), 32px clear of it.
- */
-@media (min-width: 1200px) and (min-aspect-ratio: 3/2) {
-  /* One screen. */
+/* Side by side: the title centred across the top, the dial left, the cards right. */
+@media (min-width: 900px) {
+  /* Two content-sized columns centred as one group, so the dial and the cards
+     sit symmetrically under the title. */
   .benefits {
-    --nav-bottom: 128px;
-    --h: max(100svh, 640px);
-    height: var(--h);
-    padding: 0;
-  }
-
-  .benefits__stage {
-    display: flex;
+    grid-template-columns: auto minmax(0, 32rem);
+    justify-content: center;
     align-items: center;
-    height: var(--h);
-    padding: calc(var(--nav-bottom) + var(--space-8)) 0 var(--space-12);
-    overflow: hidden;
+    /* 192px from 1440px, narrowing so the group stays in the frame. */
+    column-gap: clamp(var(--space-12), 20vw - var(--space-24), calc(2 * var(--space-24)));
+    row-gap: var(--space-16);
+    scroll-margin-top: 128px;
   }
 
-  /* Drawn taller by the parallax travel, so the pot's and the box's cut edges
-     (the picture's top and bottom) never show as it moves. */
-  .benefits__art {
-    --pic-w: max(100cqw, 160cqh + 3.2 * var(--par-collage));
-    position: absolute;
-    inset: 0;
-    width: auto;
-    aspect-ratio: auto;
+  /* The title and the dial become the grid's own items. */
+  .benefits__lead {
+    display: contents;
+  }
+
+  .benefits__title {
+    grid-column: 1 / -1;
+  }
+
+  .benefits__dial {
     margin: 0;
-    container-type: size;
-    mask-image: none;
   }
 
-  .benefits__canvas {
-    top: 50%;
-    left: 0;
-    width: var(--pic-w);
-    translate: -3px -50%;
-    transform: translate3d(0, calc(var(--par, 0) * var(--par-collage)), 0);
-    will-change: transform;
+  .benefits__list {
+    grid-template-columns: none;
+    gap: var(--space-4);
+    max-width: 32rem;
   }
 
-  .benefits__copy {
-    width: min(
-      30rem,
-      100% - var(--cut-x) * max(100%, 1.6 * var(--h) + 3.2 * var(--par-collage)) - var(--frame-edge) - 32px
-    );
-    margin-left: auto;
-    margin-right: var(--frame-edge);
-    padding: 0;
+  .benefit-card {
+    padding: var(--space-8);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* No parallax (--par is never set either). */
-  .benefits__texture,
-  .benefits__canvas {
-    transform: none;
-  }
-
-  /* The cards are simply there. */
+  .benefits[data-reveal]:not([data-in]) .benefits__title,
+  .benefits[data-reveal]:not([data-in]) .benefits__dial,
   .benefit-card {
     transform: none;
   }
 
-  /* Hover keeps the deeper shadow, without the travel. */
   .benefit-card,
   .benefit-card__icon {
-    transition: none;
+    transition: opacity var(--dur-fast) var(--ease-out);
   }
 
   .benefit-card:hover,

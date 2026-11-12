@@ -46,11 +46,13 @@ group('hero', 'Bloc : Héros', [
 ], block('hero'), THEME)
 
 group('benefits', 'Bloc : Avantages', [
-    f('benefits', 'heading', 'Titre (lu par les lecteurs d’écran)', 'text', **text('Pourquoi Legim Express')),
-    f('benefits', 'minutes', 'Compteur (minutes)', 'number', min=1, max=99, **text(20, help='Le chiffre blanc sur l’anneau du collage.')),
+    f('benefits', 'heading', 'Titre', 'text', **text('Pourquoi Legim Express', help='« Legim Express » s’écrit en Aclonica ; « ? » est ajouté.')),
+    f('benefits', 'minutes', 'Minuteur (minutes)', 'number', min=1, max=60, **text(20, help='Le chiffre au centre du cadran, où l’arc s’arrête.')),
     f('benefits', 'cards', 'Cartes', 'repeater', min=1, max=4, layout='table', button_label='Ajouter une carte', sub=[
         ('title', 'Titre', 'text'),
         ('icon', 'Icône', 'select', {'choices': {'snowflake': 'Flocon (congelé)', 'leaf': 'Feuille (écologique)', 'timer': 'Minuteur (rapide)', 'truck': 'Camion (livraison)', 'box': 'Boîte', 'star': 'Étoile'}, 'default_value': 'snowflake', 'return_format': 'value'}),
+        ('product', 'Couleur (produit)', 'post_object', {'post_type': ['product'], 'return_format': 'id', 'allow_null': 1,
+                                                         'instructions': 'La carte prend le champ de ce produit (onglet Legim).'}),
     ]),
 ], block('benefits'), THEME)
 
@@ -160,8 +162,8 @@ group('options', 'Réglages Safrozen', [
 group('contact', 'Legim : page Contact', [
     f('contact', 'title', 'Titre', 'text', **text('Parlons-en', help='Le titre de la page (le fil d’Ariane garde « Contact »).')),
     f('contact', 'lede', 'Chapeau', 'textarea', rows=2, new_lines='',
-      **text('Une question sur une commande, la livraison ou nos legims ? Nous répondons en un jour ouvrable.')),
-    f('contact', 'locator_title', 'Bandeau : titre', 'text', **text('Trouvez nos legims près de chez vous')),
+      **text('Une question sur une commande, la livraison ou nos produits ? Nous répondons en un jour ouvrable.')),
+    f('contact', 'locator_title', 'Bandeau : titre', 'text', **text('Trouvez nos produits près de chez vous')),
     f('contact', 'locator_text', 'Bandeau : texte', 'textarea', rows=2, new_lines='',
       **text('Nos boîtes vous attendent au congélateur de nos épiciers partenaires. Cherchez le magasin le plus proche.')),
     f('contact', 'locator_label', 'Bandeau : bouton', 'text', **text('Trouver un magasin', help='Mène à la page Trouver un magasin.')),

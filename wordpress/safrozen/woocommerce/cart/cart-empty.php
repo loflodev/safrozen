@@ -16,7 +16,7 @@ woocommerce_output_all_notices();
 	<div class="veg-texture" aria-hidden="true"></div>
 	<h2 class="panel__title"><?php esc_html_e( 'Votre panier est vide', 'safrozen' ); ?></h2>
 	<div class="empty__text">
-		<p><?php esc_html_e( 'Nos legims sont prêts en 20 minutes. Commencez par le lalo, notre plus demandé.', 'safrozen' ); ?></p>
+		<p><?php esc_html_e( 'Nos produits sont prêts en 20 minutes. Commencez par le lalo, notre plus demandé.', 'safrozen' ); ?></p>
 	</div>
 	<div class="empty__action">
 		<a class="btn-chip" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">

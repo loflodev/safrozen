@@ -13,7 +13,7 @@ export default function ProductCard({ item, onAdded }: { item: CatalogItem; onAd
   const soldOut = item.stock === 0
   return (
     <article className="product-card">
-      <ProductArt item={item} className="product-card__art" />
+      <ProductArt item={item} className="product-card__art product-art--lifted" />
       <div className="product-card__body">
         <h3 className="product-card__name">
           <Link to={`/produit/${item.slug}`}>{item.name}</Link>

@@ -24,12 +24,42 @@
   padding: calc(var(--nav-bottom) + var(--space-12)) var(--frame-edge) var(--space-12);
   border-bottom: 1px solid var(--color-rule); /* taste-skill-ignore: header edge, by request */
   background: var(--color-hover);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Every information page: the kitchen photo under the band at 1 - --band-veil,
+   so the tint reads as laid over it. The layer is the photo's own 16:9 box,
+   sized by the band's height (125% from 900px, right of centre there) and centred on the boxes, so the
+   three boxes show whole; its sides fade into the tint. */
+.page.info > .info__hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  translate: -54% 0;
+  background: url('/images/kitchen-bg-1280.webp') center / cover no-repeat;
+  opacity: calc(1 - var(--band-veil-phone)); /* the text covers the photo here */
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  pointer-events: none;
 }
 
 @media (min-width: 900px) {
   .page.info > .info__hero {
     margin-bottom: var(--space-16);
     padding-bottom: var(--space-16);
+  }
+
+  .page.info > .info__hero::before {
+    left: 64%; /* right of centre, clear of the title */
+    opacity: calc(1 - var(--band-veil));
+    height: 125%;
+    translate: -54% -10%; /* the boxes' feet just above the band's foot */
+    background-image: url('/images/kitchen-bg-2048.webp');
   }
 }
 

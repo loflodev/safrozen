@@ -116,11 +116,11 @@ $catalog = array(
 		'id' => 'chayotte', 'slug' => 'legim-a-la-chayotte', 'cat' => 'plats', 'hero' => 'À la Chayotte',
 		'name' => 'Legim Express à la Chayotte', 'price' => '12.99', 'stock' => 0,
 		'short' => 'Chayotte tendre, chou et carotte, le legim léger du dimanche.',
-		'description' => "La chayotte, le chou et la carotte cuisent doucement jusqu'à devenir fondants. Le plus léger de nos legims, parfait avec du riz blanc et un avocat.",
+		'description' => "La chayotte, le chou et la carotte cuisent doucement jusqu'à devenir fondants. Le plus léger de nos produits, parfait avec du riz blanc et un avocat.",
 		'ingredients' => 'Chayotte (mirliton), chou, carotte, oignon, ail, tomate, huile de tournesol, sel, thym.',
 	),
 	array(
-		'id' => 'pack-decouverte', 'slug' => 'pack-decouverte', 'cat' => 'packs', 'look' => 'chayotte',
+		'id' => 'pack-decouverte', 'slug' => 'pack-decouverte', 'cat' => 'packs', 'look' => 'chayotte', 'image' => 'trio-eco-1280.webp',
 		'name' => 'Pack découverte', 'price' => '34.99', 'stock' => 18, 'weight' => '3 × 500 g', 'portions' => '12',
 		'short' => 'Les trois legims, une boîte de chaque, pour trouver votre favori.',
 		'description' => 'Une boîte de chaque legim : lalo, aubergine et chayotte. Le meilleur moyen de goûter toute la gamme, à petit prix.',
@@ -128,7 +128,7 @@ $catalog = array(
 		'contents' => "Legim Express au Lalo\nLegim Express à l'Aubergine\nLegim Express à la Chayotte",
 	),
 	array(
-		'id' => 'pack-famille', 'slug' => 'pack-famille', 'cat' => 'packs', 'look' => 'lalo',
+		'id' => 'pack-famille', 'slug' => 'pack-famille', 'cat' => 'packs', 'look' => 'lalo', 'image' => '6pack-g-1280.webp',
 		'name' => 'Pack famille', 'price' => '64.99', 'stock' => 9, 'weight' => '6 × 500 g', 'portions' => '24',
 		'short' => 'Six boîtes au choix du chef, pour deux semaines de soupers rapides.',
 		'description' => 'Deux boîtes de chaque legim, de quoi préparer six soupers pour quatre. Se garde trois mois au congélateur.',
@@ -143,7 +143,7 @@ foreach ( $catalog as $item ) {
 	$look    = $fields[ $item['look'] ?? $item['id'] ];
 	$image   = $is_box
 		? lx_image( "$images/{$item['id']}-box-2048.webp", "La boîte {$item['name']}" )
-		: lx_image( "$images/benefit-product-box-1280.webp", 'Une boîte Legim Express' );
+		: lx_image( "$images/{$item['image']}", "La boîte {$item['name']}" );
 	$found   = get_page_by_path( $item['slug'], OBJECT, 'product' );
 	$product = $found ? wc_get_product( $found->ID ) : new WC_Product_Simple();
 	$product->set_name( $item['name'] );
@@ -410,9 +410,10 @@ $blocks = array(
 			'minutes' => 20,
 			'cards'   => array(
 				'rows' => array(
-					array( 'title' => 'Précuits et Congelés', 'icon' => 'snowflake' ),
-					array( 'title' => 'Écologiques', 'icon' => 'leaf' ),
-					array( 'title' => 'Solution rapide', 'icon' => 'timer' ),
+					// One hero field per card, so the section echoes all three.
+					array( 'title' => 'Précuits et Congelés', 'icon' => 'snowflake', 'product' => (string) $product_ids['eggplant'] ),
+					array( 'title' => 'Écologiques', 'icon' => 'leaf', 'product' => (string) $product_ids['lalo'] ),
+					array( 'title' => 'Solution rapide', 'icon' => 'timer', 'product' => (string) $product_ids['chayotte'] ),
 				),
 			),
 		)

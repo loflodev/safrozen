@@ -57,7 +57,7 @@ function Product({ slug }: { slug: string }) {
           ]}
         />
         <div className="product__media">
-          <ProductArt item={item} size={2048} eager className="product__art" />
+          <ProductArt item={item} size={2048} eager className="product__art product-art--lifted" />
         </div>
 
         <div className="product__info">

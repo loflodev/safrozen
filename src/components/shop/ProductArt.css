@@ -38,8 +38,60 @@
   padding: var(--space-8);
 }
 
+/* Lift (shop cards, product page): a light pool behind the product, an oval
+   floor shade under it and a contour lift that follows the cut-out. None of
+   it comes from the image, so any new transparent product image gets it. */
+.product-art--lifted {
+  --floor-y: 10%;
+}
+
+/* A photo of any shape stands on the bottom padding, so the floor sits there. */
+.product-art--photo.product-art--lifted {
+  --floor-y: calc(var(--space-8) - 5%);
+}
+
+.product-art--photo.product-art--lifted img {
+  object-position: 50% 100%;
+}
+
+.product-art--lifted::before,
+.product-art--lifted::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  pointer-events: none;
+}
+
+.product-art--lifted::before {
+  top: 8%;
+  width: 72%;
+  height: 78%;
+  translate: -50% 0;
+  background: radial-gradient(closest-side, var(--art-glow), transparent); /* taste-skill-ignore */
+}
+
+.product-art--lifted::after {
+  bottom: var(--floor-y);
+  width: 56%;
+  height: 8%;
+  translate: -50% 0;
+  background: radial-gradient(closest-side, var(--art-floor), transparent); /* taste-skill-ignore */
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out);
+}
+
+.product-art--lifted img {
+  position: relative;
+  z-index: 1;
+  filter: /* taste-skill-ignore: the product art's lift, follows the cut-out */
+    drop-shadow(0 2px 4px var(--art-shadow-near)) /* taste-skill-ignore */
+    drop-shadow(0 10px 18px var(--art-shadow-far)); /* taste-skill-ignore */
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .product-art img {
+  .product-art img,
+  .product-art--lifted::after {
     transition: none;
   }
 }

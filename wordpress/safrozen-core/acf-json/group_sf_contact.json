@@ -20,7 +20,7 @@
       "required": 0,
       "rows": 2,
       "new_lines": "",
-      "default_value": "Une question sur une commande, la livraison ou nos legims ? Nous répondons en un jour ouvrable."
+      "default_value": "Une question sur une commande, la livraison ou nos produits ? Nous répondons en un jour ouvrable."
     },
     {
       "key": "field_sf_contact_locator_title",
@@ -29,7 +29,7 @@
       "type": "text",
       "instructions": "",
       "required": 0,
-      "default_value": "Trouvez nos legims près de chez vous"
+      "default_value": "Trouvez nos produits près de chez vous"
     },
     {
       "key": "field_sf_contact_locator_text",
@@ -94,5 +94,5 @@
   "instruction_placement": "label",
   "active": true,
   "show_in_rest": 0,
-  "modified": 1794005565
+  "modified": 1794466534
 }

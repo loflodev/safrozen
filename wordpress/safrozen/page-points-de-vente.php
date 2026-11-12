@@ -46,7 +46,7 @@ get_header();
 		null,
 		array(
 			'title'  => get_the_title(),
-			'lede'   => __( 'Entrez votre code postal : nous vous montrons l’épicerie la plus proche qui a nos legims au congélateur.', 'safrozen' ),
+			'lede'   => __( 'Entrez votre code postal : nous vous montrons l’épicerie la plus proche qui a nos produits au congélateur.', 'safrozen' ),
 			'crumbs' => array( array( get_the_title() ) ),
 		)
 	);
@@ -78,7 +78,7 @@ get_header();
 			<p class="locator__status" role="status">
 				<?php
 				/* translators: %d: number of stores */
-				echo esc_html( sprintf( _n( '%d épicerie partenaire a nos legims au congélateur.', '%d épiceries partenaires ont nos legims au congélateur.', count( $stores ), 'safrozen' ), count( $stores ) ) );
+				echo esc_html( sprintf( _n( '%d épicerie partenaire a nos produits au congélateur.', '%d épiceries partenaires ont nos produits au congélateur.', count( $stores ), 'safrozen' ), count( $stores ) ) );
 				?>
 			</p>
 		</form>

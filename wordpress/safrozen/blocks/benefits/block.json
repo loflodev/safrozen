@@ -5,7 +5,7 @@
 	"title": "Avantages",
 	"category": "safrozen",
 	"icon": "awards",
-	"description": "Le collage bb6, le compteur ±20 MIN et les cartes d'avantages.",
+	"description": "Le titre, le minuteur ±20 MIN et les cartes d'avantages, chacune sur le champ d'un produit.",
 	"textdomain": "safrozen",
 	"supports": {
 		"html": false,

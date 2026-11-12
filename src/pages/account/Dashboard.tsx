@@ -35,7 +35,7 @@ export default function Dashboard() {
         <section className="panel dash__latest">
           <h2 className="panel__title">Pas encore de commande</h2>
           <Link className="btn-chip" to="/boutique">
-            Découvrir nos legims
+            Découvrir nos produits
             <ArrowRightIcon />
           </Link>
         </section>

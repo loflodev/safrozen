@@ -71,7 +71,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 	<section class="panel dash__latest">
 		<h2 class="panel__title"><?php esc_html_e( 'Pas encore de commande', 'safrozen' ); ?></h2>
 		<a class="btn-chip" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
-			<?php esc_html_e( 'Découvrir nos legims', 'safrozen' ); ?>
+			<?php esc_html_e( 'Découvrir nos produits', 'safrozen' ); ?>
 			<?php echo safrozen_icon( 'arrow-right' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</a>
 	</section>

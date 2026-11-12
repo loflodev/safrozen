@@ -64,7 +64,7 @@ while ( have_posts() ) :
 		<?php // Its own grid item: above the art under 900px, atop the buy column from 900px. ?>
 		<?php echo safrozen_crumbs( $crumbs, 'product__crumbs' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="product__media">
-			<?php echo safrozen_product_art( $product, 'product__art', true ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<?php echo safrozen_product_art( $product, 'product__art product-art--lifted', true ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</div>
 
 		<div class="product__info">

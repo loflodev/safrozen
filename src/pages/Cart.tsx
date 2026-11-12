@@ -60,7 +60,7 @@ export default function Cart() {
             </div>
           }
         >
-          <p>Nos legims sont prêts en 20 minutes. Commencez par le lalo, notre plus demandé.</p>
+          <p>Nos produits sont prêts en 20 minutes. Commencez par le lalo, notre plus demandé.</p>
         </EmptyState>
       </main>
     )
