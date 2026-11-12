@@ -113,12 +113,20 @@
   font-size: var(--text-base);
   text-decoration: none;
   touch-action: manipulation;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .crumbs__menu a:hover,
 .crumbs__menu a:focus-visible {
   background: var(--color-hover);
   color: var(--ink);
+}
+
+.crumbs__menu a:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
 }
 
 @keyframes crumbs-drop {

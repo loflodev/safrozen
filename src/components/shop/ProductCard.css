@@ -11,7 +11,15 @@
   box-shadow: /* taste-skill-ignore: the Benefits cards' lift (§4) */
     0 2px 6px var(--card-shadow-near),
     0 12px 28px var(--card-shadow-far);
-  transition: transform var(--dur-base) var(--ease-out);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    scale var(--dur-fast) var(--ease-out);
+}
+
+/* The name's link covers the card, so the whole card takes the press (not the quick add's). */
+.product-card:has(.product-card__name a:active) {
+  scale: 0.98;
+  transition-duration: var(--dur-base), var(--dur-press);
 }
 
 .product-card__body {

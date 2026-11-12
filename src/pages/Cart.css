@@ -82,10 +82,18 @@
   color: var(--ink);
   font: 700 var(--text-sm) / 1 var(--font-body);
   cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .cart__remove:hover {
   background: var(--color-hover);
+}
+
+.cart__remove:active {
+  transform: scale(0.96);
+  transition-duration: var(--dur-press);
 }
 
 .cart__total {

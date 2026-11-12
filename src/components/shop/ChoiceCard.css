@@ -8,11 +8,20 @@
   border-radius: var(--radius-lg);
   background: var(--panel-ground);
   cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease-out);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .choice:hover {
   background: var(--ground);
+}
+
+.choice:active {
+  transform: scale(0.98);
+  transition-duration: var(--dur-press);
 }
 
 /* Selected: the ink border thickens and the ground warms; the radio says so too. */

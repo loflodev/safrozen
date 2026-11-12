@@ -85,11 +85,20 @@
   background: transparent;
   color: var(--ink);
   cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .minicart__close:hover,
 .minicart__remove:hover {
   background: var(--color-hover);
+}
+
+.minicart__close:active,
+.minicart__remove:active {
+  transform: scale(0.92);
+  transition-duration: var(--dur-press);
 }
 
 .minicart__lines {
