@@ -91,6 +91,7 @@
   box-shadow: /* taste-skill-ignore: the cards' lift, so the dropdown reads above the page */
     0 2px 6px var(--card-shadow-near),
     0 12px 28px var(--card-shadow-far);
+  transform-origin: var(--space-6) 0; /* the "…" pill above it */
   animation: crumbs-drop var(--dur-fast) var(--ease-out);
 }
 
@@ -132,7 +133,7 @@
 @keyframes crumbs-drop {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(0.96);
   }
 }
 
