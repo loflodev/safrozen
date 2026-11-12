@@ -191,9 +191,25 @@
   margin: 0;
 }
 
+/* Reduced motion: the sheet and backdrop crossfade in place instead of sliding. */
 @media (prefers-reduced-motion: reduce) {
   .minicart,
   .minicart::backdrop {
-    transition: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
+  }
+
+  .minicart:not([open]) {
+    transform: none;
+    opacity: 0;
+  }
+
+  @starting-style {
+    .minicart[open] {
+      transform: none;
+      opacity: 0;
+    }
   }
 }
