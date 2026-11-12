@@ -13,6 +13,8 @@
   background: var(--panel-ground);
   color: var(--ink);
   transform: translateX(0);
+  /* Vertical pans scroll the list; horizontal ones are the swipe to close (swipeClose.ts). */
+  touch-action: pan-y;
   transition:
     transform var(--dur-base) var(--ease-out),
     overlay var(--dur-base) allow-discrete,
@@ -109,6 +111,7 @@
   margin: 0;
   padding: 0 var(--space-6);
   overflow-y: auto;
+  touch-action: pan-y;
   list-style: none;
 }
 

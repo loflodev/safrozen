@@ -5,10 +5,12 @@ import { formatPrice, plural } from '../../shop/format'
 import { ArrowRightIcon, CloseIcon, TrashIcon } from '../icons'
 import ProductArt from './ProductArt'
 import QuantityStepper from './QuantityStepper'
+import { useSwipeClose } from './swipeClose'
 import './MiniCart.css'
 
 // Mini-cart drawer from the navbar's cart chip. A modal <dialog>, so focus is
-// trapped and Escape closes it natively; a click on the backdrop closes it too.
+// trapped and Escape closes it natively; a click on the backdrop closes it too,
+// and on touch screens it swipes away to the right (swipeClose.ts).
 export default function MiniCart() {
   const cart = useCart()
   const ref = useRef<HTMLDialogElement>(null)
@@ -27,6 +29,7 @@ export default function MiniCart() {
   useEffect(() => setDrawerOpen(false), [pathname, setDrawerOpen])
 
   const close = () => cart.setDrawerOpen(false)
+  useSwipeClose(ref, close)
 
   return (
     <dialog
