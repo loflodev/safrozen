@@ -164,13 +164,19 @@
   -webkit-tap-highlight-color: transparent;
   transition:
     background-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .info__toc a:hover,
 .info__toc a:focus-visible {
   background: var(--color-hover);
   color: var(--ink);
+}
+
+.info__toc a:active {
+  transform: scale(0.98);
+  transition-duration: var(--dur-press);
 }
 
 .info__toc a[aria-current] {

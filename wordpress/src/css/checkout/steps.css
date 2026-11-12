@@ -25,6 +25,9 @@
   color: var(--color-text-muted);
   font: 700 var(--text-sm) / 1.2 var(--font-body);
   text-align: left;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .steps__btn:not(:disabled) {
@@ -33,6 +36,11 @@
 
 .steps__btn:not(:disabled):hover {
   background: var(--color-hover);
+}
+
+.steps__btn:not(:disabled):active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
 }
 
 .steps__dot {

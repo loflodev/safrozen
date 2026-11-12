@@ -55,3 +55,9 @@
   appearance: none;
   margin: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .stepper__btn {
+    transition: none;
+  }
+}

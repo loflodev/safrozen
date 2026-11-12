@@ -50,6 +50,13 @@
   position: relative;
   display: grid;
   gap: var(--space-3);
+  transition: scale var(--dur-fast) var(--ease-out);
+}
+
+/* The link covers the card, so the whole card takes the press. */
+.recipe__card:has(.recipe__link:active) {
+  scale: 0.98;
+  transition-duration: var(--dur-press);
 }
 
 .recipe__tile {

@@ -1,5 +1,6 @@
 import { CONFIG } from './config'
 import { ICONS } from './icons'
+import { swipeClose } from './swipeClose'
 
 /*
  * The cart lives in WooCommerce; the page talks to it through the Store API
@@ -161,7 +162,34 @@ function toast(text: string) {
     <span>${esc(text)}</span>
     <button type="button" class="toast__action" data-toast-cart>Voir le panier</button>
   </div>`
-  toastRegion.dataset.timer = String(window.setTimeout(() => (toastRegion.innerHTML = ''), SHOW_MS))
+  const pill = toastRegion.firstElementChild as HTMLElement
+  // The timer waits while the mouse or focus is on the pill, then the pill
+  // leaves the way it came (down and out) before it is removed.
+  let hover = false
+  let focus = false
+  const leave = () => {
+    pill.dataset.leaving = ''
+    pill.addEventListener('animationend', () => pill.remove(), { once: true })
+  }
+  const arm = () => {
+    window.clearTimeout(Number(toastRegion.dataset.timer))
+    if (hover || focus || 'leaving' in pill.dataset) return
+    toastRegion.dataset.timer = String(window.setTimeout(leave, SHOW_MS))
+  }
+  const onHover = (on: boolean) => (e: PointerEvent) => {
+    if (e.pointerType !== 'mouse') return
+    hover = on
+    arm()
+  }
+  const onFocus = (on: boolean) => () => {
+    focus = on
+    arm()
+  }
+  pill.addEventListener('pointerenter', onHover(true))
+  pill.addEventListener('pointerleave', onHover(false))
+  pill.addEventListener('focusin', onFocus(true))
+  pill.addEventListener('focusout', onFocus(false))
+  arm()
 }
 
 // Serialises cart writes, so quick taps on the stepper apply in order.
@@ -183,6 +211,9 @@ const write = (path: string, body: object) => {
 }
 
 export function initCart() {
+  // On touch screens the drawer swipes away to the right.
+  if (dialog) swipeClose(dialog, () => dialog.close())
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement
     const chip = target.closest<HTMLAnchorElement>('[data-cart-open]')

@@ -5,7 +5,7 @@ import { formatPrice, plural } from '../../shop/format'
 import { ArrowRightIcon, CloseIcon, TrashIcon } from '../icons'
 import ProductArt from './ProductArt'
 import QuantityStepper from './QuantityStepper'
-import { useSwipeClose } from './swipeClose'
+import { swipeClose } from './swipeClose'
 import './MiniCart.css'
 
 // Mini-cart drawer from the navbar's cart chip. A modal <dialog>, so focus is
@@ -29,7 +29,9 @@ export default function MiniCart() {
   useEffect(() => setDrawerOpen(false), [pathname, setDrawerOpen])
 
   const close = () => cart.setDrawerOpen(false)
-  useSwipeClose(ref, close)
+
+  // Bound once; setDrawerOpen is stable, so a re-render never cuts a spring short.
+  useEffect(() => (ref.current ? swipeClose(ref.current, () => setDrawerOpen(false)) : undefined), [setDrawerOpen])
 
   return (
     <dialog

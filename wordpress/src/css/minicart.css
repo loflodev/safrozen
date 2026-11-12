@@ -13,6 +13,8 @@
   background: var(--panel-ground);
   color: var(--ink);
   transform: translateX(0);
+  /* Vertical pans scroll the list; horizontal ones are the swipe to close (swipeClose.ts). */
+  touch-action: pan-y;
   transition:
     transform var(--dur-base) var(--ease-out),
     overlay var(--dur-base) allow-discrete,
@@ -85,11 +87,20 @@
   background: transparent;
   color: var(--ink);
   cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .minicart__close:hover,
 .minicart__remove:hover {
   background: var(--color-hover);
+}
+
+.minicart__close:active,
+.minicart__remove:active {
+  transform: scale(0.92);
+  transition-duration: var(--dur-press);
 }
 
 .minicart__lines {
@@ -100,6 +111,7 @@
   margin: 0;
   padding: 0 var(--space-6);
   overflow-y: auto;
+  touch-action: pan-y;
   list-style: none;
 }
 
@@ -179,9 +191,25 @@
   margin: 0;
 }
 
+/* Reduced motion: the sheet and backdrop crossfade in place instead of sliding. */
 @media (prefers-reduced-motion: reduce) {
   .minicart,
   .minicart::backdrop {
-    transition: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
+  }
+
+  .minicart:not([open]) {
+    transform: none;
+    opacity: 0;
+  }
+
+  @starting-style {
+    .minicart[open] {
+      transform: none;
+      opacity: 0;
+    }
   }
 }
