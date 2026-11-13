@@ -3,6 +3,8 @@
  * Featured (CLAUDE.md §11): best sellers as split rows, each its product's
  * field panel with the box beside the copy. Name, sentence (the product's
  * short description), specs and price all come from the WooCommerce product.
+ * The products are the last two starred ★ in Produits (inc/featured.php);
+ * with none starred, the block's "Produits" field.
  *
  * @var array $block
  */
@@ -13,8 +15,11 @@ if ( ! function_exists( 'wc_get_product' ) ) {
 	return;
 }
 
+$starred  = safrozen_home_featured_ids();
 $products = array_filter(
-	array_map( fn( $p ) => $p instanceof WP_Post ? wc_get_product( $p ) : null, (array) safrozen_field( 'products', false, array() ) )
+	$starred
+		? array_map( 'wc_get_product', $starred )
+		: array_map( fn( $p ) => $p instanceof WP_Post ? wc_get_product( $p ) : null, (array) safrozen_field( 'products', false, array() ) )
 );
 ?>
 <section id="<?php echo esc_attr( safrozen_block_id( $block, 'produits' ) ); ?>" class="section featured" data-reveal-on aria-labelledby="featured-title">
@@ -33,7 +38,8 @@ $products = array_filter(
 				<div class="featured__frame">
 					<div class="featured__panel" style="<?php echo esc_attr( safrozen_field_style( safrozen_product_look( $id ) ) ); ?>">
 						<div class="featured__texture" aria-hidden="true"></div>
-						<div class="featured__pic">
+						<?php // A pack photo is shown whole; a box is cropped 4:3 from its 2:1 canvas. ?>
+						<div class="featured__pic featured__pic--<?php echo esc_attr( safrozen_product_look( $id )['kind'] ); ?>">
 							<?php
 							echo wp_get_attachment_image(
 								$product->get_image_id(),

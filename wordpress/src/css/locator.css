@@ -194,7 +194,7 @@
 }
 
 /* Without JS there is no map: the search and the cards take the full width. */
-@media (min-width: 900px) {
+@media (min-width: 900px) and (scripting: none) {
   .locator__layout:has(> .locator__map[hidden]) {
     grid-template-columns: minmax(0, 48rem);
     grid-template-areas: 'search' 'results';
@@ -204,6 +204,15 @@
 /* The script reveals what needs it (map, geolocation, "Voir sur la carte"). */
 .locator [hidden] {
   display: none;
+}
+
+/* With scripting on, the map keeps its place before locator.ts reveals it, so the
+   cards don't jump down when it does (Lighthouse CLS 0.157 on phones). */
+@media (scripting: enabled) {
+  .locator__map[hidden] {
+    display: block;
+    visibility: hidden;
+  }
 }
 
 .store-map {

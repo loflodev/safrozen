@@ -8,7 +8,7 @@ import { ENTRY_CLEAR } from './scroll'
  * again on the next visit. `data-reveal` marks that JS runs: without it the
  * CSS leaves everything in place. Elements opt in with `data-reveal-on`.
  */
-export function reveal(el: HTMLElement) {
+function reveal(el: HTMLElement) {
   el.dataset.reveal = ''
 
   const enter = new IntersectionObserver(

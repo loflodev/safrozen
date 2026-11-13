@@ -19,7 +19,9 @@ $phone   = (string) safrozen_option( 'contact_phone' );
 $email   = (string) safrozen_option( 'contact_email' );
 $hours   = (string) safrozen_option( 'contact_hours' );
 $locator = get_page_by_path( 'points-de-vente' );
-$product = wc_get_product( (int) safrozen_field( 'locator_product' ) ) ?: null;
+// Not $product: templates run in global scope, and Woo's the_post hook (which
+// Rank Math triggers inside wp_head) unsets that global before the band is drawn.
+$band    = wc_get_product( (int) safrozen_field( 'locator_product' ) ) ?: null;
 $form    = (int) safrozen_field( 'form' );
 
 /** A row: the whole line is the tap target (chip icon, quiet label, value in ink). */
@@ -50,7 +52,7 @@ get_header();
 	?>
 
 	<?php if ( $locator ) : ?>
-		<section class="contact-locator" style="<?php echo esc_attr( $product ? safrozen_field_style( safrozen_product_look( $product->get_id() ) ) : '' ); ?>" aria-labelledby="contact-locator-title">
+		<section class="contact-locator" style="<?php echo esc_attr( $band ? safrozen_field_style( safrozen_product_look( $band->get_id() ) ) : '' ); ?>" aria-labelledby="contact-locator-title">
 			<div class="contact-locator__texture" aria-hidden="true"></div>
 			<div class="contact-locator__copy">
 				<h2 class="contact-locator__title" id="contact-locator-title"><?php echo esc_html( safrozen_field( 'locator_title' ) ); ?></h2>
@@ -63,9 +65,9 @@ get_header();
 				</a>
 			</div>
 			<?php
-			if ( $product && $product->get_image_id() ) {
+			if ( $band && $band->get_image_id() ) {
 				echo wp_get_attachment_image(
-					$product->get_image_id(),
+					$band->get_image_id(),
 					'large',
 					false,
 					array(

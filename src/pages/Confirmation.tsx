@@ -17,7 +17,7 @@ export default function Confirmation() {
 
   if (!order || !allowed) {
     return (
-      <main className="page">
+      <main id="main" className="page">
         <PageHeader title="Commande introuvable" lede="Pour retrouver une commande, utilisez son numéro et votre adresse e-mail." />
         <Link className="btn-chip" to={`/suivi${order ? `?commande=${order.id}` : ''}`}>
           Suivre une commande
@@ -29,7 +29,7 @@ export default function Confirmation() {
 
   const firstName = order.billing.firstName
   return (
-    <main className="page confirmation">
+    <main id="main" className="page confirmation">
       <PageHeader
         title={`Merci, ${firstName} !`}
         lede={

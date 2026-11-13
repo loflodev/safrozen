@@ -84,7 +84,7 @@ export default function InfoPage() {
   if (!page) return <NotFound />
 
   return (
-    <main className="page info">
+    <main id="main" className="page info">
       <div className="info__hero">
         <PageHeader
           crumbs={[{ label: page.title }]}

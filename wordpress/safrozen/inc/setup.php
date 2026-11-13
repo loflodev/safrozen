@@ -139,3 +139,23 @@ add_action(
 		}
 	}
 );
+
+// <head> clean-up: no version numbers (WordPress, and Woo's via Rank Math), no
+// legacy editor and shortlink links, no XML-RPC, and no emoji script (system
+// emoji render natively). The REST link stays: the store locator calls its API.
+remove_action( 'wp_head', 'wp_generator' );
+remove_action( 'wp_head', 'rsd_link' );
+remove_action( 'wp_head', 'wlwmanifest_link' );
+remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 );
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+add_filter( 'xmlrpc_enabled', '__return_false' ); // The methods that need a login...
+add_filter( 'xmlrpc_methods', '__return_empty_array' ); // ...and the public ones (pingbacks, demo).
+add_filter(
+	'wp_headers',
+	function ( array $headers ): array {
+		unset( $headers['X-Pingback'] );
+		return $headers;
+	}
+);

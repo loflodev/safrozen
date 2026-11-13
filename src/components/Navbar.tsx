@@ -100,7 +100,10 @@ export default function Navbar() {
       <Link className="nav__brand" to={onHome ? '#accueil' : '/'} aria-label="Legim Express, accueil" onClick={close}>
         <img
           className="nav__logo"
-          src="/images/logo.png"
+          src="/images/logo-256.webp"
+          srcSet="/images/logo-128.webp 128w, /images/logo-256.webp 256w"
+          sizes="(min-width: 900px) 112px, 72px"
+          fetchPriority="high"
           alt=""
           width={257}
           height={257}

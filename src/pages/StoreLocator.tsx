@@ -121,7 +121,7 @@ export default function StoreLocator() {
           : ''
 
   return (
-    <main className="page locator">
+    <main id="main" className="page locator">
       <PageHeader
         crumbs={[{ label: 'Trouver un magasin' }]}
         title="Trouver un magasin"

@@ -29,16 +29,16 @@ do_action( 'woocommerce_before_cart' );
 					if ( ! $product || ! $product->exists() || $item['quantity'] <= 0 || ! apply_filters( 'woocommerce_cart_item_visible', true, $item, $key ) ) {
 						continue;
 					}
-					$name  = $product->get_name();
-					$link  = $product->is_visible() ? $product->get_permalink( $item ) : '';
-					$max   = $product->get_max_purchase_quantity();
-					$max   = $max > 0 ? min( $max, SAFROZEN_MAX_QTY ) : SAFROZEN_MAX_QTY;
-					$specs = safrozen_hero_specs( $product->get_parent_id() ?: $product->get_id() );
-					$qty   = (int) $item['quantity'];
-					$input = 'qty-' . $key;
+					$name   = $product->get_name();
+					$link   = $product->is_visible() ? $product->get_permalink( $item ) : '';
+					$max    = $product->get_max_purchase_quantity();
+					$max    = $max > 0 ? min( $max, SAFROZEN_MAX_QTY ) : SAFROZEN_MAX_QTY;
+					$weight = (string) safrozen_field( 'weight', $product->get_parent_id() ?: $product->get_id() );
+					$qty    = (int) $item['quantity'];
+					$input  = 'qty-' . $key;
 					?>
 					<li class="cart__line">
-						<?php echo safrozen_product_art( wc_get_product( $product->get_parent_id() ?: $product->get_id() ), 'cart__art' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<?php echo safrozen_product_art( wc_get_product( $product->get_parent_id() ?: $product->get_id() ), 'cart__art', false, 'cart' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 						<div class="cart__info">
 							<?php if ( $link ) : ?>
 								<a class="cart__name" href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $name ); ?></a>
@@ -49,7 +49,7 @@ do_action( 'woocommerce_before_cart' );
 								<?php
 								/* translators: %s: unit price */
 								$unit = sprintf( __( '%s l’unité', 'safrozen' ), wp_strip_all_tags( WC()->cart->get_product_price( $product ) ) );
-								echo esc_html( implode( ' · ', array_filter( array( $specs[0] ?? '', $unit ) ) ) );
+								echo esc_html( implode( ' · ', array_filter( array( $weight, $unit ) ) ) );
 								?>
 							</p>
 							<div class="cart__controls">

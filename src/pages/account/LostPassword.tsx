@@ -13,7 +13,7 @@ export default function LostPassword() {
   const [sent, setSent] = useState(false)
 
   return (
-    <main className="page account">
+    <main id="main" className="page account">
       <PageHeader
         crumbs={[{ to: '/mon-compte', label: 'Mon compte' }, { label: 'Mot de passe oublié' }]}
         title="Mot de passe oublié"

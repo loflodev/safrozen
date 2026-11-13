@@ -24,9 +24,8 @@ while ( have_posts() ) :
 	$id        = $product->get_id();
 	$name      = $product->get_name();
 	$shop_url  = wc_get_page_permalink( 'shop' );
-	$terms     = get_the_terms( $id, 'product_cat' );
-	$category  = is_array( $terms ) ? array_values( array_filter( $terms, fn( $t ) => (int) get_option( 'default_product_cat' ) !== $t->term_id ) )[0] ?? null : null;
-	$specs     = safrozen_hero_specs( $id );
+	$category  = safrozen_product_category( $id );
+	$specs     = safrozen_product_specs( $id );
 	$contents  = safrozen_lines( (string) safrozen_field( 'contents', $id ) );
 	$steps     = safrozen_lines( (string) safrozen_field( 'preparation', $id ) );
 	$allergens = safrozen_list_lines( (string) safrozen_field( 'allergens', $id ) );
@@ -64,7 +63,7 @@ while ( have_posts() ) :
 		<?php // Its own grid item: above the art under 900px, atop the buy column from 900px. ?>
 		<?php echo safrozen_crumbs( $crumbs, 'product__crumbs' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="product__media">
-			<?php echo safrozen_product_art( $product, 'product__art product-art--lifted', true ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<?php echo safrozen_product_art( $product, 'product__art product-art--lifted', true, 'product' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</div>
 
 		<div class="product__info">
@@ -87,10 +86,10 @@ while ( have_posts() ) :
 			<?php endif; ?>
 
 			<?php if ( $specs ) : ?>
-				<?php // The spec fields as written (the shop puts weight and nutrition facts there). ?>
+				<?php // Fixed labels over the product's values (weight and nutrition facts). ?>
 				<ul class="product__specs" aria-label="<?php esc_attr_e( 'En bref', 'safrozen' ); ?>">
-					<?php foreach ( $specs as $spec ) : ?>
-						<li><?php echo esc_html( $spec ); ?></li>
+					<?php foreach ( $specs as $label => $value ) : ?>
+						<li><span class="product__spec-label"><?php echo esc_html( $label ); ?></span> <?php echo esc_html( $value ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 			<?php endif; ?>

@@ -19,6 +19,23 @@ add_action(
 	}
 );
 
+// Woo's jQuery front-end scripts serve add-to-cart links, the product gallery and
+// reviews, which the theme does itself (js/cart.ts on the Store API) or doesn't
+// print. Off everywhere but the cart, checkout and account pages (checkout.js and
+// js/checkout.ts need jQuery), so jQuery no longer blocks rendering elsewhere.
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		if ( is_cart() || is_checkout() || is_account_page() ) {
+			return;
+		}
+		foreach ( array( 'wc-add-to-cart', 'wc-single-product', 'woocommerce', 'wc-jquery-blockui', 'wc-js-cookie' ) as $handle ) {
+			wp_dequeue_script( $handle );
+		}
+	},
+	20
+);
+
 // Each cart item carries its product's look, so the mini-cart draws its field panel.
 function safrozen_register_cart_look(): void {
 	if ( ! function_exists( 'woocommerce_store_api_register_endpoint_data' ) ) {

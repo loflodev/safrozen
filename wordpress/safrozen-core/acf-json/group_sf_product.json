@@ -56,27 +56,27 @@
       "label": "Poids",
       "name": "weight",
       "type": "text",
-      "instructions": "Les trois repères (Poids, Portions, Prêt en) s’affichent tels quels sous le titre dans la roue du héros. Vide : masqué.",
+      "instructions": "Les mots Poids, Calories et Fibres sont écrits par le thème : saisissez seulement la valeur. Affichés dans la roue du héros, Meilleures ventes, la fiche produit et les cartes de la boutique. Vide : masqué.",
       "required": 0,
-      "default_value": "500 g"
+      "placeholder": "400 g / portion"
     },
     {
       "key": "field_sf_product_portions",
-      "label": "Portions",
+      "label": "Calories",
       "name": "portions",
       "type": "text",
       "instructions": "",
       "required": 0,
-      "default_value": "4"
+      "placeholder": "130"
     },
     {
       "key": "field_sf_product_ready",
-      "label": "Prêt en",
+      "label": "Fibres",
       "name": "ready",
       "type": "text",
       "instructions": "",
       "required": 0,
-      "default_value": "20 min"
+      "placeholder": "7 g"
     },
     {
       "key": "field_sf_product_ingredients",
@@ -135,5 +135,5 @@
   "instruction_placement": "label",
   "active": true,
   "show_in_rest": 0,
-  "modified": 1794466534
+  "modified": 1794523058
 }

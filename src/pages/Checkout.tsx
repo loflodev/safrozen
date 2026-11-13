@@ -116,7 +116,7 @@ export default function Checkout() {
   const field = (name: string) => form.field(name)
 
   return (
-    <main className="page checkout">
+    <main id="main" className="page checkout">
       <PageHeader crumbs={[{ to: '/panier', label: 'Panier' }, { label: 'Commande' }]} title="Commande" />
 
       <div className="checkout__layout">

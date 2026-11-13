@@ -44,6 +44,36 @@ img {
   white-space: nowrap;
 }
 
+/* "Aller au contenu": the first Tab stop, an ink pill over the logo until focus leaves it. */
+.skip-link {
+  position: fixed;
+  top: var(--space-4);
+  left: max(var(--gutter), (100% - var(--frame-max)) / 2);
+  z-index: 1001; /* above the navbar */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--ground); /* 15.57:1 */
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  translate: 0 calc(-100% - var(--space-4) - 4px);
+  transition: translate var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  translate: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}
+
 /*
  * Sections below the Story share the page frame and one title style (the
  * Story's). Each section's entrance lives in its own stylesheet (reveal.ts).

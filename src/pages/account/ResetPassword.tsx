@@ -19,7 +19,7 @@ export default function ResetPassword() {
   const [done, setDone] = useState(false)
 
   return (
-    <main className="page account">
+    <main id="main" className="page account">
       <PageHeader
         crumbs={[{ to: '/mon-compte', label: 'Mon compte' }, { label: 'Nouveau mot de passe' }]}
         title="Nouveau mot de passe"

@@ -39,7 +39,16 @@ export default function Footer() {
     <footer id="contact" className="footer" ref={footerRef}>
       <div className="footer__grid">
         <div className="footer__col footer__about" style={{ '--i': 0 } as React.CSSProperties}>
-          <img className="footer__logo" src="/images/logo.png" alt="Legim Express" width={257} height={257} loading="lazy" />
+          <img
+            className="footer__logo"
+            src="/images/logo-256.webp"
+            srcSet="/images/logo-128.webp 128w, /images/logo-256.webp 256w"
+            sizes="88px"
+            alt="Legim Express"
+            width={257}
+            height={257}
+            loading="lazy"
+          />
           <p className="footer__text">
             Des légumes mijotés à l'haïtienne, précuits et congelés, prêts en 20 minutes.
           </p>

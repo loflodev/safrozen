@@ -30,10 +30,12 @@ $account_menu = $user->exists()
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<?php // Every template's <main> carries id="main" (WCAG 2.4.1: a way past the 11 navbar stops). ?>
+<a class="skip-link" href="#main"><?php esc_html_e( 'Aller au contenu', 'safrozen' ); ?></a>
 
 <header class="nav" data-open="false">
 	<a class="nav__brand" href="<?php echo esc_url( $on_home ? '#accueil' : home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( sprintf( __( '%s, accueil', 'safrozen' ), get_bloginfo( 'name' ) ) ); ?>">
-		<?php echo safrozen_logo( 'nav__logo' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<?php echo safrozen_logo( 'nav__logo', '', array( 'sizes' => '(min-width: 900px) 112px, 72px', 'fetchpriority' => 'high' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	</a>
 
 	<nav class="nav__menu nav__chip" id="nav-menu" aria-label="<?php esc_attr_e( 'Principal', 'safrozen' ); ?>">

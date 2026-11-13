@@ -25,8 +25,12 @@
 .nav__logo {
   width: var(--logo-size);
   height: var(--logo-size);
-  /* Two soft layers lift the round badge off the field and follow its circle. */
-  filter: drop-shadow(0 2px 4px var(--logo-shadow-near)) drop-shadow(0 6px 14px var(--logo-shadow-far)); /* taste-skill-ignore */
+  /* Two soft layers lift the round badge off the field and follow its circle.
+     Drawn on the circle rather than as a filter: mobile WebKit can
+     paint the filter around the square image box on first load (the badge
+     fills its square, so the circle is the same outline). */
+  border-radius: 50%;
+  box-shadow: 0 2px 4px var(--logo-shadow-near), 0 6px 14px var(--logo-shadow-far); /* taste-skill-ignore */
 }
 
 /* Shared chip surface: the brand gradient, fully round. */

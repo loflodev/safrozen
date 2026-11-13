@@ -21,7 +21,7 @@ export default function AccountLayout() {
 
   const title = (matches.at(-1)?.handle as { title?: string } | undefined)?.title
   return (
-    <main className="page account">
+    <main id="main" className="page account">
       <PageHeader
         crumbs={title ? [{ to: '/mon-compte', label: 'Mon compte' }, { label: title }] : [{ label: 'Mon compte' }]}
         title={title ?? 'Mon compte'}

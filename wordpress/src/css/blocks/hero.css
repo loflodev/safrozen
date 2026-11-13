@@ -309,6 +309,11 @@
 }
 
 /* One row per product, only the active one shown (hero.ts). */
+/* The fixed label reads lighter than the product's value beside it. */
+.hero__spec-label {
+  font-weight: 400;
+}
+
 .hero__specs[hidden] {
   display: none;
 }

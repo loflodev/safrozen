@@ -14,22 +14,28 @@ const SIGN_IN_MS = 600 // mock round trip
 
 type Mode = 'login' | 'register'
 
-// TODO: placeholder illustrations (the landing's cut-outs on a hero field)
-// until the real ones are drawn.
-const ART: Record<Mode, { image: string; field: string; title: string; text: string }> = {
+// Each mode's art is a photo covering a hero field with its line texture,
+// faded out under the caption. Sign in's carries the "±20 MIN" badge.
+const ART: Record<Mode, { image: string; sizes: [number, number]; ratio: number; badge?: boolean; field: string; title: string; text: string }> = {
   login: {
-    image: 'benefit-stew-pot',
+    image: 'benefits-bg-2',
+    sizes: [960, 1600],
+    ratio: 4 / 5,
+    badge: true,
     field: 'lalo',
     title: 'Content de vous revoir',
     text: 'Vos commandes, vos adresses et le suivi de vos livraisons vous attendent.',
   },
   register: {
-    image: 'benefit-product-box',
+    image: '3box-product',
+    sizes: [1280, 2048],
+    ratio: 3017 / 2160,
     field: 'chayotte',
     title: 'Rejoignez la famille Legim Express',
     text: 'Commandez plus vite, suivez vos livraisons et recevez nos nouvelles recettes.',
   },
 }
+
 
 // Mon compte, signed out: one card, the form on the left and an illustration
 // on the right. The link under the form swaps both to the other mode (sign in
@@ -54,7 +60,7 @@ export default function Login() {
   }
 
   return (
-    <main className="page account">
+    <main id="main" className="page account">
       <PageHeader crumbs={[{ label: 'Mon compte' }]} title="Mon compte" />
       <div className="auth-card" data-mode={mode}>
         <div className="auth-card__forms">
@@ -84,7 +90,32 @@ export default function Login() {
             return (
               <figure key={m} className={`auth-art auth-art--${m}`} style={fieldVars(PRODUCTS.find((p) => p.id === art.field)!)}>
                 <div className="auth-art__texture" />
-                <img src={`/images/${art.image}-1280.webp`} alt="" width={1280} height={1280} loading="lazy" decoding="async" />
+                <div className="auth-art__media">
+                  <img
+                    className="auth-art__photo"
+                    src={`/images/${art.image}-${art.sizes[0]}.webp`}
+                    srcSet={art.sizes.map((w) => `/images/${art.image}-${w}.webp ${w}w`).join(', ')}
+                    sizes="(min-width: 900px) 50vw, 100vw"
+                    alt=""
+                    width={art.sizes[0]}
+                    height={Math.round(art.sizes[0] / art.ratio)}
+                    loading={m === 'login' ? undefined : 'lazy'}
+                    decoding="async"
+                  />
+                  {art.badge && (
+                    // Static "±20 MIN" in the photo's empty "Ready in" disc (the Benefits dial's centre, §7).
+                    <span className="auth-art__badge">
+                      <span className="auth-art__value">
+                        <span className="auth-art__sign">
+                          <span>+</span>
+                          <span>−</span>
+                        </span>
+                        20
+                      </span>
+                      <span className="auth-art__unit">MIN</span>
+                    </span>
+                  )}
+                </div>
                 <figcaption>
                   <span className="auth-art__title">{art.title}</span>
                   <span className="auth-art__text">{art.text}</span>

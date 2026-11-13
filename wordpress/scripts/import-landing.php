@@ -10,43 +10,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-require_once ABSPATH . 'wp-admin/includes/image.php';
-require_once ABSPATH . 'wp-admin/includes/file.php';
-require_once ABSPATH . 'wp-admin/includes/media.php';
+require_once __DIR__ . '/lx-image.php';
 
 $images = rtrim( $args[0] ?? '', '/' );
 if ( ! is_dir( $images ) ) {
 	WP_CLI::error( 'Pass the public/images folder of the React app.' );
 }
 wp_set_current_user( 1 );
-
-/** Imports an image once (keyed by file name) and returns its attachment ID. */
-function lx_image( string $path, string $alt = '' ): int {
-	$source = basename( $path );
-	$found  = get_posts(
-		array(
-			'post_type'   => 'attachment',
-			'post_status' => 'inherit',
-			'meta_key'    => '_lx_source',
-			'meta_value'  => $source,
-			'fields'      => 'ids',
-		)
-	);
-	if ( $found ) {
-		return (int) $found[0];
-	}
-	$tmp = wp_tempnam( $source );
-	copy( $path, $tmp );
-	$name = str_replace( '&', 'and', $source );
-	$id   = media_handle_sideload( array( 'name' => $name, 'tmp_name' => $tmp ), 0 );
-	if ( is_wp_error( $id ) ) {
-		WP_CLI::error( "$source: " . $id->get_error_message() );
-	}
-	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
-	update_post_meta( $id, '_lx_source', $source );
-	WP_CLI::log( "image $source → $id" );
-	return (int) $id;
-}
 
 /** A post by slug and type, created or updated with $fields. */
 function lx_post( string $type, string $slug, array $fields ): int {
@@ -101,6 +71,7 @@ $catalog = array(
 	array(
 		'id' => 'lalo', 'slug' => 'legim-au-lalo', 'cat' => 'plats', 'hero' => 'Au Lalo',
 		'name' => 'Legim Express au Lalo', 'price' => '12.99', 'stock' => 42,
+		'weight' => '300 g / portion', 'portions' => '80', 'ready' => '8 g',
 		'short' => "Feuilles de lalo, épinards et légumes du jardin, mijotés à l'haïtienne.",
 		'description' => "Notre legim le plus demandé : des feuilles de lalo et d'épinards fondantes, du chou, de la carotte et de l'aubergine, mijotés lentement comme à la maison. La base n'est pas épicée, pour que vous l'assaisonniez à votre goût.",
 		'ingredients' => 'Lalo (corète), épinards, chou, carotte, aubergine, oignon, ail, tomate, huile de tournesol, sel, thym.',
@@ -108,6 +79,7 @@ $catalog = array(
 	array(
 		'id' => 'eggplant', 'slug' => 'legim-a-l-aubergine', 'cat' => 'plats', 'hero' => "À l'Aubergine",
 		'name' => "Legim Express à l'Aubergine", 'price' => '12.99', 'stock' => 30,
+		'weight' => '400 g / portion', 'portions' => '130', 'ready' => '7 g',
 		'short' => "Aubergine fondante, chou, carotte et tomate, mijotés à l'haïtienne.",
 		'description' => "L'aubergine fond dans une sauce tomate douce avec le chou et la carotte. Un legim tout en rondeur qui accompagne aussi bien le riz que la banane plantain.",
 		'ingredients' => 'Aubergine, chou, carotte, tomate, oignon, ail, poivron, huile de tournesol, sel, persil.',
@@ -115,13 +87,14 @@ $catalog = array(
 	array(
 		'id' => 'chayotte', 'slug' => 'legim-a-la-chayotte', 'cat' => 'plats', 'hero' => 'À la Chayotte',
 		'name' => 'Legim Express à la Chayotte', 'price' => '12.99', 'stock' => 0,
+		'weight' => '400 g / portion', 'portions' => '130', 'ready' => '12 g',
 		'short' => 'Chayotte tendre, chou et carotte, le legim léger du dimanche.',
 		'description' => "La chayotte, le chou et la carotte cuisent doucement jusqu'à devenir fondants. Le plus léger de nos produits, parfait avec du riz blanc et un avocat.",
 		'ingredients' => 'Chayotte (mirliton), chou, carotte, oignon, ail, tomate, huile de tournesol, sel, thym.',
 	),
 	array(
 		'id' => 'pack-decouverte', 'slug' => 'pack-decouverte', 'cat' => 'packs', 'look' => 'chayotte', 'image' => 'trio-eco-1280.webp',
-		'name' => 'Pack découverte', 'price' => '34.99', 'stock' => 18, 'weight' => '3 × 500 g', 'portions' => '12',
+		'name' => 'Pack découverte', 'price' => '34.99', 'stock' => 18, 'weight' => '3 × 500 g',
 		'short' => 'Les trois legims, une boîte de chaque, pour trouver votre favori.',
 		'description' => 'Une boîte de chaque legim : lalo, aubergine et chayotte. Le meilleur moyen de goûter toute la gamme, à petit prix.',
 		'ingredients' => 'Voir chaque legim.',
@@ -129,7 +102,7 @@ $catalog = array(
 	),
 	array(
 		'id' => 'pack-famille', 'slug' => 'pack-famille', 'cat' => 'packs', 'look' => 'lalo', 'image' => '6pack-g-1280.webp',
-		'name' => 'Pack famille', 'price' => '64.99', 'stock' => 9, 'weight' => '6 × 500 g', 'portions' => '24',
+		'name' => 'Pack famille', 'price' => '64.99', 'stock' => 9, 'weight' => '6 × 500 g',
 		'short' => 'Six boîtes au choix du chef, pour deux semaines de soupers rapides.',
 		'description' => 'Deux boîtes de chaque legim, de quoi préparer six soupers pour quatre. Se garde trois mois au congélateur.',
 		'ingredients' => 'Voir chaque legim.',
@@ -164,9 +137,10 @@ foreach ( $catalog as $item ) {
 			'field_colors'     => $look[0],
 			'line_color'       => $look[1],
 			'image_kind'       => $is_box ? 'box' : 'photo',
-			'weight'           => $item['weight'] ?? '500 g',
-			'portions'         => $item['portions'] ?? '4',
-			'ready'            => '20 min',
+			// The three specs' values as printed on the box (the theme writes Poids, Calories, Fibres).
+			'weight'           => $item['weight'],
+			'portions'         => $item['portions'] ?? '',
+			'ready'            => $item['ready'] ?? '',
 			'ingredients'      => $item['ingredients'],
 			'preparation'      => $prep,
 			'allergens'        => $allergens,
@@ -176,6 +150,15 @@ foreach ( $catalog as $item ) {
 	);
 	$product_ids[ $item['id'] ] = $id;
 	WP_CLI::log( "product {$item['slug']} → $id" );
+}
+
+// The home page's best sellers are the last two starred (★ En vedette, inc/featured.php).
+foreach ( array( 'lalo', 'eggplant' ) as $key ) {
+	$product = wc_get_product( $product_ids[ $key ] );
+	if ( ! $product->get_featured() ) {
+		$product->set_featured( true );
+		$product->save();
+	}
 }
 
 // --- Recipes (posts) ---------------------------------------------------------

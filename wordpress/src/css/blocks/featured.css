@@ -81,6 +81,11 @@
   transition: transform var(--dur-base) var(--ease-out);
 }
 
+/* A pack photo (not a box on a 2:1 canvas) is shown whole, never cropped. */
+.featured__pic--photo img {
+  object-fit: contain;
+}
+
 @media (hover: hover) {
   .featured__row:hover .featured__pic img {
     transform: translateY(-8px) rotate(-3deg);

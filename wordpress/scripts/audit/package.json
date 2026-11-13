@@ -1,0 +1,19 @@
+{
+  "name": "safrozen-audit",
+  "private": true,
+  "type": "module",
+  "description": "SEO, AI-crawl, accessibility and Lighthouse checks for the WordPress theme (docs/seo-a11y-tasks.md).",
+  "scripts": {
+    "seo": "node seo.mjs > out/seo.json",
+    "a11y": "node a11y.mjs > out/a11y.json",
+    "lh": "zsh lh.sh",
+    "fallow": "cd ../../.. && npx fallow@3.42 dead-code -c wordpress/scripts/audit/fallow.json . ; npx fallow@3.42 dupes -c wordpress/scripts/audit/fallow.json . ; npx fallow@3.42 health -c wordpress/scripts/audit/fallow.json ."
+  },
+  "dependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "cheerio": "1.2.0",
+    "image-size": "2.1.0",
+    "lighthouse": "12.8.2",
+    "playwright": "1.55.1"
+  }
+}

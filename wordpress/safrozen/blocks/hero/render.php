@@ -17,7 +17,9 @@ if ( ! $products ) {
 }
 
 $brand = safrozen_field( 'brand', false, 'Legim Express' );
-$sizes = '(max-aspect-ratio: 5/4) 176vw, max(70vw, 140svh)';
+// The 2:1 canvas's drawn width (--art-w in hero.css), measured: portrait ≈ 163vw − 100px; landscape
+// from 900px ≈ 106vw − 185px, held at 1262px once the 1280px frame stops growing (1376px).
+$sizes = '(max-aspect-ratio: 5/4) calc(163vw - 100px), (min-width: 1376px) 1262px, (min-width: 900px) calc(106vw - 185px), 100vw';
 
 $slides = array_map(
 	fn( WP_Post $p ) => array(
@@ -26,7 +28,7 @@ $slides = array_map(
 		'look'  => safrozen_product_look( $p->ID ),
 		'box'   => (int) get_post_thumbnail_id( $p ),
 		'bg'    => (int) safrozen_field( 'background_image', $p->ID, 0 ),
-		'specs' => safrozen_hero_specs( $p->ID ),
+		'specs' => safrozen_product_specs( $p->ID ),
 	),
 	$products
 );
@@ -102,11 +104,11 @@ if ( ! $slides ) {
 				</span>
 			</h1>
 			<p class="hero__desc"><?php echo esc_html( safrozen_field( 'description' ) ); ?></p>
-			<?php // Each product's own specs; the script shows the active one's. ?>
+			<?php // Each product's own specs (fixed labels, the product's values); the script shows the active one's. ?>
 			<?php foreach ( $slides as $i => $slide ) : ?>
 				<p class="hero__specs"<?php echo 0 === $i ? '' : ' hidden'; ?>>
-					<?php foreach ( $slide['specs'] as $spec ) : ?>
-						<span><?php echo esc_html( $spec ); ?></span>
+					<?php foreach ( $slide['specs'] as $label => $value ) : ?>
+						<span><span class="hero__spec-label"><?php echo esc_html( $label ); ?></span> <?php echo esc_html( $value ); ?></span>
 					<?php endforeach; ?>
 				</p>
 			<?php endforeach; ?>

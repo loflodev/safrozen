@@ -7,10 +7,22 @@
  * show. Safe to re-run: the customer is found by e-mail and the orders by
  * their demo id. import-landing.php runs it at the end.
  *
- * Run: wp eval-file wordpress/scripts/import-account.php
+ * Run: wp eval-file wordpress/scripts/import-account.php [<repo>/public/images]
  */
 
 defined( 'ABSPATH' ) || exit;
+
+require_once __DIR__ . '/lx-image.php';
+
+// The signed-out card's photos (woocommerce/myaccount/form-login.php finds
+// them by file name). WordPress makes the smaller sizes for their srcset.
+$art_images = rtrim( $args[0] ?? '', '/' );
+if ( is_dir( $art_images ) ) {
+	lx_image( "$art_images/benefits-bg-2-1600.webp" );
+	lx_image( "$art_images/3box-product-2048.webp" );
+} else {
+	WP_CLI::warning( 'No public/images folder given: the sign-in and sign-up photos were not imported.' );
+}
 
 // No mail while importing: the demo address is on the client's real domain, and
 // creating the customer, its orders and notes would each send one.

@@ -50,7 +50,7 @@ export default function Contact() {
   const chayotte = PRODUCTS.find((p) => p.id === 'chayotte')!
 
   return (
-    <main className="page contact">
+    <main id="main" className="page contact">
       <PageHeader
         crumbs={[{ label: 'Contact' }]}
         title="Parlons-en"

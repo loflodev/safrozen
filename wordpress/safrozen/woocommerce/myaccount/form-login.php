@@ -24,17 +24,19 @@ $redirect     = isset( $_GET['redirect_to'] ) && is_string( $_GET['redirect_to']
 // phpcs:enable
 $privacy      = get_privacy_policy_url();
 
-// TODO: placeholder illustrations (the landing's cut-outs on a hero field)
-// until the real ones are drawn.
+// Each mode's art is a photo covering a hero field with its line texture,
+// faded out under the caption. Sign in's carries the "±20 MIN" badge.
 $art = array(
 	'login'    => array(
-		'image'   => 'benefit-stew-pot-1280.webp',
+		'image'   => 'benefits-bg-2-1600.webp',
+		'badge'   => true,
 		'product' => 'legim-au-lalo',
 		'title'   => __( 'Content de vous revoir', 'safrozen' ),
 		'text'    => __( 'Vos commandes, vos adresses et le suivi de vos livraisons vous attendent.', 'safrozen' ),
 	),
 	'register' => array(
-		'image'   => 'benefit-product-box-1280.webp',
+		'image'   => '3box-product-2048.webp',
+		'badge'   => false,
 		'product' => 'legim-a-la-chayotte',
 		'title'   => __( 'Rejoignez la famille Legim Express', 'safrozen' ),
 		'text'    => __( 'Commandez plus vite, suivez vos livraisons et recevez nos nouvelles recettes.', 'safrozen' ),
@@ -183,11 +185,26 @@ do_action( 'woocommerce_before_customer_login_form' );
 			?>
 			<figure class="auth-art auth-art--<?php echo esc_attr( $key ); ?>" style="<?php echo esc_attr( $product ? safrozen_field_style( safrozen_product_look( $product->ID ) ) : '' ); ?>">
 				<div class="auth-art__texture"></div>
-				<?php
-				if ( $image ) {
-					echo wp_get_attachment_image( $image, 'large', false, array( 'alt' => '', 'loading' => 'login' === $key ? 'eager' : 'lazy', 'decoding' => 'async', 'sizes' => '(min-width: 900px) 22rem, 10rem' ) );
-				}
-				?>
+				<div class="auth-art__media">
+					<?php
+					if ( $image ) {
+						echo wp_get_attachment_image( $image, 'full', false, array( 'class' => 'auth-art__photo', 'alt' => '', 'loading' => 'login' === $key ? 'eager' : 'lazy', 'decoding' => 'async', 'sizes' => '(min-width: 900px) 50vw, 100vw' ) );
+					}
+					?>
+					<?php if ( $a['badge'] ) : ?>
+						<?php // Static "±20 MIN" in the photo's empty "Ready in" disc (the Benefits dial's centre, §7). ?>
+						<span class="auth-art__badge">
+							<span class="auth-art__value">
+								<span class="auth-art__sign">
+									<span>+</span>
+									<span>−</span>
+								</span>
+								20
+							</span>
+							<span class="auth-art__unit">MIN</span>
+						</span>
+					<?php endif; ?>
+				</div>
 				<figcaption>
 					<span class="auth-art__title"><?php echo esc_html( $a['title'] ); ?></span>
 					<span class="auth-art__text"><?php echo esc_html( $a['text'] ); ?></span>

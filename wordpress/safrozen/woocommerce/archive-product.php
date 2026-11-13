@@ -45,7 +45,8 @@ get_header();
 	?>
 
 	<div class="shop__bar">
-		<nav class="shop__filters" aria-label="<?php esc_attr_e( 'Catégories', 'safrozen' ); ?>">
+		<?php // Named apart from the footer's "Catégories" nav, so the two landmarks differ. ?>
+		<nav class="shop__filters" aria-label="<?php esc_attr_e( 'Filtrer par catégorie', 'safrozen' ); ?>">
 			<a class="filter-pill" href="<?php echo esc_url( $shop_url ); ?>"<?php echo $current ? '' : ' aria-current="page"'; ?>><?php esc_html_e( 'Tout', 'safrozen' ); ?></a>
 			<?php foreach ( is_array( $terms ) ? $terms : array() as $term ) : ?>
 				<a class="filter-pill" href="<?php echo esc_url( get_term_link( $term ) ); ?>"<?php echo $current && $current->term_id === $term->term_id ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $term->name ); ?></a>
@@ -76,6 +77,8 @@ get_header();
 	</p>
 
 	<?php if ( woocommerce_product_loop() && have_posts() ) : ?>
+		<?php // The cards' names are <h3>s (they sit under an <h2> on the recipe and product pages). ?>
+		<h2 class="visually-hidden"><?php esc_html_e( 'Produits', 'safrozen' ); ?></h2>
 		<ul class="product-grid">
 			<?php
 			while ( have_posts() ) {

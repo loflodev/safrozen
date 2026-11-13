@@ -34,7 +34,7 @@ export default function Shop() {
   const currentLabel = CATEGORIES.find((c) => c.id === category)?.label
 
   return (
-    <main className="page shop">
+    <main id="main" className="page shop">
       <PageHeader
         crumbs={currentLabel ? [{ to: '/boutique', label: 'Boutique' }, { label: currentLabel }] : [{ label: 'Boutique' }]}
         title="Nos produits"
@@ -78,13 +78,17 @@ export default function Shop() {
       </p>
 
       {items.length ? (
-        <ul className="product-grid">
-          {items.map((item, i) => (
-            <li key={item.id} style={{ '--i': i } as React.CSSProperties}>
-              <ProductCard item={item} />
-            </li>
-          ))}
-        </ul>
+        <>
+          {/* The cards' names are <h3>s (they sit under an <h2> on the recipe and product pages). */}
+          <h2 className="visually-hidden">Produits</h2>
+          <ul className="product-grid">
+            {items.map((item, i) => (
+              <li key={item.id} style={{ '--i': i } as React.CSSProperties}>
+                <ProductCard item={item} />
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
         <EmptyState
           title="Aucun produit ici pour l'instant"

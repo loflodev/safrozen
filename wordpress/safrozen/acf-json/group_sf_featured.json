@@ -16,7 +16,7 @@
       "label": "Produits",
       "name": "products",
       "type": "relationship",
-      "instructions": "Nom, phrase (description courte), repères et prix viennent du produit.",
+      "instructions": "Utilisés seulement si aucun produit n’est mis en avant (★) dans Produits : l’accueil montre alors les 2 derniers mis en avant. Nom, phrase (description courte), repères et prix viennent du produit.",
       "required": 0,
       "min": 1,
       "max": 4,
@@ -48,5 +48,5 @@
   "instruction_placement": "label",
   "active": true,
   "show_in_rest": 0,
-  "modified": 1794466534
+  "modified": 1794523058
 }

@@ -16,7 +16,7 @@ $index = (int) wc_get_loop_prop( 'loop' );
 wc_set_loop_prop( 'loop', $index + 1 );
 $name = $product->get_name();
 // The spec fields as written (weight, then whatever facts the shop puts there).
-$meta = safrozen_hero_specs( $product->get_id() );
+$meta = safrozen_spec_lines( $product->get_id() );
 ?>
 <li style="--i: <?php echo (int) $index; ?>">
 	<article class="product-card">

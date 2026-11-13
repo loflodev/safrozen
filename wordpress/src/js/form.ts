@@ -15,6 +15,31 @@ const POSTCODE = /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/
 const isRequired = (el: Control) => el.getAttribute('aria-required') === 'true'
 const byId = (form: HTMLFormElement, id: string) => form.querySelector<Control>(`#${CSS.escape(id)}`)
 
+// What an empty required field says, by rule (others: its data-message).
+const EMPTY: Record<string, string> = {
+  email: 'Saisissez votre adresse e-mail.',
+  postcode: 'Saisissez votre code postal.',
+  phone: 'Saisissez un numéro de téléphone.',
+  password: 'Saisissez un mot de passe.',
+}
+
+// A filled field's check, by rule: its error, or null.
+const RULES: Record<string, (el: Control, v: string, form: HTMLFormElement, arg: string) => string | null> = {
+  email: (_el, v) => (EMAIL.test(v.trim()) ? null : 'Saisissez une adresse e-mail valide, par exemple nom@exemple.ca.'),
+  postcode: (el, v, form) => {
+    // Only Canadian codes have a fixed shape here; Woo checks the others.
+    const group = el.closest('[data-address]') ?? form
+    const country = group.querySelector<HTMLSelectElement>('select[data-country]')?.value ?? 'CA'
+    return country !== 'CA' || POSTCODE.test(v.trim()) ? null : 'Saisissez un code postal canadien, par exemple H2T 1R2.'
+  },
+  phone: (_el, v) => (v.replace(/\D/g, '').length >= 10 ? null : 'Saisissez un numéro à 10 chiffres, par exemple 514 555-0142.'),
+  password: (el, v) => {
+    const min = Number(el.dataset.min ?? 8)
+    return v.length >= min ? null : `Le mot de passe doit faire au moins ${min} caractères.`
+  },
+  match: (_el, v, form, arg) => (v === (byId(form, arg)?.value ?? '') ? null : 'Les mots de passe ne correspondent pas.'),
+}
+
 export function check(el: Control, form: HTMLFormElement): string | null {
   const v = el.value
   const [rule = '', arg = ''] = (el.dataset.rule ?? '').split(':')
@@ -22,33 +47,9 @@ export function check(el: Control, form: HTMLFormElement): string | null {
     return !v && byId(form, arg)?.value ? (el.dataset.message ?? 'Ce champ est obligatoire.') : null
   }
   if (!v.trim()) {
-    if (!isRequired(el)) return null
-    if (rule === 'email') return 'Saisissez votre adresse e-mail.'
-    if (rule === 'postcode') return 'Saisissez votre code postal.'
-    if (rule === 'phone') return 'Saisissez un numéro de téléphone.'
-    if (rule === 'password') return 'Saisissez un mot de passe.'
-    return el.dataset.message ?? 'Ce champ est obligatoire.'
+    return isRequired(el) ? (EMPTY[rule] ?? el.dataset.message ?? 'Ce champ est obligatoire.') : null
   }
-  switch (rule) {
-    case 'email':
-      return EMAIL.test(v.trim()) ? null : 'Saisissez une adresse e-mail valide, par exemple nom@exemple.ca.'
-    case 'postcode': {
-      // Only Canadian codes have a fixed shape here; Woo checks the others.
-      const group = el.closest('[data-address]') ?? form
-      const country = group.querySelector<HTMLSelectElement>('select[data-country]')?.value ?? 'CA'
-      return country !== 'CA' || POSTCODE.test(v.trim()) ? null : 'Saisissez un code postal canadien, par exemple H2T 1R2.'
-    }
-    case 'phone':
-      return v.replace(/\D/g, '').length >= 10 ? null : 'Saisissez un numéro à 10 chiffres, par exemple 514 555-0142.'
-    case 'password': {
-      const min = Number(el.dataset.min ?? 8)
-      return v.length >= min ? null : `Le mot de passe doit faire au moins ${min} caractères.`
-    }
-    case 'match':
-      return v === (byId(form, arg)?.value ?? '') ? null : 'Les mots de passe ne correspondent pas.'
-    default:
-      return null
-  }
+  return RULES[rule]?.(el, v, form, arg) ?? null
 }
 
 export function show(el: Control, message: string | null) {
@@ -74,6 +75,15 @@ export function show(el: Control, message: string | null) {
   if (described.length) el.setAttribute('aria-describedby', described.join(' '))
   else el.removeAttribute('aria-describedby')
 }
+
+/** Checks the controls, shows each one's error and returns the errors in order. */
+export const validate = (controls: Control[], form: HTMLFormElement) =>
+  controls
+    .map((el) => ({ el, message: check(el, form) }))
+    .filter((x): x is { el: Control; message: string } => {
+      show(x.el, x.message)
+      return x.message !== null
+    })
 
 export function summarize(form: HTMLFormElement, errors: { el: Control; message: string }[]) {
   const slot = form.querySelector<HTMLElement>('[data-error-summary]')
@@ -105,7 +115,7 @@ export function summarize(form: HTMLFormElement, errors: { el: Control; message:
   box.focus()
 }
 
-export function initForm(form: HTMLFormElement) {
+function initForm(form: HTMLFormElement) {
   const controls = () => [...form.querySelectorAll<Control>('[data-rule]')].filter((el) => !el.closest('[inert]'))
   // Fixed fields drop out of the summary as soon as they are.
   const refresh = () => {
@@ -134,12 +144,7 @@ export function initForm(form: HTMLFormElement) {
       e.preventDefault()
       return
     }
-    const errors = controls()
-      .map((el) => ({ el, message: check(el, form) }))
-      .filter((x): x is { el: Control; message: string } => {
-        show(x.el, x.message)
-        return x.message !== null
-      })
+    const errors = validate(controls(), form)
     summarize(form, errors)
     if (errors.length) {
       e.preventDefault()

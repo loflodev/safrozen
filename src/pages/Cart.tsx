@@ -32,7 +32,7 @@ export default function Cart() {
 
   if (!cart.items.length) {
     return (
-      <main className="page cart">
+      <main id="main" className="page cart">
         {header}
         <p className="visually-hidden" aria-live="polite">
           {removed ? `${removed.name} retiré du panier.` : ''}
@@ -67,7 +67,7 @@ export default function Cart() {
   }
 
   return (
-    <main className="page cart">
+    <main id="main" className="page cart">
       {header}
       <div className="cart__layout">
         <section className="panel cart__lines" aria-labelledby="cart-lines-title">

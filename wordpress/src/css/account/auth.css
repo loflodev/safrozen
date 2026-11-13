@@ -153,14 +153,32 @@
   cursor: pointer;
 }
 
-/* Illustration: a hero field with its line texture, the cut-out and a caption. */
+/* The art sits inset in the white card like a shop card's picture (§16): a
+   --space-3 white edge and its own --radius-lg corners. */
+.auth-card__art {
+  padding: var(--space-3);
+}
+
+/*
+ * Illustration: a hero field with its line texture, a photo covering it and a
+ * centred caption. The photo is fully opaque and a mask fades its foot out, so
+ * the caption sits on the field. Each mode sets its crop (--photo-x/y, the
+ * object-position as fractions) and where the fade runs (--fade-from/to).
+ */
 .auth-art {
+  --photo-x: 0.5;
+  --photo-y: 0.5;
+  --fade-from: 45%;
+  --fade-to: 78%;
+  --media-bottom: 0%;
+  --photo-fit: cover;
   position: relative;
   isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
   display: grid;
-  grid-template-rows: auto auto;
+  align-content: end;
   justify-items: center;
-  gap: var(--space-6);
   margin: 0;
   padding: var(--space-8);
   background: linear-gradient( /* taste-skill-ignore: the hero field (§6), like the product panels */
@@ -176,27 +194,101 @@
     visibility 0s linear;
 }
 
+/* Sign in: the dish photo, on the pot and its "Ready in" disc. */
+.auth-art--login {
+  --photo-y: 0.25;
+}
+
+/* Sign-up: the three boxes (a transparent cut-out, so the field shows around
+   them). It is contained, so the boxes are never cut, and it stops above the
+   caption (fading late) to keep them clear of the text. */
+.auth-art--register {
+  --photo-fit: contain;
+  --fade-from: 72%;
+  --fade-to: 100%;
+  --media-bottom: 24%;
+}
+
 .auth-art__texture {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background-color: var(--field-line);
   opacity: 0.6;
   mask-image: url('../../images/veg-pattern.svg');
   mask-size: 440px 440px;
 }
 
-.auth-art {
-  align-content: center;
+/* The photo and its badge share one layer, so they crop, fade and swap together. */
+.auth-art__media {
+  position: absolute;
+  inset: 0 0 var(--media-bottom);
+  z-index: -1;
+  container-type: size;
+  mask-image: linear-gradient(black var(--fade-from), transparent var(--fade-to)); /* taste-skill-ignore: mask fade, not a fill */
+  transition: transform var(--swap-dur) var(--ease-spring);
 }
 
-.auth-art img {
-  width: min(100%, 22rem);
-  height: auto;
-  max-height: 20rem;
-  align-self: center;
-  object-fit: contain;
-  transition: transform var(--swap-dur) var(--ease-spring);
+.auth-art__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--photo-fit);
+  object-position: calc(var(--photo-x) * 100%) calc(var(--photo-y) * 100%);
+}
+
+/*
+ * "±20 MIN" pinned on the sign-in photo's orange disc (centre 58.3% / 38.9% of
+ * the photo, 17.7% of its width across). --w is the covered photo's width
+ * (4:5, so the larger of the layer's width and 0.8 × its height); the offsets
+ * follow object-position. White on the disc by request: only ~2.0:1
+ * (decorative; the caption and the photo's own "Ready in" carry the meaning).
+ */
+.auth-art__badge {
+  --w: max(100cqw, 80cqh);
+  --d: calc(var(--w) * 0.177);
+  position: absolute;
+  left: calc((100cqw - var(--w)) * var(--photo-x) + var(--w) * 0.583);
+  top: calc((100cqh - var(--w) * 1.25) * var(--photo-y) + var(--w) * 1.25 * 0.389);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: var(--d);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  color: var(--panel-ground);
+  font-size: calc(var(--d) * 0.4);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.auth-art__value {
+  position: relative;
+}
+
+/* The sign hangs left of the number, so the number itself is centred. */
+.auth-art__sign {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 0.06em;
+  font-size: 0.4em;
+  font-weight: 700;
+  line-height: 0.72;
+}
+
+.auth-art__unit {
+  margin-top: 0.12em;
+  font-size: 0.32em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
 .auth-art figcaption {
@@ -229,9 +321,10 @@
   transition-delay: 0s, var(--swap-dur);
 }
 
-.auth-card[data-mode='register'] .auth-art--login img,
-.auth-card[data-mode='login'] .auth-art--register img {
-  transform: scale(1.06) rotate(-4deg);
+/* The hidden photo waits slightly enlarged and settles as it comes in. */
+.auth-card[data-mode='register'] .auth-art--login .auth-art__media,
+.auth-card[data-mode='login'] .auth-art--register .auth-art__media {
+  transform: scale(1.06);
 }
 
 .auth-card[data-mode='register'] .auth-art--login figcaption,
@@ -248,15 +341,16 @@
   }
 
   .auth-art {
-    grid-template-rows: auto;
-    padding: var(--space-4);
+    --fade-from: 60%;
+    --fade-to: 100%;
+    --media-bottom: 0%;
+    min-height: clamp(12rem, 62vw, 16rem);
+    padding: 0;
   }
 
-  .auth-art img {
-    width: auto;
-    max-width: 100%;
-    height: 10rem;
-    max-height: none;
+  .auth-art--login {
+    --photo-x: 0.3;
+    --photo-y: 0.34;
   }
 
   .auth-art figcaption {
@@ -277,7 +371,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .auth-card .auth-card__pane,
-  .auth-card .auth-art img,
+  .auth-card .auth-art__media,
   .auth-card .auth-art figcaption {
     transform: none !important;
   }

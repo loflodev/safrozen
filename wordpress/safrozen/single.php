@@ -90,8 +90,8 @@ while ( have_posts() ) :
 				<section class="recipe-page__steps" aria-labelledby="steps-title">
 					<h2 class="panel__title" id="steps-title"><?php esc_html_e( 'Préparation', 'safrozen' ); ?></h2>
 					<ol>
-						<?php foreach ( $steps as $line ) : ?>
-							<li><?php echo esc_html( $line ); ?></li>
+						<?php foreach ( $steps as $i => $line ) : // The ids are the Recipe schema's step URLs (inc/seo.php). ?>
+							<li id="etape-<?php echo (int) $i + 1; ?>"><?php echo esc_html( $line ); ?></li>
 						<?php endforeach; ?>
 					</ol>
 				</section>

@@ -6,7 +6,7 @@ export const SWIPE_THRESHOLD = 30 // px of finger travel that counts as intent
 
 export type WheelSample = { t: number; d: number } // time (ms) and |deltaY| (px)
 
-export const GESTURE_GAP_MS = 200 // quiet time that always ends a scroll
+const GESTURE_GAP_MS = 200 // quiet time that always ends a scroll
 const DENSE_MS = 25 // events closer than this are a continuous stream (trackpad, momentum)
 const BEAT_BREAK = 2.5 // a notch gap this many beats long starts a new scroll
 const MIN_BREAK_MS = 90 // ... and never shorter than this

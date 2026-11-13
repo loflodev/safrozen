@@ -1,7 +1,7 @@
 import '../css/checkout.css'
 import { initProvinceLists } from './address'
 import type { CartEvent } from './cart'
-import { check, show, summarize, type Control } from './form'
+import { check, show, summarize, validate, type Control } from './form'
 import { initStepper } from './stepper'
 
 /*
@@ -109,13 +109,7 @@ function initCheckout(form: HTMLFormElement) {
   const controls = (i: number) =>
     [...sections[i].querySelectorAll<Control>('[data-rule]')].filter((el) => !el.closest('[hidden]'))
 
-  const errorsOf = (i: number) =>
-    controls(i)
-      .map((el) => ({ el, message: check(el, form) }))
-      .filter((x): x is { el: Control; message: string } => {
-        show(x.el, x.message)
-        return x.message !== null
-      })
+  const errorsOf = (i: number) => validate(controls(i), form)
 
   const terms = () => form.querySelector<HTMLInputElement>('#terms')
   const termsError = () => {

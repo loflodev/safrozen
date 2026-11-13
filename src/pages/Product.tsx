@@ -45,7 +45,7 @@ function Product({ slug }: { slug: string }) {
   const add = () => cart.add(item.id, qty)
 
   return (
-    <main className="page product">
+    <main id="main" className="page product">
       <div className="product__top">
         {/* Its own grid item: above the art under 900px, atop the buy column from 900px. */}
         <Crumbs

@@ -10,7 +10,7 @@ import Newsletter from '../components/Newsletter'
 // The landing page: the scroll-pinned hero wheel and the sections below it.
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <ProductWheel />
       <Benefits />
       <Story />

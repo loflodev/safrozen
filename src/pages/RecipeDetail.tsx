@@ -18,7 +18,7 @@ export default function RecipeDetail() {
   const others = RECIPES.filter((r) => r.slug !== post.slug).slice(0, 2)
 
   return (
-    <main className="page recipe-page">
+    <main id="main" className="page recipe-page">
       <PageHeader crumbs={[{ to: '/recettes', label: 'Recettes' }, { label: post.title }]} title={post.title} lede={post.excerpt} />
 
       <div className="recipe-page__hero">

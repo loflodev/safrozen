@@ -11,6 +11,10 @@ function App() {
   return (
     <AccountProvider>
       <CartProvider>
+        {/* Every page's <main> carries id="main" (WCAG 2.4.1: a way past the navbar). */}
+        <a className="skip-link" href="#main">
+          Aller au contenu
+        </a>
         <Navbar />
         <Outlet />
         <Footer />

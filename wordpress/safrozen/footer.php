@@ -23,7 +23,7 @@ $col = 0;
 <footer id="contact" class="footer" data-reveal-on>
 	<div class="footer__grid">
 		<div class="footer__col footer__about" style="--i: <?php echo $col++; ?>">
-			<?php echo safrozen_logo( 'footer__logo', $wordmark, array( 'loading' => 'lazy' ) ); // phpcs:ignore ?>
+			<?php echo safrozen_logo( 'footer__logo', $wordmark, array( 'loading' => 'lazy', 'sizes' => '88px' ) ); // phpcs:ignore ?>
 			<p class="footer__text"><?php echo esc_html( safrozen_option( 'footer_about' ) ); ?></p>
 		</div>
 

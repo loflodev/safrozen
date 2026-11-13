@@ -1,0 +1,21 @@
+{
+  "entry": [
+    "wordpress/src/js/main.ts",
+    "wordpress/src/js/info.ts",
+    "wordpress/src/js/locator.ts",
+    "wordpress/src/js/account.ts",
+    "wordpress/src/js/product.ts",
+    "wordpress/src/js/checkout.ts",
+    "wordpress/src/js/blocks/*.ts",
+    "wordpress/vite.config.ts",
+    "wordpress/scripts/*.mjs"
+  ],
+  "ignorePatterns": [
+    "src/**",
+    "wordpress/safrozen/**",
+    "wordpress/safrozen-core/**",
+    "public/**",
+    "dist/**",
+    "wordpress/scripts/audit/**"
+  ]
+}

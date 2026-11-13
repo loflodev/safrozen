@@ -74,6 +74,13 @@
   cursor: pointer;
 }
 
+/* Phones: half the room between the dial and the cards. */
+@media (max-width: 767px) {
+  .benefits__dial {
+    margin-bottom: var(--space-12);
+  }
+}
+
 .benefits__face {
   display: block;
   width: 100%;

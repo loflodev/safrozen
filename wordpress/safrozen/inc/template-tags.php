@@ -50,28 +50,28 @@ function safrozen_field_style( array $look ): string {
 	return implode( ';', $vars );
 }
 
-/** Weight, portions and preparation time of a product, as label => value. */
+/**
+ * Weight, calories and fibres of a product, as label => value. The labels are
+ * fixed here; the values are the product's weight / portions / ready fields
+ * ("300 g / portion", "80", "8 g"). An empty field is left out.
+ */
 function safrozen_product_specs( int $product_id ): array {
 	return array_filter(
-		array(
-			__( 'Poids', 'safrozen' )    => safrozen_field( 'weight', $product_id ),
-			__( 'Portions', 'safrozen' ) => safrozen_field( 'portions', $product_id ),
-			__( 'Prêt en', 'safrozen' )  => safrozen_field( 'ready', $product_id ),
+		array_map(
+			fn( $value ) => trim( (string) $value ),
+			array(
+				__( 'Poids', 'safrozen' )    => safrozen_field( 'weight', $product_id ),
+				__( 'Calories', 'safrozen' ) => safrozen_field( 'portions', $product_id ),
+				__( 'Fibres', 'safrozen' )   => safrozen_field( 'ready', $product_id ),
+			)
 		)
 	);
 }
 
-/** The hero's spec row for a product: its Poids, Portions and Prêt en fields, as written. */
-function safrozen_hero_specs( int $product_id ): array {
-	return array_values(
-		array_filter(
-			array(
-				safrozen_field( 'weight', $product_id ),
-				safrozen_field( 'portions', $product_id ),
-				safrozen_field( 'ready', $product_id ),
-			)
-		)
-	);
+/** The specs as one line each, label then value ("Calories 80"). */
+function safrozen_spec_lines( int $product_id ): array {
+	$specs = safrozen_product_specs( $product_id );
+	return array_map( fn( $label, $value ) => "$label $value", array_keys( $specs ), $specs );
 }
 
 /** Social profiles from the options page; '#' until a URL is set. */
@@ -90,7 +90,13 @@ function safrozen_logo( string $class, string $alt = '', array $attrs = array() 
 	if ( $id ) {
 		return wp_get_attachment_image( $id, 'medium', false, $attrs );
 	}
-	$html = sprintf( '<img src="%s" width="257" height="257"', esc_url( SAFROZEN_URI . '/assets/images/logo.png' ) );
+	// WebP at 128 and 256 (logo.png is their 257px source); callers pass `sizes`.
+	$dir  = SAFROZEN_URI . '/assets/images/';
+	$html = sprintf(
+		'<img src="%1$s" srcset="%2$s 128w, %1$s 256w" width="257" height="257"',
+		esc_url( $dir . 'logo-256.webp' ),
+		esc_url( $dir . 'logo-128.webp' )
+	);
 	foreach ( $attrs as $key => $value ) {
 		$html .= sprintf( ' %s="%s"', esc_attr( $key ), esc_attr( (string) $value ) );
 	}
@@ -169,12 +175,40 @@ function safrozen_crumbs( array $crumbs, string $class = '' ): string {
 	return $html . '</ol></nav>';
 }
 
+/** The 4:3 panel's width in each place it's shown (measured), for `sizes`: media query => length. */
+const SAFROZEN_ART_SLOTS = array(
+	'card'    => array(
+		'(min-width: 1367px)' => '387px',
+		'(min-width: 1100px)' => '31.6vw - 45px',
+		'(min-width: 600px)'  => '47.5vw - 2.75rem',
+		''                    => '95vw - 2.5rem',
+	),
+	'product' => array(
+		'(min-width: 1357px)' => '720px',
+		'(min-width: 900px)'  => '56vw - 40px',
+		''                    => '95vw - 1rem',
+	),
+	'cart'    => array(
+		'(min-width: 900px)' => '128px',
+		''                   => '96px',
+	),
+);
+
 /**
  * A product on its hero field panel with the line texture (ProductArt.tsx):
  * a box is cropped 4:3 from its 2:1 canvas, a pack photo sits whole.
+ * $slot is a SAFROZEN_ART_SLOTS key.
  */
-function safrozen_product_art( WC_Product $product, string $class = '', bool $eager = false ): string {
-	$look  = safrozen_product_look( $product->get_id() );
+function safrozen_product_art( WC_Product $product, string $class = '', bool $eager = false, string $slot = 'card' ): string {
+	$look = safrozen_product_look( $product->get_id() );
+	// A box covers the 4:3 panel (a 2:1 box is drawn 1.5× its width), a photo is contained in it.
+	$meta  = wp_get_attachment_metadata( $product->get_image_id() );
+	$ratio = empty( $meta['height'] ) ? 4 / 3 : $meta['width'] / $meta['height'];
+	$scale = 'photo' === $look['kind'] ? min( 1, 0.75 * $ratio ) : max( 1, 0.75 * $ratio );
+	$sizes = array();
+	foreach ( SAFROZEN_ART_SLOTS[ $slot ] as $media => $length ) {
+		$sizes[] = trim( sprintf( '%s calc((%s) * %.2F)', $media, $length, $scale ) );
+	}
 	$image = wp_get_attachment_image(
 		$product->get_image_id(),
 		'full',
@@ -182,7 +216,7 @@ function safrozen_product_art( WC_Product $product, string $class = '', bool $ea
 		array(
 			/* translators: %s: product name */
 			'alt'      => sprintf( __( 'La boîte %s', 'safrozen' ), $product->get_name() ),
-			'sizes'    => '(min-width: 1100px) 400px, (min-width: 600px) 50vw, 100vw',
+			'sizes'    => implode( ', ', $sizes ),
 			'loading'  => $eager ? 'eager' : 'lazy',
 			'decoding' => 'async',
 		)
@@ -236,4 +270,44 @@ function safrozen_info_number_headings( string $html, array $sections, bool $num
 		},
 		$html
 	);
+}
+
+/**
+ * The "Points de vente" posts (safrozen-core) as plain rows, sorted by name: the
+ * store locator's cards and map data, and its schema (inc/seo.php).
+ *
+ * @return array<array{id: string, name: string, address: string, city: string, postcode: string, phone: string, hours: string, lat: float, lng: float}>
+ */
+function safrozen_stores(): array {
+	return array_map(
+		fn( WP_Post $post ) => array(
+			'id'       => $post->post_name,
+			'name'     => get_the_title( $post ),
+			'address'  => (string) safrozen_field( 'address', $post->ID ),
+			'city'     => (string) safrozen_field( 'city', $post->ID ),
+			'postcode' => (string) safrozen_field( 'postcode', $post->ID ),
+			'phone'    => (string) safrozen_field( 'phone', $post->ID ),
+			'hours'    => (string) safrozen_field( 'hours', $post->ID ),
+			'lat'      => (float) safrozen_field( 'lat', $post->ID ),
+			'lng'      => (float) safrozen_field( 'lng', $post->ID ),
+		),
+		get_posts(
+			array(
+				'post_type'      => 'boutique',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			)
+		)
+	);
+}
+
+/** A product's category for its crumbs: the first one that isn't Woo's default ("Non classé"). */
+function safrozen_product_category( int $product_id ): ?WP_Term {
+	$terms = get_the_terms( $product_id, 'product_cat' );
+	if ( ! is_array( $terms ) ) {
+		return null;
+	}
+	$terms = array_filter( $terms, fn( $t ) => (int) get_option( 'default_product_cat' ) !== $t->term_id );
+	return array_values( $terms )[0] ?? null;
 }

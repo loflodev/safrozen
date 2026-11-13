@@ -6,7 +6,7 @@ import './Recipes.css'
 // Recettes (the blog archive): every post, newest first, 3 / 2 / 1 columns.
 export default function RecipesArchive() {
   return (
-    <main className="page">
+    <main id="main" className="page">
       <PageHeader
         crumbs={[{ label: 'Recettes' }]}
         title="Nos recettes"

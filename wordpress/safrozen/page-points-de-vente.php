@@ -11,28 +11,20 @@ defined( 'ABSPATH' ) || exit;
 
 wp_enqueue_style( 'safrozen-locator' );
 wp_enqueue_script_module( 'safrozen-locator' );
-
-$stores = array_map(
-	fn( WP_Post $post ) => array(
-		'id'       => $post->post_name,
-		'name'     => get_the_title( $post ),
-		'address'  => (string) safrozen_field( 'address', $post->ID ),
-		'city'     => (string) safrozen_field( 'city', $post->ID ),
-		'postcode' => (string) safrozen_field( 'postcode', $post->ID ),
-		'phone'    => (string) safrozen_field( 'phone', $post->ID ),
-		'hours'    => (string) safrozen_field( 'hours', $post->ID ),
-		'lat'      => (float) safrozen_field( 'lat', $post->ID ),
-		'lng'      => (float) safrozen_field( 'lng', $post->ID ),
-	),
-	get_posts(
-		array(
-			'post_type'      => 'boutique',
-			'posts_per_page' => -1,
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-		)
-	)
+// The map's tiles come from OpenStreetMap: open that connection while the script loads.
+add_filter(
+	'wp_resource_hints',
+	function ( array $urls, string $type ): array {
+		if ( 'preconnect' === $type ) {
+			$urls[] = 'https://tile.openstreetmap.org'; // Leaflet's tiles are plain (no-CORS) <img>s.
+		}
+		return $urls;
+	},
+	10,
+	2
 );
+
+$stores = safrozen_stores();
 
 /** Google Maps search for the store (mapsUrl in stores.ts). */
 $maps_url = fn( array $s ): string => 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( "{$s['name']}, {$s['address']}, {$s['city']} {$s['postcode']}" );

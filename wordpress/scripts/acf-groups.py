@@ -75,7 +75,7 @@ group('partners', 'Bloc : Partenaires', [
 group('featured', 'Bloc : Meilleures ventes', [
     f('featured', 'title', 'Titre', 'text', **text('Nos meilleures ventes')),
     f('featured', 'products', 'Produits', 'relationship', min=1, max=4,
-      help='Nom, phrase (description courte), repères et prix viennent du produit.', **products),
+      help='Utilisés seulement si aucun produit n’est mis en avant (★) dans Produits : l’accueil montre alors les 2 derniers mis en avant. Nom, phrase (description courte), repères et prix viennent du produit.', **products),
 ], block('featured'), THEME)
 
 group('recipes', 'Bloc : Dernières recettes', [
@@ -107,9 +107,11 @@ group('product', 'Legim : produit', [
       help='Les 5 couleurs du bord gauche de l’arrière-plan, de haut en bas, séparées par des virgules. Ex. #f4f9e9, #eef5de, #e8f2d1, #e2efc7, #dcebba'),
     f('product', 'line_color', 'Teinte de la texture', 'color_picker', help='Un cran plus foncé que le champ ; garder l’encre ≥ 9,8:1 et #C64914 ≥ 3,1:1 dessus.'),
     f('product', 'image_kind', 'Type d’image', 'select', choices={'box': 'Boîte sur toile 2:1 (recadrée 4:3)', 'photo': 'Photo entière'}, default_value='box', return_format='value'),
-    f('product', 'weight', 'Poids', 'text', **text('500 g', help='Les trois repères (Poids, Portions, Prêt en) s’affichent tels quels sous le titre dans la roue du héros. Vide : masqué.')),
-    f('product', 'portions', 'Portions', 'text', **text('4')),
-    f('product', 'ready', 'Prêt en', 'text', **text('20 min')),
+    # The names stay weight / portions / ready (the saved values carry over); the labels say what they hold.
+    f('product', 'weight', 'Poids', 'text', placeholder='400 g / portion',
+      help='Les mots Poids, Calories et Fibres sont écrits par le thème : saisissez seulement la valeur. Affichés dans la roue du héros, Meilleures ventes, la fiche produit et les cartes de la boutique. Vide : masqué.'),
+    f('product', 'portions', 'Calories', 'text', placeholder='130'),
+    f('product', 'ready', 'Fibres', 'text', placeholder='7 g'),
     f('product', 'ingredients', 'Ingrédients', 'textarea', rows=3, new_lines=''),
     f('product', 'preparation', 'Préparation', 'textarea', rows=5, new_lines='', help='Une étape par ligne.'),
     f('product', 'allergens', 'Allergènes', 'textarea', rows=2, new_lines=''),
