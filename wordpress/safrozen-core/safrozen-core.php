@@ -106,3 +106,6 @@ require __DIR__ . '/geocode.php';
 
 // Order statuses "Préparée" and "En livraison" (the customer's timeline).
 require __DIR__ . '/order-status.php';
+
+// Private user list, login attempt limit and security headers.
+require __DIR__ . '/security.php';

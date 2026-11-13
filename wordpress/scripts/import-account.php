@@ -62,7 +62,12 @@ flush_rewrite_rules();
 
 // --- Demo customer ---------------------------------------------------------------------
 
-// TODO: demo data for the review, like the React app's mock account.
+// TODO: demo data for the review, like the React app's mock account. Its password is public, so it never goes live.
+if ( ! in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) ) {
+	WP_CLI::success( 'Account pages set up (no demo customer outside local / development).' );
+	return;
+}
+
 const LXA_EMAIL    = 'demo@safrozen.com';
 const LXA_PASSWORD = 'legimexpress';
 
