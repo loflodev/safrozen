@@ -151,15 +151,37 @@ export default function Contact() {
             </h2>
             <ErrorSummary errors={summary.filter((s) => form.errors[s.id as keyof typeof form.errors])} attempt={attempt} />
             <div className="form-grid form-grid--2">
-              <Field label="Nom complet" autoComplete="name" full {...form.field('name')} />
-              <Field label="Adresse e-mail" type="email" autoComplete="email" inputMode="email" {...form.field('contact_email')} />
-              <Field label="Téléphone" optional type="tel" autoComplete="tel" inputMode="tel" {...form.field('contact_phone')} />
+              <Field label="Nom complet" autoComplete="name" placeholder="Marie Tremblay" full {...form.field('name')} />
+              <Field
+                label="Adresse e-mail"
+                type="email"
+                autoComplete="email"
+                inputMode="email"
+                placeholder="nom@exemple.com"
+                {...form.field('contact_email')}
+              />
+              <Field
+                label="Téléphone"
+                optional
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                placeholder="438 969-8712"
+                {...form.field('contact_phone')}
+              />
               <Field as="select" label="Sujet" full {...form.field('subject')}>
                 {SUBJECTS.map((s) => (
                   <option key={s}>{s}</option>
                 ))}
               </Field>
-              <Field as="textarea" label="Message" full rows={6} {...form.field('message')} />
+              <Field
+                as="textarea"
+                label="Message"
+                full
+                rows={6}
+                placeholder="Votre question, un numéro de commande, un produit…"
+                {...form.field('message')}
+              />
             </div>
             <button type="submit" className="btn-chip contact__submit" disabled={state === 'sending'}>
               {state === 'sending' ? 'Envoi…' : 'Envoyer le message'}

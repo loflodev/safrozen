@@ -30,11 +30,11 @@ $markup = implode(
 	"\n",
 	array(
 		'<div class="form-grid form-grid--2">',
-		lxc_field( 'contact-name', 'Nom complet', '[text* your-name id:contact-name class:field__control autocomplete:name]', true ),
-		lxc_field( 'contact-email', 'Adresse e-mail', '[email* your-email id:contact-email class:field__control autocomplete:email]' ),
-		lxc_field( 'contact-phone', 'Téléphone', '[tel your-phone id:contact-phone class:field__control autocomplete:tel]', false, true ),
+		lxc_field( 'contact-name', 'Nom complet', '[text* your-name id:contact-name class:field__control autocomplete:name placeholder "Marie Tremblay"]', true ),
+		lxc_field( 'contact-email', 'Adresse e-mail', '[email* your-email id:contact-email class:field__control autocomplete:email placeholder "nom@exemple.com"]' ),
+		lxc_field( 'contact-phone', 'Téléphone', '[tel your-phone id:contact-phone class:field__control autocomplete:tel placeholder "438 969-8712"]', false, true ),
 		lxc_field( 'contact-subject', 'Sujet', '[select your-subject id:contact-subject class:field__control "' . implode( '" "', $subjects ) . '"]', true ),
-		lxc_field( 'contact-message', 'Message', '[textarea* your-message id:contact-message class:field__control minlength:10 x6]', true ),
+		lxc_field( 'contact-message', 'Message', '[textarea* your-message id:contact-message class:field__control minlength:10 x6 placeholder "Votre question, un numéro de commande, un produit…"]', true ),
 		'</div>',
 		'<button class="btn-chip contact__submit" type="submit">Envoyer le message ' . $arrow . '</button>',
 	)
